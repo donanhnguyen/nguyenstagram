@@ -11,7 +11,7 @@ dotenv.config();
 const connect = async () => {
     try {
         await mongoose.connect(process.env.MONGO_URI);
-        console.log('sex  ')
+        console.log(`connected!`)
     } catch (error) {
         throw error
     }    
@@ -40,4 +40,5 @@ const PORT = process.env.PORT || 8800;
 
 app.listen(PORT, () => {
     connect(); 
+    console.log(`connected on port ${PORT}`)
 })
