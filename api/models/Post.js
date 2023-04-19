@@ -1,17 +1,30 @@
 import mongoose from "mongoose";
 
+const CommentSchema = new mongoose.Schema({
+    user: {
+        type: String,
+    },
+    text: {
+        type: String
+    }
+    
+}, {timestamps: true})
+
 const PostSchema = new mongoose.Schema({
     picUrl: {
         type: String,
         required: true,
-        unique: true
+        unique: false,
     },
     numberOfLikes: {
         type: Number,
-        required: true,
         default: 0
     },
     caption: {
+        type: String,
+        required: true,
+    },
+    user: {
         type: String,
         required: true,
     },
@@ -20,6 +33,8 @@ const PostSchema = new mongoose.Schema({
         ref: "User",
         required: true 
     },
+    comments: [CommentSchema]
+
 }, {timestamps: true})
 
 export default mongoose.model("Post", PostSchema);

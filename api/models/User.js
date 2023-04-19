@@ -10,6 +10,9 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    profilePic: {
+        type: String,
+    },
     following: [{type: Object}],
     followers: [{type: Object}],
     likedPosts: [{type: Object}],
