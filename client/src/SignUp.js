@@ -31,8 +31,8 @@ function SignUp () {
 
             Axios.post(`http://localhost:8800/api/auth/register/`, newUser)
                 .then((response) => {
-                    setCurrentUserState(response.data)
                     setTimeout(() => {
+                        setCurrentUserState(response.data)
                         navigate('/');
                     }, 2000)
                 })
@@ -55,7 +55,7 @@ function SignUp () {
             <div className='login-container'>
                 <form onSubmit={handleRegister}>
                     {/* logo goes here somewhere */}
-                    <h1>Nguyenstagram</h1>
+                    <h1 style={{fontSize: '50px'}} className='nguyenstagram'>Nguyenstagram</h1>
 
                     <h1 className='login-error-messages'>{errorMessagesState}</h1>
 

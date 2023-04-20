@@ -29,8 +29,8 @@ function LogIn () {
             Axios.post(`http://localhost:8800/api/auth/login/`, loggedInUser)
                 .then((response) => {
                     console.log(response.data)
-                    setCurrentUserState(response.data)
                     setTimeout(() => {
+                        setCurrentUserState(response.data)
                         navigate('/');
                     }, 2000)
                 })
@@ -53,7 +53,7 @@ function LogIn () {
             <div className='login-container'>
                 <form onSubmit={handleLogIn}>
                     {/* logo goes here somewhere */}
-                    <h1>Nguyenstagram</h1>
+                    <h1 style={{fontSize: '50px'}} className='nguyenstagram'>Nguyenstagram</h1>
 
                     <h1 className='login-error-messages'>{errorMessagesState}</h1>
 

@@ -45,6 +45,10 @@ li {
   }
 }
 
+.nguyenstagram {
+  font-family: "Dekko";
+  font-weight: bold;
+}
 
 /* log in and sign up */
 .login-page-container {
@@ -62,4 +66,34 @@ li {
 }
 .login-error-messages {
   color: red;
+}
+
+/* nav bar  */
+.profile-pic {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  opacity: 80%;
+}
+.profile-pic:hover {
+  opacity: 100%;
+  cursor: pointer;
+}
+.nav-bar-container {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  width: 20.3%;
+  margin: 0px;
+  padding: 0px;
+}
+
+/* my profile */
+.my-profile-container {
+  border: 1px solid black;
+  width: 50%;
+  margin: auto;
+  padding: 0px;
+  align-items: center;
+  text-align: center;
 }
