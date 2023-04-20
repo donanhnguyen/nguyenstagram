@@ -25,16 +25,16 @@ export const login = async (req, res, next) => {
         const user = await User.findOne({username: req.body.username});
         if (!user) {
             res.status(404).send("User Not Found.");
+        } else {
+            const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password);
+            if (!isPasswordCorrect) {
+                res.status(400).send("Wrong Password!");
+            } else {
+                const {password, ...otherDetails} = user._doc
+                res.status(200).send({...otherDetails});
+            }
         }
 
-        const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password);
-        if (!isPasswordCorrect) {
-            res.status(400).send("Wrong Password!");
-        }
-
-        const {password, ...otherDetails} = user._doc
-
-        res.status(200).send({...otherDetails});
     } catch(err) {
         res.status(500).json(err);
     }
