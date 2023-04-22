@@ -11,6 +11,19 @@ export const getAllPosts = async (req, res) => {
     }
 }
 
+// GET a specific post
+
+export const getPost = async (req, res) => {
+    try {
+        const foundPost = await Post.findById(req.params.postId);
+        res.status(200).json(foundPost);
+        
+    } catch(err) {
+        res.status(500).json(err);
+    }
+};
+
+
 // GET all posts from a specfic user, either current loggedin user, or ANOTHER person's posts
 // works
 export const getAllPostsFromUser = async (req, res) => {

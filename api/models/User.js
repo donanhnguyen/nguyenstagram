@@ -15,9 +15,9 @@ const UserSchema = new mongoose.Schema({
         required: false,
         default: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
     },
-    following: [{type: Object}],
-    followers: [{type: Object}],
-    likedPosts: [{type: Object}],
+    following: [{type: String}],
+    followers: [{type: String}],
+    likedPosts: [{type: mongoose.Schema.Types.ObjectId}],
 
 }, {timestamps: true})
 

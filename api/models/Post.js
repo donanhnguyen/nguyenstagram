@@ -16,10 +16,7 @@ const PostSchema = new mongoose.Schema({
         required: true,
         unique: false,
     },
-    numberOfLikes: {
-        type: Number,
-        default: 0
-    },
+    usersWhoveLiked: [{type: String, default: []}],
     caption: {
         type: String,
         required: true,
