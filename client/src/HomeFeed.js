@@ -28,10 +28,32 @@ function HomeFeed () {
         }
     }, [])
 
+    function displayHomePagePosts () {
+        if (allPostsState) {
+            const dispalyedPosts = allPostsState.map((post) => {
+                return (
+                    <div className='home-feed-post-container' key={post._id}>
+                        <h1>{post.user}</h1>
+                        <h1>{post.caption}</h1>
+                        <img className='single-post-image-in-home-feed' src={post.picUrl}></img>
+                    </div>
+                )
+            });
+            return dispalyedPosts;
+        }
+        
+      }
+
+    console.log("All posts in home")
+    console.log(allPostsState)
+
     return (
         <div className='App-header'>
             <div className='home'>
-                this is home feed....
+                <h1>Home Feed Here:</h1>
+                <div>
+                    {displayHomePagePosts()}
+                </div>
             </div>
         </div>
     )

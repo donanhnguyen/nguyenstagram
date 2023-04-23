@@ -45,6 +45,16 @@ li {
   }
 }
 
+/* home feed */
+.single-post-image-in-home-feed {
+  width: 300px;
+  height: 300px;
+}
+.home-feed-post-container {
+  border: 1px solid black;
+  text-align: center;
+}
+
 .nguyenstagram {
   font-family: "Dekko";
   font-weight: bold;
@@ -96,4 +106,8 @@ li {
   padding: 0px;
   align-items: center;
   text-align: center;
+}
+.single-post-thumbnail {
+  width: 120px;
+  height: 120px;
 }

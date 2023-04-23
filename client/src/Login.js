@@ -28,11 +28,10 @@ function LogIn () {
 
             Axios.post(`http://localhost:8800/api/auth/login/`, loggedInUser)
                 .then((response) => {
-                    console.log(response.data)
                     setTimeout(() => {
                         setCurrentUserState(response.data)
                         navigate('/');
-                    }, 2000)
+                    }, 1000)
                 })
                 .catch((error) => {
                     setErrorMessagesState(error.response.data)
@@ -61,7 +60,7 @@ function LogIn () {
                     <input onChange={(e) => setUsernameState(e.target.value)} id='username' type='text'></input>
                     <br></br>
                     <label htmlFor='password'>Password</label>
-                    <input onChange={(e) => setPasswordState(e.target.value)} id='password' type='text'></input>
+                    <input onChange={(e) => setPasswordState(e.target.value)} id='password' type='password'></input>
                     
                     <br></br>
 

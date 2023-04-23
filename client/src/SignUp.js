@@ -34,7 +34,7 @@ function SignUp () {
                     setTimeout(() => {
                         setCurrentUserState(response.data)
                         navigate('/');
-                    }, 2000)
+                    }, 1000)
                 })
                 .catch((error) => {
                     setErrorMessagesState("Username has already been taken.");
