@@ -3,10 +3,11 @@ import {useState, useContext, useEffect, useReducer} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
+import './CreatePostModal.css'
 
 function CreatePostForm (props) {
 
-    const {myPostsDispatch} = props
+    const {myPostsDispatch, setShowModal, showModal} = props
     const [picUrlState, setPicUrlState] = useState(null);
     const [captionState, setCaptionState] = useState(null);
 
@@ -29,20 +30,41 @@ function CreatePostForm (props) {
                 myPostsDispatch({type: 'createPost', payload: response.data})
             })
             .catch((error) => console.log(error.response))
+        setShowModal(false);
     }
 
     return (
         <div className=''>
+            
+            <div id="myModal" className={`modal ${showModal ? "yes-modal" : "" }`}>
+            <div className={`modal-content create-post-form-container`}>
+                <span onClick={() => setShowModal(false)} className="close">&times;</span>
+                
+                <form onSubmit={handleCreatePost}>
 
-            <form onSubmit={handleCreatePost}>
-                <label>Pic Url</label>
-                <input type='text' onChange={(e) => setPicUrlState(e.target.value)}></input>
+                    <label>Pic Url</label>
+                    <input type='text' onChange={(e) => setPicUrlState(e.target.value)}></input>
 
-                <label>Caption</label>
-                <input type='text' onChange={(e) => setCaptionState(e.target.value)}></input>
+                    <br></br>
 
-                <button className='btn btn-primary'>Create Post</button>
-            </form>
+                    <label>Caption</label>
+                    <input type='text' onChange={(e) => setCaptionState(e.target.value)}></input>
+                    <br></br>
+
+                    <br></br>
+                    <button style={{width: '50%', margin: 'auto'}} className='btn btn-danger btn-lg' onClick={() => setShowModal(false)}>Cancel</button>
+                    <button
+                        type='submit' 
+                        style={{width: '50%', margin: 'auto'}} 
+                        className='btn btn-primary btn-lg'
+                        >Share
+                    </button>
+                </form>
+
+            </div>
+            </div>
+
+            
                 
         </div>
     );

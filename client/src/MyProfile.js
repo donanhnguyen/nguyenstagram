@@ -30,6 +30,7 @@ function MyProfile () {
   }
 
   const [myPostsState, myPostsDispatch] = useReducer(myPostsReducer, []);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     Axios.get(`http://localhost:8800/api/posts/${currentUserState.username}/`)
@@ -68,9 +69,14 @@ function MyProfile () {
           {displayUserPosts()}
         </div>
 
-        <div>
-          <CreatePostForm myPostsDispatch={myPostsDispatch}/>
-        </div>
+        <button className='btn btn-primary btn-lg' onClick={() => setShowModal(true)}>Post A Pic</button>
+
+          <CreatePostForm 
+            myPostsDispatch={myPostsDispatch}
+            showModal={showModal}
+            setShowModal={setShowModal}
+          />
+
     </div>
   );
 }

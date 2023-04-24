@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './App.css';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
+import PostInsideHomeFeed from './PostInsideHomeFeed';
 
 function HomeFeed () {
 
@@ -26,23 +27,16 @@ function HomeFeed () {
                     console.log(error);
                 })
         }
-    }, [])
+    }, []) 
 
     function displayHomePagePosts () {
         if (allPostsState) {
             const dispalyedPosts = allPostsState.map((post) => {
-                return (
-                    <div className='home-feed-post-container' key={post._id}>
-                        <h1>{post.user}</h1>
-                        <h1>{post.caption}</h1>
-                        <img className='single-post-image-in-home-feed' src={post.picUrl}></img>
-                    </div>
-                )
-            });
-            return dispalyedPosts;
+                return (<PostInsideHomeFeed key={post._id} post={post}/>)
+            })           
+            return dispalyedPosts.reverse();
         }
-        
-      }
+    }
 
     console.log("All posts in home")
     console.log(allPostsState)
