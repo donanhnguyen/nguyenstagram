@@ -61,6 +61,8 @@ function MyProfile () {
         <img className="profile-pic" src={`${currentUserState.profilePic}`}></img>
         <h1>{currentUserState.username}</h1>
 
+        <h1>{myPostsState.length} Posts</h1>
+
         <h1>{currentUserState.followers.length} Followers</h1>
 
         <h1>{currentUserState.following.length} Following</h1>

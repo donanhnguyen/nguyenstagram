@@ -12,11 +12,14 @@ export function GlobalProvider( {children} ) {
     // };
 
     const [currentUserState, setCurrentUserState] = useState(null);
+    const [currentlyViewingProfile, setCurrentlyViewingProfile] = useState(null);
     
     return (
         <GlobalContext.Provider value={ {
             currentUserState,
-            setCurrentUserState
+            setCurrentUserState,
+            currentlyViewingProfile,
+            setCurrentlyViewingProfile
         } }>
             {children}
         </GlobalContext.Provider>

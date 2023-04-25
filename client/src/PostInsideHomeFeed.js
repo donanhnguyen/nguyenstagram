@@ -7,9 +7,11 @@ import GlobalContext from './GlobalContext';
 function PostInsideHomeFeed (props) {
 
     const [liked, setLiked] = useState();
+    const navigate = useNavigate();
 
     const {
-        currentUserState
+        currentUserState,
+        setCurrentlyViewingProfile
     } = useContext(GlobalContext);
 
     const {post} = props;
@@ -60,11 +62,14 @@ function PostInsideHomeFeed (props) {
         
     }
 
-    console.log(liked);
+    function navigateToProfileShowPage (e) {
+        setCurrentlyViewingProfile(e.target.innerText);
+        navigate(`/profileShowPage/${e.target.innerText}`, {state: {profileUsername: e.target.innerText}});
+    }
 
     return (
             <div className='home-feed-post-container' key={post._id}>
-                <h1>{post.user}</h1>
+                <h1 onClick={(e) => navigateToProfileShowPage(e)}>{post.user}</h1>
                 <h1>{post.caption}</h1>
                 <h1>{displayedDate}</h1>
                 <img className='single-post-image-in-home-feed' src={post.picUrl}></img>
