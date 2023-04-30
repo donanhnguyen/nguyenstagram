@@ -8,13 +8,25 @@ function ProfileShowPage () {
 
     const [profileUserState, setProfileUserState] = useState();
     const [viewingProfilePostsState, setViewingProfilePostsState] = useState();
-    const [followingOrNot, setFollowingOrNot] = useState(false);
+    const [followingOrNot, setFollowingOrNot] = useState();
 
     const params = useParams();
 
     const {
         currentUserState,
       } = useContext(GlobalContext);
+
+    useEffect(() => {
+      // check initially if you are following them or not
+      if (profileUserState) {
+        if (profileUserState.followers.includes(currentUserState.username)) {
+          setFollowingOrNot(true);
+        } else {
+          setFollowingOrNot(false);
+        }
+      }
+      // run this everytime the profileuserstate updates
+    }, [profileUserState])
 
     useEffect(() => {
 
@@ -27,7 +39,10 @@ function ProfileShowPage () {
             console.log(error.response);
           });
 
-        // get the user's info so we can display their followers info, etc.
+    }, []);
+
+    useEffect(() => {
+      // get the user's info so we can display their followers info, etc.
         Axios.get(`http://localhost:8800/api/users/${params.username}/`)
           .then((response) => {
             setProfileUserState(response.data);
@@ -35,18 +50,8 @@ function ProfileShowPage () {
           .catch((error) => {
             console.log(error.response);
           });
-
-    }, []);
-
-    useEffect(() => {
-      if (profileUserState) {
-        if (!profileUserState.followers.includes(currentUserState.username)) {
-          setFollowingOrNot(false);
-        } else {
-          setFollowingOrNot(true);
-        }
-      }
-    }, [])
+      // run this everytime the followingornot state toggles
+    }, [followingOrNot])
 
     function displayTheirPosts () {
       if (viewingProfilePostsState) {
@@ -61,49 +66,79 @@ function ProfileShowPage () {
       }
     };
 
-    function handleFollow () {
-        // get the current array of followers and push the loggedinuser into it
-        var newFollowersData = profileUserState.followers;
-        newFollowersData.push(currentUserState.username);
-        var newDataObject = {followers: newFollowersData};
-        // then send it through a PUT request to update THAT user's followers
-        Axios.put(`http://localhost:8800/api/users/${params.username}`, newDataObject)
-            .then((response) => {
-                setFollowingOrNot(true);
-                console.log(response.data)
-            })
-            .catch((error) => {
-                console.log(error.reponse)
-            })
-        // update CURRENT loggedin user's FOLLOWING array
-    }
+    function handleFollowOrUnfollow () {
 
-    function handleUnfollow () {
-      
-      let newData = profileUserState.followers.filter((user) => {
-        return user !== currentUserState.username;
-      })
-      let newDataObject = {followers: newData};
-      Axios.put(`http://localhost:8800/api/users/${params.username}`, newDataObject)
-          .then((response) => {
-              setFollowingOrNot(false);
-              console.log(response.data)
-          })
-          .catch((error) => {
-              console.log(error.reponse)
-          })
-    }
+      // follow them
 
-    function followOrUnfollowButton () {
-      if (!profileUserState.followers.includes(currentUserState.username)) {
-        return (
-          <button onClick={handleFollow}>Follow</button>
-        )
+      if (!followingOrNot) {
+
+          // get the current array of followers and push the loggedinuser into it
+
+          var newFollowersData = profileUserState.followers;
+          if (!newFollowersData.includes(currentUserState.username)) {
+            newFollowersData.push(currentUserState.username);
+          }
+          var newDataObject = {followers: newFollowersData};
+
+          // then send it through a PUT request to update THAT user's followers
+
+          Axios.put(`http://localhost:8800/api/users/${params.username}`, newDataObject)
+              .then((response) => {
+                  setFollowingOrNot(true);
+              })
+              .catch((error) => {
+                  console.log(error.reponse)
+              })
+          // update CURRENT loggedin user's FOLLOWING array
+
+          var currentLoggedInUsersFollowingArray = currentUserState.following;
+          if (!currentLoggedInUsersFollowingArray.includes(params.username)) {
+            currentLoggedInUsersFollowingArray.push(params.username);
+          }
+          var newFollowingArrayData = {following: currentLoggedInUsersFollowingArray};
+          Axios.put(`http://localhost:8800/api/users/${currentUserState.username}`, newFollowingArrayData)
+              .then((response) => {
+              })
+              .catch((error) => {
+                  console.log(error.reponse)
+              })
+
+      // unfollow them
+
       } else {
-        return (
-          <button onClick={handleUnfollow}>Unfollow</button>
-        )
+
+          // filter out the followers excluding myself
+
+          let newData = profileUserState.followers.filter((user) => {
+            return user !== currentUserState.username;
+          })
+
+          // send the new data
+
+          let newDataObject = {followers: newData};
+          Axios.put(`http://localhost:8800/api/users/${params.username}`, newDataObject)
+              .then((response) => {
+                  setFollowingOrNot(false);
+              })
+              .catch((error) => {
+                  console.log(error.reponse)
+              })
+
+          // remove this user from my current following array
+
+          let newFollowingArray = currentUserState.following.filter((user) => {
+            return user !== params.username;
+          });
+          let newFollowingArrayObject = {following: newFollowingArray}
+
+          Axios.put(`http://localhost:8800/api/users/${currentUserState.username}`, newFollowingArrayObject)
+              .then((response) => {
+              })
+              .catch((error) => {
+                  console.log(error.reponse)
+              })
       }
+
     }
 
     if (profileUserState && viewingProfilePostsState) {
@@ -118,7 +153,11 @@ function ProfileShowPage () {
 
           <h1>{profileUserState.following.length} Following</h1>
 
-          {followOrUnfollowButton()}
+          {/* {followOrUnfollowButton()} */}
+
+          <button onClick={handleFollowOrUnfollow}>
+            {followingOrNot ? "Unfollow" : "Follow"}
+          </button>
 
           <div className='displayed-posts-container'>
             {displayTheirPosts()}
