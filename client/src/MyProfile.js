@@ -53,8 +53,8 @@ function MyProfile () {
     return dispalyedPosts;
   }
 
-  console.log("All posts in my profile")
-  console.log(myPostsState);
+  // console.log("All posts in my profile")
+  // console.log(myPostsState);
 
   return (
     <div className='my-profile-container'>

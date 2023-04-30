@@ -24,6 +24,8 @@ function NavBar () {
                 
                 <h1 style={{fontSize: '30px'}} className='nguyenstagram'>Nguyenstagram</h1>
 
+                <h1>Welcome, {currentUserState.username}</h1>
+
                 <Link to='/'>
                     Home
                </Link>

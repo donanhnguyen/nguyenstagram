@@ -59,6 +59,10 @@ li {
   font-family: "Dekko";
   font-weight: bold;
 }
+.link-to-profile-page:hover {
+ cursor: pointer;
+ color: rgb(0, 145, 255); 
+}
 
 /* log in and sign up */
 .login-page-container {

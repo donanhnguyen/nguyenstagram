@@ -11,10 +11,10 @@ function PostInsideHomeFeed (props) {
 
     const {
         currentUserState,
-        setCurrentlyViewingProfile
     } = useContext(GlobalContext);
 
     const {post} = props;
+
     let dateArray = post.createdAt.split("");
     let displayedMonth = dateArray.slice(5, 7).join("")
     let displayedDay = dateArray.slice(8, 10).join("")
@@ -31,6 +31,7 @@ function PostInsideHomeFeed (props) {
     
 
     function handleLike () {
+        // liking it
         if (!liked) {
             let newData = post.usersWhoveLiked;
             if (!newData.includes(currentUserState.username)) {
@@ -45,6 +46,7 @@ function PostInsideHomeFeed (props) {
                 .catch((error) => {
                     console.log(error.reponse)
                 })
+        // unliking it
         } else {
             let newData = post.usersWhoveLiked.filter((user) => {
                 return user !== currentUserState.username;
@@ -63,13 +65,16 @@ function PostInsideHomeFeed (props) {
     }
 
     function navigateToProfileShowPage (e) {
-        setCurrentlyViewingProfile(e.target.innerText);
-        navigate(`/profileShowPage/${e.target.innerText}`, {state: {profileUsername: e.target.innerText}});
+        if (post.user === currentUserState.username) {
+            navigate('/myProfile');
+        } else {
+            navigate(`/profileShowPage/${e.target.innerText}`, {state: {profileUsername: e.target.innerText}});
+        }
     }
 
     return (
             <div className='home-feed-post-container' key={post._id}>
-                <h1 onClick={(e) => navigateToProfileShowPage(e)}>{post.user}</h1>
+                <h1 className='link-to-profile-page' onClick={(e) => navigateToProfileShowPage(e)}>{post.user}</h1>
                 <h1>{post.caption}</h1>
                 <h1>{displayedDate}</h1>
                 <img className='single-post-image-in-home-feed' src={post.picUrl}></img>
