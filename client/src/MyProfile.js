@@ -35,7 +35,7 @@ function MyProfile () {
 
   useEffect(() => {
     // get all posers from logged in user
-    Axios.get(`http://localhost:8800/api/posts/${currentUserState.username}/`)
+    Axios.get(`http://localhost:8800/api/posts/${currentUserState.username}/posts/`)
       .then((response) => {
         myPostsDispatch({type: 'getUserPosts', payload: response.data});
       })

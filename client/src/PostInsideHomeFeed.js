@@ -28,10 +28,25 @@ function PostInsideHomeFeed (props) {
             setLiked(false);
         }
     }, [])
-    
+
+    function sendNotificationForLike (username, postId) {
+        var notificationBody = {
+            message: `${currentUserState.username} has liked your post ${postId}.`,
+            user: username
+        }
+        Axios.post(`http://localhost:8800/api/notifications/${username}`, notificationBody)
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.log(error.response);
+            })
+    }
 
     function handleLike () {
+
         // liking it
+
         if (!liked) {
             let newData = post.usersWhoveLiked;
             if (!newData.includes(currentUserState.username)) {
@@ -41,11 +56,15 @@ function PostInsideHomeFeed (props) {
             Axios.put(`http://localhost:8800/api/posts/${post._id}`, newDataObject)
                 .then((response) => {
                     setLiked(true);
-                    console.log(response.data)
                 })
                 .catch((error) => {
                     console.log(error.reponse)
                 })
+
+            // send notification to THAT user about the like
+
+            sendNotificationForLike(post.user, post._id);
+
         // unliking it
         } else {
             let newData = post.usersWhoveLiked.filter((user) => {
@@ -55,7 +74,6 @@ function PostInsideHomeFeed (props) {
             Axios.put(`http://localhost:8800/api/posts/${post._id}`, newDataObject)
                 .then((response) => {
                     setLiked(false);
-                    console.log(response.data)
                 })
                 .catch((error) => {
                     console.log(error.reponse)
@@ -64,21 +82,34 @@ function PostInsideHomeFeed (props) {
         
     }
 
+    function navigateToPostShowPage () {
+        navigate(`/postShowPage/${post._id}`);
+    }
+
     function navigateToProfileShowPage (e) {
+        e.preventDefault();
         if (post.user === currentUserState.username) {
             navigate('/myProfile');
         } else {
-            navigate(`/profileShowPage/${e.target.innerText}`, {state: {profileUsername: e.target.innerText}});
+            navigate(`/profileShowPage/${e.target.innerText}`);
         }
     }
 
     return (
-            <div className='home-feed-post-container' key={post._id}>
+            <div 
+                className='home-feed-post-container' 
+                key={post._id}
+            >
                 <h1 className='link-to-profile-page' onClick={(e) => navigateToProfileShowPage(e)}>{post.user}</h1>
                 <h1>{post.caption}</h1>
                 <h1>{displayedDate}</h1>
-                <img className='single-post-image-in-home-feed' src={post.picUrl}></img>
+                <img 
+                    onClick={navigateToPostShowPage}
+                    className='single-post-image-in-home-feed' src={post.picUrl}
+                ></img>
                 <br></br>
+
+                <h1>{post.usersWhoveLiked.length} likes</h1>
 
                 {post.user !== currentUserState.username ? <button onClick={handleLike}>
                     {liked ? "Unlike" : "Like"}

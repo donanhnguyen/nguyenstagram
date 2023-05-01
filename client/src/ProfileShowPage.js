@@ -31,7 +31,7 @@ function ProfileShowPage () {
     useEffect(() => {
 
         // get posts belonging to the current viewed user using the params on react router
-        Axios.get(`http://localhost:8800/api/posts/${params.username}/`)
+        Axios.get(`http://localhost:8800/api/posts/${params.username}/posts/`)
           .then((response) => {
             setViewingProfilePostsState(response.data);
           })

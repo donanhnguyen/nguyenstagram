@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', getAllPosts)
 
-router.get('/:username', getAllPostsFromUser)
+router.get('/:username/posts/', getAllPostsFromUser)
 
 router.get('/:postId', getPost)
 
