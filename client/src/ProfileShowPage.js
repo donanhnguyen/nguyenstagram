@@ -66,6 +66,20 @@ function ProfileShowPage () {
       }
     };
 
+    function sendNotificationForFollow (username) {
+      var notificationBody = {
+        message: `${currentUserState.username} has starting following you.`,
+        user: username
+      }
+      Axios.post(`http://localhost:8800/api/notifications/${username}`, notificationBody)
+          .then((response) => {
+              // console.log(response.data);
+          })
+          .catch((error) => {
+              // console.log(error.response);
+          })
+    }
+
     function handleFollowOrUnfollow () {
 
       // follow them
@@ -102,6 +116,10 @@ function ProfileShowPage () {
               .catch((error) => {
                   console.log(error.reponse)
               })
+          
+          // send notification to THAT user that you're following them.
+
+          sendNotificationForFollow(profileUserState.username);
 
       // unfollow them
 

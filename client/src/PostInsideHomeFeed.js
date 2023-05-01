@@ -36,10 +36,10 @@ function PostInsideHomeFeed (props) {
         }
         Axios.post(`http://localhost:8800/api/notifications/${username}`, notificationBody)
             .then((response) => {
-                console.log(response.data);
+                // console.log(response.data);
             })
             .catch((error) => {
-                console.log(error.response);
+                // console.log(error.response);
             })
     }
 
