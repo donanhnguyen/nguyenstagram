@@ -1,8 +1,10 @@
 import './App.css';
-import {useState, useContext} from 'react';
+import {useState, useContext, useEffect} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
+import Notifications from './Notifications';
+import Search from './Search';
 
 function NavBar () {
 
@@ -10,8 +12,23 @@ function NavBar () {
         currentUserState,
         setCurrentUserState
     } = useContext(GlobalContext);
-    
+
+    const [showNotifications, toggleShowNotifications] = useState(false);
+    const [allNotificationsState, setAllNotificationsState] = useState();
+
+    const [showSearch, toggleShowSearch] = useState(false);
+
     const navigate = useNavigate();
+
+    // get notifications
+    useEffect(() => {
+        if (currentUserState) {
+            Axios.get(`http://localhost:8800/api/notifications/${currentUserState.username}/`)
+                .then((response) => {
+                    setAllNotificationsState(response.data);
+                })    
+        }
+    }, [currentUserState])
 
     function logOut () {
         setCurrentUserState(null);
@@ -34,6 +51,18 @@ function NavBar () {
                    <img className="profile-pic" src={`${currentUserState.profilePic}`}></img>
                    Profile
                </Link>
+
+               <Search 
+                    showSearch={showSearch}
+                    toggleShowSearch={toggleShowSearch}
+               />
+
+               <Notifications 
+                    showNotifications={showNotifications}
+                    toggleShowNotifications={toggleShowNotifications}
+                    allNotificationsState={allNotificationsState}
+                    setAllNotificationsState={setAllNotificationsState}
+               />
 
                 <button onClick={logOut}>Log Out</button>
             </div>

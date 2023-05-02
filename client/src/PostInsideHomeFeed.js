@@ -9,6 +9,8 @@ function PostInsideHomeFeed (props) {
     const [liked, setLiked] = useState();
     const navigate = useNavigate();
 
+    const [postInsideFeedState, setPostInsideFeedState] = useState();
+
     const {
         currentUserState,
     } = useContext(GlobalContext);
@@ -28,6 +30,15 @@ function PostInsideHomeFeed (props) {
             setLiked(false);
         }
     }, [])
+
+    useEffect(() => {
+
+        Axios.get(`http://localhost:8800/api/posts/${post._id}`)
+            .then((response) => {
+                setPostInsideFeedState(response.data);
+            })
+
+    }, [liked])
 
     function sendNotificationForLike (username, postId) {
         var notificationBody = {
@@ -109,7 +120,9 @@ function PostInsideHomeFeed (props) {
                 ></img>
                 <br></br>
 
-                <h1>{post.usersWhoveLiked.length} likes</h1>
+                {/* # of likes */}
+                
+                <h1>{postInsideFeedState ? postInsideFeedState.usersWhoveLiked.length + " likes": ""}</h1>
 
                 {post.user !== currentUserState.username ? <button onClick={handleLike}>
                     {liked ? "Unlike" : "Like"}
