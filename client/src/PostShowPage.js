@@ -8,6 +8,7 @@ function PostShowPage () {
 
     const params = useParams();
     const [postInfoState, setPostInfoState] = useState();
+    const [liked, setLiked] = useState();
     const navigate = useNavigate();
 
     const {
@@ -22,6 +23,7 @@ function PostShowPage () {
         var displayedDate = `${displayedMonth} - ${displayedDay} - ${displayedYear}`;
     }
 
+    // get post's info
     useEffect(() => {
         Axios.get(`http://localhost:8800/api/posts/${params.postId}/`)
           .then((response) => {
@@ -30,7 +32,18 @@ function PostShowPage () {
           .catch((error) => {
             console.log(error.response);
           });
-    }, [])
+    }, [liked])
+
+    // on mounting, check if the post is liked by you or not 
+    useEffect(() => {
+        if (postInfoState) {
+            if (postInfoState.usersWhoveLiked.includes(currentUserState.username)) {
+                setLiked(true);
+            } else {
+                setLiked(false);
+            }    
+        }
+    }, [postInfoState])
 
     function navigateToProfileShowPage (e) {
         e.preventDefault();
@@ -38,6 +51,57 @@ function PostShowPage () {
             navigate('/myProfile');
         } else {
             navigate(`/profileShowPage/${e.target.innerText}`);
+        }
+    }
+
+    function sendNotificationForLike (username, postId) {
+        var notificationBody = {
+            message: `${currentUserState.username} has liked your post ${postId}.`,
+            user: username
+        }
+        Axios.post(`http://localhost:8800/api/notifications/${username}`, notificationBody)
+            .then((response) => {
+                // console.log(response.data);
+            })
+            .catch((error) => {
+                // console.log(error.response);
+            })
+    }
+
+    function handleLike () {
+        // liking it
+
+        if (!liked) {
+            let newData = postInfoState.usersWhoveLiked;
+            if (!newData.includes(currentUserState.username)) {
+               newData.push(currentUserState.username); 
+            }
+            let newDataObject = {usersWhoveLiked: newData};
+            Axios.put(`http://localhost:8800/api/posts/${postInfoState._id}`, newDataObject)
+                .then((response) => {
+                    setLiked(true);
+                })
+                .catch((error) => {
+                    console.log(error.reponse)
+                })
+
+            // send notification to THAT user about the like
+
+            sendNotificationForLike(postInfoState.user, postInfoState._id);
+
+        // unliking it
+        } else {
+            let newData = postInfoState.usersWhoveLiked.filter((user) => {
+                return user !== currentUserState.username;
+            })
+            let newDataObject = {usersWhoveLiked: newData};
+            Axios.put(`http://localhost:8800/api/posts/${postInfoState._id}`, newDataObject)
+                .then((response) => {
+                    setLiked(false);
+                })
+                .catch((error) => {
+                    console.log(error.reponse)
+                })
         }
     }
 
@@ -52,6 +116,14 @@ function PostShowPage () {
                 <h1>{displayedDate}</h1>
                 <img className='single-post-image-in-home-feed' src={postInfoState.picUrl}></img>
                 <br></br>
+
+                {postInfoState.user !== currentUserState.username ? <button onClick={handleLike}>
+                    {liked ? "Unlike" : "Like"}
+                    </button>: <p>your post</p>}
+
+                {postInfoState.user !== currentUserState.username ? <button>Comment</button>: <p>your post</p>}
+            
+                <button>Share</button>
             </div>
         )   
     }

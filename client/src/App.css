@@ -115,3 +115,13 @@ li {
   width: 120px;
   height: 120px;
 }
+
+/* post pics */
+
+.post-pic-link {
+  opacity: 95%;
+}
+.post-pic-link:hover {
+  cursor: pointer;
+  opacity: 100%;
+}

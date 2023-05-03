@@ -7,6 +7,8 @@ import CreatePostForm from './CreatePostForm';
 
 function MyProfile () {
 
+  const navigate = useNavigate();
+
   const {
     currentUserState,
     setCurrentUserState
@@ -52,15 +54,22 @@ function MyProfile () {
       });
   }, [])
 
+  function navigateToPostShowPage (postId) {
+    navigate(`/postShowPage/${postId}`);
+}
+
   function displayUserPosts () {
     const dispalyedPosts = myPostsState.map((post) => {
       return (
         <div key={post._id}>
-          <img className='single-post-thumbnail' src={post.picUrl}></img>
+          <img 
+            onClick={() => navigateToPostShowPage(post._id)}
+            className='single-post-thumbnail post-pic-link' src={post.picUrl}
+          ></img>
         </div>
       )
     })
-    return dispalyedPosts;
+    return dispalyedPosts.reverse();
   }
 
   // console.log("All posts in my profile")

@@ -10,6 +10,8 @@ function ProfileShowPage () {
     const [viewingProfilePostsState, setViewingProfilePostsState] = useState();
     const [followingOrNot, setFollowingOrNot] = useState();
 
+    const navigate = useNavigate();
+
     const params = useParams();
 
     const {
@@ -53,16 +55,23 @@ function ProfileShowPage () {
       // run this everytime the followingornot state toggles
     }, [followingOrNot])
 
+    function navigateToPostShowPage (postId) {
+      navigate(`/postShowPage/${postId}`);
+    };
+
     function displayTheirPosts () {
       if (viewingProfilePostsState) {
         const dispalyedPosts = viewingProfilePostsState.map((post) => {
             return (
               <div key={post._id}>
-                <img className='single-post-thumbnail' src={post.picUrl}></img>
+                <img 
+                  onClick={() => navigateToPostShowPage(post._id)}
+                  className='single-post-thumbnail post-pic-link' src={post.picUrl}
+                ></img>
               </div>
             )
           })
-        return dispalyedPosts;
+        return dispalyedPosts.reverse();
       }
     };
 

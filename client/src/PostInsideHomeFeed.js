@@ -116,7 +116,7 @@ function PostInsideHomeFeed (props) {
                 <h1>{displayedDate}</h1>
                 <img 
                     onClick={navigateToPostShowPage}
-                    className='single-post-image-in-home-feed' src={post.picUrl}
+                    className='single-post-image-in-home-feed post-pic-link' src={post.picUrl}
                 ></img>
                 <br></br>
 
