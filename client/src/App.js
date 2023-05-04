@@ -14,7 +14,7 @@ function App() {
       <GlobalProvider>
         
       <BrowserRouter>
-
+      <div className='all-container'>
         <NavBar />
 
         <Routes>
@@ -27,7 +27,7 @@ function App() {
           <Route path='/postShowPage/:postId' element={ <PostShowPage /> }></Route>
 
         </Routes>
-        
+      </div> 
       </BrowserRouter>
 
       </GlobalProvider>

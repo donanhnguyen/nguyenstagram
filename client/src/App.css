@@ -125,3 +125,18 @@ li {
   cursor: pointer;
   opacity: 100%;
 }
+
+/* search bar */
+.profile-pic-inside-search-bar {
+  width:30px;
+  height:30px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.search-entry {
+  background-color: rgb(255, 255, 255);
+}
+.search-entry:hover {
+  background-color: #e4e4e4;
+  cursor: pointer;
+}
