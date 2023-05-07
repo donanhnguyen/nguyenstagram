@@ -30,3 +30,16 @@ export const createNotification = async (req, res) => {
         res.status(500).json(err);
     }
 };
+
+
+// PUT a notificaiton to change the READ/UNREAD status
+
+export const updateNotification = async (req, res) => {
+    try {
+        const updatedNotification = await Notification.findByIdAndUpdate(req.params.notificationId, { $set: req.body }, {new: true});
+        res.status(200).json(updatedNotification);
+
+    } catch(err) {
+        res.status(500).json(err);
+    }
+};

@@ -1,10 +1,27 @@
 import './App.css';
-import {useState, useContext, useEffect} from 'react';
+import {useState, useContext, useEffect, useReducer} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
 import Notifications from './Notifications';
 import Search from './Search';
+
+function notificationsReducer (state, action) {
+    switch (action.type) {
+      case 'getAllNotifications':
+        return action.payload;
+      case 'updateNotification':
+        const newArray = state;
+        for (let i in newArray) {
+            if (newArray[i]._id === action.payload._id) {
+                newArray[i] = action.payload;
+            }
+        }
+        return newArray;
+      default:
+        throw new Error();
+    }
+}
 
 function NavBar () {
 
@@ -14,9 +31,8 @@ function NavBar () {
     } = useContext(GlobalContext);
 
     const [showNotifications, toggleShowNotifications] = useState(false);
-    const [allNotificationsState, setAllNotificationsState] = useState();
-
     const [showSearch, toggleShowSearch] = useState(false);
+    const [allNotificationsState, notificationsDispatch] = useReducer(notificationsReducer, []);
 
     const navigate = useNavigate();
 
@@ -25,13 +41,15 @@ function NavBar () {
         if (currentUserState) {
             Axios.get(`http://localhost:8800/api/notifications/${currentUserState.username}/`)
                 .then((response) => {
-                    setAllNotificationsState(response.data);
+                    notificationsDispatch({type: 'getAllNotifications', payload: response.data})
                 })    
         }
     }, [currentUserState])
 
     function logOut () {
         setCurrentUserState(null);
+        toggleShowNotifications(false);
+        toggleShowSearch(false);
         navigate('/login')
     }
 
@@ -61,7 +79,7 @@ function NavBar () {
                     showNotifications={showNotifications}
                     toggleShowNotifications={toggleShowNotifications}
                     allNotificationsState={allNotificationsState}
-                    setAllNotificationsState={setAllNotificationsState}
+                    notificationsDispatch={notificationsDispatch}
                />
 
                 <button onClick={logOut}>Log Out</button>

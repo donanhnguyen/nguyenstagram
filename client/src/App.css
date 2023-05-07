@@ -102,6 +102,19 @@ li {
   padding: 0px;
 }
 
+/* notifications */
+.read {
+  background-color: rgb(200, 200, 200);
+}
+
+.unread {
+  background-color: rgb(255, 214, 214);
+}
+.single-notification:hover {
+  cursor: pointer;
+}
+
+
 /* my profile */
 .my-profile-container {
   border: 1px solid black;

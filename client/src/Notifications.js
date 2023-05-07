@@ -3,6 +3,7 @@ import {useState, useContext, useEffect} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
+import SingleNotification from './SingleNotification';
 
 function Notifications (props) {
 
@@ -15,6 +16,7 @@ function Notifications (props) {
         showNotifications, 
         toggleShowNotifications,
         allNotificationsState,
+        notificationsDispatch
     } = props;
     
     const navigate = useNavigate();
@@ -22,15 +24,34 @@ function Notifications (props) {
     function displayNotifications () {
         const displayed = allNotificationsState.map((notification) => {
             return (
-                <li key={notification._id}>{notification.message}</li>
+                <SingleNotification 
+                    key={notification._id}
+                    notification={notification}
+                    notificationsDispatch={notificationsDispatch}
+                />
             )
         })
         return displayed.reverse();
     }
 
+    function anyUnread () {
+        for (let i in allNotificationsState) {
+            if (allNotificationsState[i].read === false) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     if (!showNotifications) {
         return (
-            <h1 onClick={() => toggleShowNotifications((prevState) => !prevState)}>Notifications</h1>
+            <h1 onClick={() => toggleShowNotifications((prevState) => !prevState)}>
+                {anyUnread() ?
+                "New Notifications!"
+                :
+                "Notifications"
+                }
+            </h1>
         )  
     } else {
         return (
@@ -41,6 +62,7 @@ function Notifications (props) {
                 <ul>
                     {displayNotifications()}
                 </ul>
+
             </div>
         )
     }
