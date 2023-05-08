@@ -66,7 +66,7 @@ function NavBar () {
                </Link>
                <br></br>
                <Link to='/myProfile'>
-                   <img className="profile-pic" src={`${currentUserState.profilePic}`}></img>
+                  
                    Profile
                </Link>
 

@@ -9,10 +9,6 @@ function SingleNotification (props) {
     var {notification, notificationsDispatch} = props;
     const [readOrNot, setToRead] = useState(notification.read);
 
-    // useEffect(() => {
-
-    // }, [])
-
     function markAsRead (notificationId, readStatus) {
         if (!readStatus) {
             var newData = {read: true};

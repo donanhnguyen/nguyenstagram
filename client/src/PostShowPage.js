@@ -1,6 +1,7 @@
 import {useState, useEffect, useContext} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './App.css';
+import './Modals.css';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
 
@@ -8,6 +9,7 @@ function PostShowPage () {
 
     const params = useParams();
     const [postInfoState, setPostInfoState] = useState();
+    const [toggledConfirm, setToggledConfirm] = useState(false);
     const [liked, setLiked] = useState();
     const navigate = useNavigate();
 
@@ -105,9 +107,14 @@ function PostShowPage () {
         }
     }
 
+    function handleDeletePost () {
+        Axios.delete(`http://localhost:8800/api/posts/${postInfoState._id}`);
+        navigate('/myProfile');
+    }
+
     if (postInfoState) {
         return (
-            <div>
+            <div className='App-header'>
                 <h1 className='link-to-profile-page' onClick={(e) => navigateToProfileShowPage(e)}>{postInfoState.user}</h1>
                 
                 <h1>{postInfoState.usersWhoveLiked.length} likes</h1>
@@ -122,8 +129,28 @@ function PostShowPage () {
                     </button>: <p>your post</p>}
 
                 {postInfoState.user !== currentUserState.username ? <button>Comment</button>: <p>your post</p>}
-            
+
                 <button>Share</button>
+                
+                {postInfoState.user === currentUserState.username ? 
+                    <button 
+                        onClick={() => setToggledConfirm(true)}
+                        className='btn btn-danger'
+                    >Delete
+                    </button>
+                : ""
+                }
+
+                {/* show modal or not */}
+
+                <div id="myModal" className={`modal ${toggledConfirm ? "yes-modal" : "" }`}>
+                <div className={`modal-content`}>
+                    <span onClick={() => setToggledConfirm(false)} className="close">&times;</span>
+                    <h1 style={{color: 'red', fontSize: '30px'}}>Are you sure you want to delete?</h1>
+                    <button style={{width: '50%', margin: 'auto'}} className='btn btn-primary btn-lg' onClick={() => setToggledConfirm(false)}>No</button>
+                    <button style={{width: '50%', margin: 'auto'}} className='btn btn-danger btn-lg' onClick={handleDeletePost}>Yes</button>
+                </div>
+                </div>
             </div>
         )   
     }
