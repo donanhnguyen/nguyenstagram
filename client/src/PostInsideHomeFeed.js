@@ -10,6 +10,8 @@ function PostInsideHomeFeed (props) {
     const navigate = useNavigate();
 
     const [postInsideFeedState, setPostInsideFeedState] = useState();
+    const [showCommentInput, toggleShowCommentInput] = useState(false);
+    const [commentInputState, setCommentInputState] = useState();
 
     const {
         currentUserState,
@@ -106,6 +108,22 @@ function PostInsideHomeFeed (props) {
         }
     }
 
+    function showCommentInputOrNot () {
+        if (showCommentInput) {
+            return (
+                <div>
+                    <input 
+                        type='text' 
+                        placeholder='Comment...'
+                        value={commentInputState}
+                        onChange={(e) => setCommentInputState(e.target.value)}
+                    ></input>
+                    <button>Send</button>
+                </div>
+            )
+        }
+    }
+
     return (
             <div 
                 className='home-feed-post-container' 
@@ -127,7 +145,19 @@ function PostInsideHomeFeed (props) {
                 {post.user !== currentUserState.username ? <button onClick={handleLike}>
                     {liked ? "Unlike" : "Like"}
                     </button>: <p>your post</p>}
-                {post.user !== currentUserState.username ? <button>Comment</button>: <p>your post</p>}
+                    
+                {post.user !== currentUserState.username ? 
+                    <button onClick={() => toggleShowCommentInput((prevState) => !prevState)}>Comment</button>
+                    : 
+                    <p>your post</p>
+                }
+            
+                <br></br>
+
+        
+                {showCommentInputOrNot()}
+               
+
             </div>
         );
 }
