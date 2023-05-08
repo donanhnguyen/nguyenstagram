@@ -11,7 +11,7 @@ function PostInsideHomeFeed (props) {
 
     const [postInsideFeedState, setPostInsideFeedState] = useState();
     const [showCommentInput, toggleShowCommentInput] = useState(false);
-    const [commentInputState, setCommentInputState] = useState();
+    const [commentInputState, setCommentInputState] = useState('');
 
     const {
         currentUserState,
@@ -108,6 +108,44 @@ function PostInsideHomeFeed (props) {
         }
     }
 
+    function handlePostComment () {
+        var postComments = post.comments;
+        var commentBody = {
+            user: currentUserState.username,
+            text: commentInputState
+        };
+        postComments.push(commentBody);
+        var newCommentData = {comments: postComments};
+        // PUT call to update post.comments
+        if (commentInputState.split("").length === 0 || commentInputState === '') {
+            console.log("cant be blank!")
+        } else {
+            Axios.put(`http://localhost:8800/api/posts/${post._id}`, newCommentData)
+                .then((response) => {
+                    console.log(response.data);
+                    toggleShowCommentInput(false);
+                    setCommentInputState("");
+                })
+                
+            // send notification here
+            var notificationBody = {
+                message: `${currentUserState.username} has commented on your post ${post._id}.`,
+                postIdLink: post._id,
+                user: post.user
+            }
+
+              Axios.post(`http://localhost:8800/api/notifications/${post.user}`, notificationBody)
+                  .then((response) => {
+                      console.log(response.data);
+                  })
+                  .catch((error) => {
+                      // console.log(error.response);
+                  })
+            
+        }
+        
+    }
+
     function showCommentInputOrNot () {
         if (showCommentInput) {
             return (
@@ -118,7 +156,7 @@ function PostInsideHomeFeed (props) {
                         value={commentInputState}
                         onChange={(e) => setCommentInputState(e.target.value)}
                     ></input>
-                    <button>Send</button>
+                    <button onClick={handlePostComment}>Post</button>
                 </div>
             )
         }

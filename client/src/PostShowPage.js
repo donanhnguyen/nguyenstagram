@@ -59,6 +59,7 @@ function PostShowPage () {
     function sendNotificationForLike (username, postId) {
         var notificationBody = {
             message: `${currentUserState.username} has liked your post ${postId}.`,
+            postIdLink: postId,
             user: username
         }
         Axios.post(`http://localhost:8800/api/notifications/${username}`, notificationBody)
