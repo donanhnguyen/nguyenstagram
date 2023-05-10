@@ -174,7 +174,7 @@ function PostInsideHomeFeed (props) {
         if (showComments) {
             const commentsDisplayed = postInsideFeedState.comments.map((comment) => {
                 return (
-                    <li>{comment.user}: {comment.text}</li>
+                    <li key={comment._id}>{comment.user}: {comment.text}</li>
                 )
             });
             return commentsDisplayed;

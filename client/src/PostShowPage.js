@@ -10,6 +10,12 @@ function PostShowPage () {
     const params = useParams();
     const [postInfoState, setPostInfoState] = useState();
     const [toggledConfirm, setToggledConfirm] = useState(false);
+
+    // comment functionality
+    const [showCommentInput, toggleShowCommentInput] = useState(false);
+    const [showComments, toggleShowComments] = useState(false);
+    const [commentInputState, setCommentInputState] = useState('');
+
     const [liked, setLiked] = useState();
     const navigate = useNavigate();
 
@@ -113,6 +119,70 @@ function PostShowPage () {
         navigate('/myProfile');
     }
 
+    function handlePostComment () {
+        
+        if (commentInputState.split("").length === 0 || commentInputState === '') {
+            console.log("cant be blank!");
+        } else {
+
+            // create comment object
+
+            var postComments = postInfoState.comments;
+            var commentBody = {
+                user: currentUserState.username,
+                text: commentInputState
+            };
+            postComments.push(commentBody);
+            var newCommentData = {comments: postComments};
+
+            // PUT call to update post.comments
+
+            Axios.put(`http://localhost:8800/api/posts/${postInfoState._id}`, newCommentData)
+                .then((response) => {
+                    toggleShowCommentInput(false);
+                    setCommentInputState("");
+                })
+                
+            // send notification here
+            var notificationBody = {
+                message: `${currentUserState.username} has commented on your post: '${commentInputState}'.`,
+                postIdLink: postInfoState._id,
+                user: postInfoState.user
+            }
+
+            Axios.post(`http://localhost:8800/api/notifications/${postInfoState.user}`, notificationBody)
+            
+        }
+        
+    }
+
+    function showCommentInputOrNot () {
+        if (showCommentInput) {
+            return (
+                <div>
+                    <input 
+                        type='text' 
+                        placeholder='Comment...'
+                        value={commentInputState}
+                        onChange={(e) => setCommentInputState(e.target.value)}
+                    ></input>
+                    <button onClick={handlePostComment}>Post</button>
+                </div>
+            )
+        }
+    }
+
+    function showCommentsOrNot () {
+        if (showComments) {
+            const commentsDisplayed = postInfoState.comments.map((comment) => {
+                return (
+                    <li key={comment._id}>{comment.user}: {comment.text}</li>
+                )
+            });
+            return commentsDisplayed;
+        }
+    }
+
     if (postInfoState) {
         return (
             <div className='App-header'>
@@ -131,10 +201,36 @@ function PostShowPage () {
                     {liked ? "Unlike" : "Like"}
                     </button>: <p>your post</p>}
 
-                {postInfoState.user !== currentUserState.username ? <button>Comment</button>: <p>your post</p>}
+
+                {/* Share button */}
 
                 <button>Share</button>
-                
+
+                {/* Comment Button */}
+
+                {postInfoState.user !== currentUserState.username ? 
+                <button onClick={() => toggleShowCommentInput((prevState) => !prevState)}>Comment</button> 
+                : 
+                ""
+                }
+
+                {showCommentInputOrNot()}
+
+                {/* toggling comments */}
+                <h1 
+                    className='toggleSomething'
+                    onClick={() => toggleShowComments((prevState) => !prevState)}
+                >
+                    {showComments? "Hide Comments" : "View Comments"}
+                </h1>
+
+                {/* displaying comments */}
+                <ul className='commentsListContainer'>
+                    {showCommentsOrNot()}
+                </ul>
+
+
+                {/* delete post */}
                 {postInfoState.user === currentUserState.username ? 
                     <button 
                         onClick={() => setToggledConfirm(true)}
