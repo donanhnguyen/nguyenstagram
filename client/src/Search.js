@@ -71,13 +71,15 @@ function Search (props) {
 
     if (!showSearch) {
         return (
-            <h1 onClick={() => toggleShowSearch((prevState) => !prevState)}>Search</h1>
+            <h1 className="toggleSomething" onClick={() => toggleShowSearch((prevState) => !prevState)}>Search</h1>
         )  
     } else {
         return (
             <div >
 
-                <h1 onClick={() => toggleShowSearch((prevState) => !prevState)}>
+                <h1 
+                    className='toggleSomething'
+                    onClick={() => toggleShowSearch((prevState) => !prevState)}>
                     Search
                 </h1>
 

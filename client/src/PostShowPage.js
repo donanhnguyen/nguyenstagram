@@ -8,6 +8,8 @@ import GlobalContext from './GlobalContext';
 function PostShowPage () {
 
     const params = useParams();
+
+    // post info and deleting post
     const [postInfoState, setPostInfoState] = useState();
     const [toggledConfirm, setToggledConfirm] = useState(false);
 
@@ -16,7 +18,18 @@ function PostShowPage () {
     const [showComments, toggleShowComments] = useState(false);
     const [commentInputState, setCommentInputState] = useState('');
 
+    // share functionality
+    const [allUsersState, setAllUsersState] = useState();
+    const [selectedSharePerson, setSelectedSharePerson] = useState();
+    const [showShareModal, toggleShareModal] = useState(false);
+    const [searchFieldState, setSearchFieldState] = useState("");
+
+    // sharing error functionality 
+    const [shareErrorState, setShareErrorState] = useState();
+
+    // liking functionality
     const [liked, setLiked] = useState();
+
     const navigate = useNavigate();
 
     const {
@@ -202,6 +215,69 @@ function PostShowPage () {
         }
     }
 
+    function openUpShareModal () {
+        toggleShareModal(true);
+        Axios.get(`http://localhost:8800/api/users/`)
+            .then((response) => setAllUsersState(response.data))
+    }
+
+    function displaySearchResults () {
+        // filter based on search field, if the username startsWith the search field input
+            var allUsers = [];
+
+            for (let i in allUsersState) {
+                let currentUser = allUsersState[i];
+                if (currentUser.username.startsWith(searchFieldState) && currentUserState.username !== currentUser.username) {
+                    allUsers.push(currentUser);
+                }
+            }
+
+            const displayed = allUsers.map((user) => {
+                return (
+                    <li 
+                        onClick={() => setSelectedSharePerson(user.username)}
+                        className='search-entry' 
+                        key={user._id}
+                    >
+                        <img 
+                            className='profile-pic-inside-search-bar'
+                            src={user.profilePic}
+                        >
+                        </img>
+                        {user.username}
+                    </li>
+                )
+            })
+
+            return displayed;    
+  
+    }
+
+    function handleSharePost () {
+
+        // sending notificaiton
+        var notificationBody = {
+            message: `${currentUserState.username} has shared a post with you.`,
+            postIdLink: postInfoState._id,
+            user: selectedSharePerson
+        }
+        // POST call to notifications
+        Axios.post(`http://localhost:8800/api/notifications/${selectedSharePerson}`, notificationBody)
+            .then((response) => {
+                // clear and reset all inputs
+                toggleShareModal(false);
+                setSelectedSharePerson(null);
+                setSearchFieldState('');
+            })
+            .catch((error) => {
+                setShareErrorState(`You have already shared this post with ${selectedSharePerson}.`);
+                setTimeout(() => {
+                    setShareErrorState(null);
+                    setSelectedSharePerson(null);
+                }, 2000)
+            })
+    }
+
     if (postInfoState) {
         return (
             <div className='App-header'>
@@ -223,7 +299,7 @@ function PostShowPage () {
 
                 {/* Share button */}
 
-                <button>Share</button>
+                <button onClick={openUpShareModal}>Share</button>
 
                 {/* Comment Button */}
 
@@ -259,7 +335,40 @@ function PostShowPage () {
                 : ""
                 }
 
-                {/* show modal or not */}
+                {/* show sharing modal or not */}
+                <div id="myModal" className={`modal ${showShareModal ? "yes-modal" : "" }`}>
+                <div className={`modal-content`}>
+                    <span onClick={() => toggleShareModal(false)} className="close">&times;</span>
+                    
+                    <h1>Search for User</h1>
+                    <input 
+                        onChange={(e) => setSearchFieldState(e.target.value)} 
+                        value={searchFieldState}
+                        type='text'>
+                    </input>
+                    <ul>
+                        {displaySearchResults()}
+                    </ul>
+
+                    {selectedSharePerson ?
+                       <div>
+                            <h1>Sharing post to {selectedSharePerson}</h1>
+                            <button
+                                className='btn btn-primary'
+                                onClick={handleSharePost}
+                            >
+                                Share
+                            </button>
+                            <h1>{shareErrorState}</h1>
+                       </div>
+                    :
+                    ""
+                    }
+
+                </div>
+                </div>
+
+                {/* show modal of delete or not or not */}
 
                 <div id="myModal" className={`modal ${toggledConfirm ? "yes-modal" : "" }`}>
                 <div className={`modal-content`}>

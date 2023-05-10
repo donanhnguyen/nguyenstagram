@@ -45,7 +45,9 @@ function Notifications (props) {
 
     if (!showNotifications) {
         return (
-            <h1 onClick={() => toggleShowNotifications((prevState) => !prevState)}>
+            <h1 onClick={() => toggleShowNotifications((prevState) => !prevState)}
+                className='toggleSomething'
+            >
                 {anyUnread() ?
                 "New Notifications!"
                 :
@@ -56,7 +58,9 @@ function Notifications (props) {
     } else {
         return (
             <div >
-                <h1 onClick={() => toggleShowNotifications((prevState) => !prevState)}>
+                <h1 
+                    className='toggleSomething'
+                    onClick={() => toggleShowNotifications((prevState) => !prevState)}>
                     Showing notifications
                 </h1>
                 <ul>
