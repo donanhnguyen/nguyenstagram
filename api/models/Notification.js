@@ -11,7 +11,7 @@ const NotificationSchema = new mongoose.Schema({
         required: true,
     },
     postIdLink: {
-        type: Number,
+        type: mongoose.Schema.Types.ObjectId,
         required: false,
     },
     read: {

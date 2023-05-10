@@ -11,6 +11,7 @@ function PostInsideHomeFeed (props) {
 
     const [postInsideFeedState, setPostInsideFeedState] = useState();
     const [showCommentInput, toggleShowCommentInput] = useState(false);
+    const [showComments, toggleShowComments] = useState(false);
     const [commentInputState, setCommentInputState] = useState('');
 
     const {
@@ -39,7 +40,7 @@ function PostInsideHomeFeed (props) {
             .then((response) => {
                 setPostInsideFeedState(response.data);
             })
-
+    // dependency array, refresh the post info everytime adding a like, or adding a comment
     }, [liked])
 
     function sendNotificationForLike (username, postId) {
@@ -109,34 +110,41 @@ function PostInsideHomeFeed (props) {
     }
 
     function handlePostComment () {
-        var postComments = post.comments;
-        var commentBody = {
-            user: currentUserState.username,
-            text: commentInputState
-        };
-        postComments.push(commentBody);
-        var newCommentData = {comments: postComments};
-        // PUT call to update post.comments
+        
+        
         if (commentInputState.split("").length === 0 || commentInputState === '') {
-            console.log("cant be blank!")
+            console.log("cant be blank!");
         } else {
-            Axios.put(`http://localhost:8800/api/posts/${post._id}`, newCommentData)
+
+            // create comment object
+
+            var postComments = postInsideFeedState.comments;
+            var commentBody = {
+                user: currentUserState.username,
+                text: commentInputState
+            };
+            postComments.push(commentBody);
+            var newCommentData = {comments: postComments};
+
+            // PUT call to update post.comments
+
+            Axios.put(`http://localhost:8800/api/posts/${postInsideFeedState._id}`, newCommentData)
                 .then((response) => {
-                    console.log(response.data);
+                    // console.log(response.data);
                     toggleShowCommentInput(false);
                     setCommentInputState("");
                 })
                 
             // send notification here
             var notificationBody = {
-                message: `${currentUserState.username} has commented on your post ${post._id}.`,
-                postIdLink: post._id,
+                message: `${currentUserState.username} has commented on your post: '${commentInputState}'.`,
+                postIdLink: postInsideFeedState._id,
                 user: post.user
             }
 
               Axios.post(`http://localhost:8800/api/notifications/${post.user}`, notificationBody)
                   .then((response) => {
-                      console.log(response.data);
+                    //   console.log(response.data);
                   })
                   .catch((error) => {
                       // console.log(error.response);
@@ -162,6 +170,17 @@ function PostInsideHomeFeed (props) {
         }
     }
 
+    function showCommentsOrNot () {
+        if (showComments) {
+            const commentsDisplayed = postInsideFeedState.comments.map((comment) => {
+                return (
+                    <li>{comment.user}: {comment.text}</li>
+                )
+            });
+            return commentsDisplayed;
+        }
+    }
+
     return (
             <div 
                 className='home-feed-post-container' 
@@ -180,6 +199,23 @@ function PostInsideHomeFeed (props) {
                 
                 <h1>{postInsideFeedState ? postInsideFeedState.usersWhoveLiked.length + " likes": ""}</h1>
 
+
+                {/* # of comments */}
+                <h1>{postInsideFeedState ? postInsideFeedState.comments.length + " comments": ""}</h1>
+
+                {/* toggling comments */}
+                <h1 
+                    className='toggleSomething'
+                    onClick={() => toggleShowComments((prevState) => !prevState)}
+                >
+                    {showComments? "Hide Comments" : "View Comments"}
+                </h1>
+                
+                {/* displaying comments */}
+                <ul className='commentsListContainer'>
+                    {showCommentsOrNot()}
+                </ul>
+
                 {post.user !== currentUserState.username ? <button onClick={handleLike}>
                     {liked ? "Unlike" : "Like"}
                     </button>: <p>your post</p>}
@@ -192,9 +228,8 @@ function PostInsideHomeFeed (props) {
             
                 <br></br>
 
-        
+                {/* showing comment input */}
                 {showCommentInputOrNot()}
-               
 
             </div>
         );

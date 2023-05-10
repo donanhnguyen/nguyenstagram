@@ -120,6 +120,8 @@ function PostShowPage () {
                 
                 <h1>{postInfoState.usersWhoveLiked.length} likes</h1>
 
+                <h1>{postInfoState.comments.length} comments</h1>
+
                 <h1>{postInfoState.caption}</h1>
                 <h1>{displayedDate}</h1>
                 <img className='single-post-image-in-home-feed' src={postInfoState.picUrl}></img>
