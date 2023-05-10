@@ -35,12 +35,13 @@ function PostShowPage () {
     useEffect(() => {
         Axios.get(`http://localhost:8800/api/posts/${params.postId}/`)
           .then((response) => {
+            console.log('getting post info...')
             setPostInfoState(response.data);
           })
           .catch((error) => {
             console.log(error.response);
           });
-    }, [liked])
+    }, [liked, showComments])
 
     // on mounting, check if the post is liked by you or not 
     useEffect(() => {
@@ -172,11 +173,29 @@ function PostShowPage () {
         }
     }
 
+    function handleDeleteComment (commentId) {
+            var postComments = postInfoState.comments.filter((comment) => comment._id !== commentId);
+            var newCommentData = {comments: postComments};
+            // PUT call to update post.comments
+            Axios.put(`http://localhost:8800/api/posts/${postInfoState._id}`, newCommentData)
+                .then((response) => {
+                    toggleShowComments(false);
+                })
+    }
+
     function showCommentsOrNot () {
         if (showComments) {
             const commentsDisplayed = postInfoState.comments.map((comment) => {
                 return (
-                    <li key={comment._id}>{comment.user}: {comment.text}</li>
+                    <li key={comment._id}>
+                        {comment.user}: {comment.text}
+                        
+                        {comment.user === currentUserState.username ?
+                            <button onClick={() => handleDeleteComment(comment._id)} className='btn btn-danger'>Delete</button>
+                            :
+                            ""
+                        }
+                    </li>
                 )
             });
             return commentsDisplayed;
@@ -235,7 +254,7 @@ function PostShowPage () {
                     <button 
                         onClick={() => setToggledConfirm(true)}
                         className='btn btn-danger'
-                    >Delete
+                    >Delete Post
                     </button>
                 : ""
                 }
