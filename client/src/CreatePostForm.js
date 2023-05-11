@@ -10,10 +10,10 @@ function CreatePostForm (props) {
     const {myPostsDispatch, setShowModal, showModal} = props
     const [picUrlState, setPicUrlState] = useState("");
     const [captionState, setCaptionState] = useState("");
+    const [createPostErrorState, setCreatePostErrorState] = useState();
 
     const {
         currentUserState,
-        setCurrentUserState
     } = useContext(GlobalContext);
 
     function handleCreatePost (e) {
@@ -29,9 +29,15 @@ function CreatePostForm (props) {
                 myPostsDispatch({type: 'createPost', payload: response.data});
                 setPicUrlState("");
                 setCaptionState("");
+                setShowModal(false);
             })
-            .catch((error) => console.log(error.response))
-        setShowModal(false);
+            .catch((error) => {
+                setCreatePostErrorState("Field's can't be blank.");
+                setTimeout(() => {
+                    setCreatePostErrorState('');
+                }, 2000)
+            })
+        
     }
 
     return (
@@ -44,16 +50,26 @@ function CreatePostForm (props) {
                 <form onSubmit={handleCreatePost}>
 
                     <label>Pic Url</label>
+                    <br></br>
                     <input type='text' onChange={(e) => setPicUrlState(e.target.value)} value={picUrlState}></input>
 
                     <br></br>
 
                     <label>Caption</label>
+                    <br></br>
                     <input type='text' onChange={(e) => setCaptionState(e.target.value)} value={captionState}></input>
                     <br></br>
 
+                    <p style={{color: 'red'}}>{createPostErrorState}</p>
+
                     <br></br>
-                    <button style={{width: '50%', margin: 'auto'}} className='btn btn-danger btn-lg' onClick={() => setShowModal(false)}>Cancel</button>
+                    <button 
+                        style={{width: '50%', margin: 'auto'}} 
+                        className='btn btn-danger btn-lg' 
+                        onClick={() => setShowModal(false)}
+                    >
+                        Cancel
+                    </button>
                     <button
                         type='submit' 
                         style={{width: '50%', margin: 'auto'}} 

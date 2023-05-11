@@ -171,10 +171,12 @@ function ProfileShowPage () {
     if (profileUserState && viewingProfilePostsState) {
       return (
           <div className='my-profile-container'>
-            
+
+            <img className="profile-pic" src={`${profileUserState.profilePic}`}></img>
+            <h1>{profileUserState.username}</h1>
+
             <div className='profileInfoPart'>
-              <img className="profile-pic" src={`${profileUserState.profilePic}`}></img>
-              <h1>{profileUserState.username}</h1>
+              
 
               <h1>{viewingProfilePostsState.length} Posts</h1>
 

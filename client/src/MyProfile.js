@@ -77,11 +77,12 @@ function MyProfile () {
   if (currentUserInfoState) {
     return (
       <div className='my-profile-container'>
-        
-        <div className='profileInfoPart'>
-          <img className="profile-pic" src={`${currentUserInfoState.profilePic}`}></img>
-          <h1>{currentUserState.username}</h1>
 
+        <img className="profile-pic" src={`${currentUserInfoState.profilePic}`}></img>
+        <h1>{currentUserState.username}</h1>
+
+        <div className='profileInfoPart'>
+          
           <h1>{myPostsState.length} Posts</h1>
 
           <h1>{currentUserInfoState.followers.length} Followers</h1>

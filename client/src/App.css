@@ -57,8 +57,19 @@ button {
 }
 
 /* home feed */
+.anyIcon {
+  margin: 3px;
+}
+.anyIcon:hover {
+  cursor: pointer;
+}
 .home {
   margin-top: 100px;
+}
+@media screen and (max-width: 1050px) {
+  .home {
+    margin-top: 50px;
+  }
 }
 .single-post-image-in-home-feed {
   width: 100%;
@@ -76,7 +87,7 @@ button {
   font-size: .9em;
 }
 .home-feed-post-caption {
-  background-color: rgba(207, 207, 207, 0.433);
+  background-color: rgba(228, 228, 228, 0.433);
 }
 .textAlignLeft {
   text-align: left;
@@ -107,6 +118,21 @@ button {
   width: 50%;
   box-shadow: 1px 1px 1px 1px gray;
   border-radius: 10px;
+}
+@media screen and (max-width: 1050px) {
+  .login-page-container {
+    width: 70%;
+  }
+}
+@media screen and (max-width: 600px) {
+  .login-page-container {
+    width: 85%;
+  }
+}
+@media screen and (max-width: 425px) {
+  .login-page-container {
+    width: 100%;
+  }
 }
 .login-container {
   text-align: center;
@@ -146,15 +172,56 @@ button {
   overflow-x: hidden; /* Disable horizontal scroll */
   padding: 15px;
   text-align: center;
+  background-color: #ffffff;
+
 }
 .nav-bar-container h1 {
   color: black;
   text-align: left;
   font-size: 1.5em;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 .nav-bar-container h1:hover {
   background-color: rgb(240, 240, 240);
   border-radius: 5px;
+}
+@media screen and (max-width: 1090px) {
+  .nav-bar-container {
+    width: 25%;
+  }
+  .nav-bar-container h1 {
+    font-size: 1.0em;
+  }
+}
+@media screen and (max-width: 890px) {
+  .nav-bar-container {
+    overflow: hidden;
+    position: fixed; /* Set the navbar to fixed position */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%; /* Full width */
+    height: auto;
+    border-bottom: 1px solid gray;
+  }
+  .home {
+    margin-top: 300px;
+  }
+  .nav-bar-container h1 {
+    color: black;
+    text-align: center;
+    font-size: 1.5em;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  .notificationsList {
+    max-width: auto;
+    margin: auto;
+  }
 }
 .logoutButton {
   
@@ -191,11 +258,19 @@ button {
   padding: 0px;
   align-items: center;
   text-align: center;
-  margin-top: 100px;
-  margin-bottom: 100px;
+  margin-top: 70px;
+  margin-bottom: 70px;
+}
+@media screen and (max-width: 890px) {
+  .my-profile-container {
+    width: 95%;
+    margin-top: 330px;
+  }
 }
 .profileInfoPart {
   border-bottom: 1px solid gray;
+  display: flex;
+  justify-content: space-around;
 }
 .profileInfoPart h1 {
   font-size: 1.7em;
@@ -236,6 +311,11 @@ button {
   margin: 0px;
   text-align: left;
 }
+@media screen and (max-width: 890px) {
+  .searchContainer ul {
+    text-align: center;
+  }
+}
 .profile-pic-inside-search-bar {
   width:30px;
   height:30px;
@@ -269,3 +349,52 @@ button {
   color: white;
 }
 
+/* post show page */
+
+.postShowPageContainer {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: .5px solid rgba(128, 128, 128, 0.2);
+  border-radius: 5px;
+  padding: 20px;
+}
+.postShowPageContainer h1 {
+  font-size: .9em;
+}
+@media screen and (max-width: 880px) {
+  .postShowPageContainer {
+    margin-top: 310px;
+  }
+}
+
+.commentinputcontainer {
+  font-size: .8em;
+}
+.commentinputcontainer input {
+  width: 75%;
+}
+.commentinputcontainer button {
+  width: 25%;
+  background-color: rgb(80, 159, 255);
+  color: white;
+}
+.commentinputcontainer button:hover {
+  background-color: #619efb;
+}
+.commentInsidePostShowPage {
+  font-size: .8em;
+  background-color: #ffffffcc;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.578);
+  border-top: 1px solid rgba(128, 128, 128, 0.578);
+}
+.commentDelete {
+  color: rgb(255, 150, 150);
+}
+.commentDelete:hover {
+  color:rgb(253, 121, 121);
+  cursor: pointer;
+}
+.postShowPagePic {
+  width: 450px;
+  height: 350px;
+}

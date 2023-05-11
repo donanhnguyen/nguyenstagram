@@ -81,7 +81,7 @@ function NavBar () {
                     notificationsDispatch={notificationsDispatch}
                />
 
-                <button className='logoutButton' onClick={logOut}>Log Out</button>
+                <button className='logoutButton btn btn-outline-danger' onClick={logOut}>Log Out</button>
             </div>
         )   
     }

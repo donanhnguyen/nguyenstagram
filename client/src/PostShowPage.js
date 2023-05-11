@@ -2,6 +2,7 @@ import {useState, useEffect, useContext} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './App.css';
 import './Modals.css';
+import './ThreeDots.css';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
 
@@ -14,7 +15,6 @@ function PostShowPage () {
     const [toggledConfirm, setToggledConfirm] = useState(false);
 
     // comment functionality
-    const [showCommentInput, toggleShowCommentInput] = useState(false);
     const [showComments, toggleShowComments] = useState(false);
     const [commentInputState, setCommentInputState] = useState('');
 
@@ -23,6 +23,7 @@ function PostShowPage () {
     const [selectedSharePerson, setSelectedSharePerson] = useState();
     const [showShareModal, toggleShareModal] = useState(false);
     const [searchFieldState, setSearchFieldState] = useState("");
+    const [successfulShare, setSuccessfulShare] = useState(false);
 
     // sharing error functionality 
     const [shareErrorState, setShareErrorState] = useState();
@@ -107,9 +108,10 @@ function PostShowPage () {
                     console.log(error.reponse)
                 })
 
-            // send notification to THAT user about the like
-
-            sendNotificationForLike(postInfoState.user, postInfoState._id);
+            // send notification to THAT user about the like, unless ur liking ur own post
+            if (currentUserState.username !== postInfoState.user) {
+                sendNotificationForLike(postInfoState.user, postInfoState._id);
+            }
 
         // unliking it
         } else {
@@ -152,27 +154,26 @@ function PostShowPage () {
 
             Axios.put(`http://localhost:8800/api/posts/${postInfoState._id}`, newCommentData)
                 .then((response) => {
-                    toggleShowCommentInput(false);
                     setCommentInputState("");
                 })
                 
-            // send notification here
-            var notificationBody = {
-                message: `${currentUserState.username} has commented on your post: '${commentInputState}'.`,
-                postIdLink: postInfoState._id,
-                user: postInfoState.user
+            // send notification here only if ur not commenting on own post
+            if (currentUserState.username !== postInfoState.user) {
+                var notificationBody = {
+                    message: `${currentUserState.username} has commented on your post: '${commentInputState}'.`,
+                    postIdLink: postInfoState._id,
+                    user: postInfoState.user
+                }
+                Axios.post(`http://localhost:8800/api/notifications/${postInfoState.user}`, notificationBody)
             }
-
-            Axios.post(`http://localhost:8800/api/notifications/${postInfoState.user}`, notificationBody)
             
         }
         
     }
 
-    function showCommentInputOrNot () {
-        if (showCommentInput) {
+    function showCommentInput () {
             return (
-                <div>
+                <div className='commentinputcontainer'>
                     <input 
                         type='text' 
                         placeholder='Comment...'
@@ -182,7 +183,6 @@ function PostShowPage () {
                     <button onClick={handlePostComment}>Post</button>
                 </div>
             )
-        }
     }
 
     function handleDeleteComment (commentId) {
@@ -198,15 +198,25 @@ function PostShowPage () {
     function showCommentsOrNot () {
         if (showComments) {
             const commentsDisplayed = postInfoState.comments.map((comment, i) => {
+                let commentDate = new Date(comment.createdAt).toDateString();
                 return (
-                    <li key={comment._id + i}>
-                        {comment.user}: {comment.text}
+                    <li key={comment._id + i} className='commentInsidePostShowPage'>
                         
-                        {comment.user === currentUserState.username ?
-                            <button onClick={() => handleDeleteComment(comment._id)} className='btn btn-danger'>Delete</button>
-                            :
-                            ""
-                        }
+                        <p style={{fontSize: '.6em'}}>{commentDate}</p>
+                        
+                            {comment.user === currentUserState.username ?
+                                <h1 
+                                    onClick={() => handleDeleteComment(comment._id)} 
+                                    className='commentDelete'
+                                    style={{float: 'right'}}
+                                >Delete
+                                </h1>
+                                :
+                                ""
+                            }
+
+                        <p>{comment.user}: {comment.text}</p>
+ 
                     </li>
                 )
             });
@@ -256,7 +266,7 @@ function PostShowPage () {
 
         // sending notificaiton
         var notificationBody = {
-            message: `${currentUserState.username} has shared a post with you.`,
+            message: `${currentUserState.username} has shared a post with you: ${postInfoState._id}.`,
             postIdLink: postInfoState._id,
             user: selectedSharePerson
         }
@@ -267,6 +277,11 @@ function PostShowPage () {
                 toggleShareModal(false);
                 setSelectedSharePerson(null);
                 setSearchFieldState('');
+                // success modal
+                setSuccessfulShare(true);
+                setTimeout(() => {
+                    setSuccessfulShare(false);
+                }, 2000)
             })
             .catch((error) => {
                 setShareErrorState(`You have already shared this post with ${selectedSharePerson}.`);
@@ -280,35 +295,37 @@ function PostShowPage () {
     if (postInfoState) {
         return (
             <div className='App-header'>
-                <h1 className='link-to-profile-page' onClick={(e) => navigateToProfileShowPage(e)}>{postInfoState.user}</h1>
+                <div className='postShowPageContainer'>
+
+                <h1 style={{float: 'left'}} className='link-to-profile-page' onClick={(e) => navigateToProfileShowPage(e)}>{postInfoState.user}</h1>
+                <h1 style={{float: 'right'}}>{displayedDate}</h1>
                 
+                <br></br>
+
+                {/* pic */}
+                <img className='postShowPagePic' src={postInfoState.picUrl}></img>
+                
+                {/* caption */}
+                <h1 className='home-feed-post-caption'>{postInfoState.caption}</h1>
+                
+                {/* like, comment, and share buttons */}
+                {
+                    liked ?
+                    <i onClick={handleLike} className="anyIcon fa fa-heart heart-like" style={{color: 'red'}}></i>
+                    :
+                    <i onClick={handleLike} className="anyIcon fa fa-heart-o heart-like"></i>
+                }
+
+                {/* Share button */}
+                <i onClick={openUpShareModal} className="anyIcon fa fa-share-square" aria-hidden="true"></i>
+
+
+                {/* # of likes and comments */}
                 <h1>{postInfoState.usersWhoveLiked.length} likes</h1>
 
                 <h1>{postInfoState.comments.length} comments</h1>
 
-                <h1>{postInfoState.caption}</h1>
-                <h1>{displayedDate}</h1>
-                <img className='single-post-image-in-home-feed' src={postInfoState.picUrl}></img>
-                <br></br>
-
-                {postInfoState.user !== currentUserState.username ? <button onClick={handleLike}>
-                    {liked ? "Unlike" : "Like"}
-                    </button>: <p>your post</p>}
-
-
-                {/* Share button */}
-
-                <button onClick={openUpShareModal}>Share</button>
-
-                {/* Comment Button */}
-
-                {postInfoState.user !== currentUserState.username ? 
-                <button onClick={() => toggleShowCommentInput((prevState) => !prevState)}>Comment</button> 
-                : 
-                ""
-                }
-
-                {showCommentInputOrNot()}
+                
 
                 {/* toggling comments */}
                 <h1 
@@ -323,6 +340,9 @@ function PostShowPage () {
                     {showCommentsOrNot()}
                 </ul>
 
+                {/* Comment input */}
+
+                {showCommentInput()}
 
                 {/* delete post */}
                 {postInfoState.user === currentUserState.username ? 
@@ -336,46 +356,65 @@ function PostShowPage () {
 
                 {/* show sharing modal or not */}
                 <div id="myModal" className={`modal ${showShareModal ? "yes-modal" : "" }`}>
-                <div className={`modal-content`}>
-                    <span onClick={() => toggleShareModal(false)} className="close">&times;</span>
-                    
-                    <h1>Search for User</h1>
-                    <input 
-                        onChange={(e) => setSearchFieldState(e.target.value)} 
-                        value={searchFieldState}
-                        type='text'>
-                    </input>
-                    <ul>
-                        {displaySearchResults()}
-                    </ul>
+                    <div className={`modal-content`}>
+                        <span onClick={() => toggleShareModal(false)} className="close">&times;</span>
+                        
+                        <h1>Share</h1>
+                        <input 
+                            onChange={(e) => setSearchFieldState(e.target.value)} 
+                            value={searchFieldState}
+                            placeholder='Search User...'
+                            type='text'>
+                        </input>
+                        <ul>
+                            {displaySearchResults()}
+                        </ul>
 
-                    {selectedSharePerson ?
-                       <div>
-                            <h1>Sharing post to {selectedSharePerson}</h1>
-                            <button
-                                className='btn btn-primary'
-                                onClick={handleSharePost}
-                            >
-                                Share
-                            </button>
-                            <h1>{shareErrorState}</h1>
-                       </div>
-                    :
-                    ""
-                    }
+                        {selectedSharePerson ?
+                        <div>
+                                <h1>Sharing post to {selectedSharePerson}</h1>
 
-                </div>
+                                <button 
+                                    onClick={() => toggleShareModal(false)}
+                                    className='btn btn-secondary'
+                                >
+                                    Cancel
+                                </button>
+
+                                <button
+                                    className='btn btn-primary'
+                                    onClick={handleSharePost}
+                                >
+                                    Share
+                                </button>
+
+                                <h1>{shareErrorState}</h1>
+                        </div>
+                        :
+                        ""
+                        }
+
+                    </div>
                 </div>
 
                 {/* show modal of delete or not or not */}
 
                 <div id="myModal" className={`modal ${toggledConfirm ? "yes-modal" : "" }`}>
-                <div className={`modal-content`}>
-                    <span onClick={() => setToggledConfirm(false)} className="close">&times;</span>
-                    <h1 style={{color: 'red', fontSize: '30px'}}>Are you sure you want to delete?</h1>
-                    <button style={{width: '50%', margin: 'auto'}} className='btn btn-primary btn-lg' onClick={() => setToggledConfirm(false)}>No</button>
-                    <button style={{width: '50%', margin: 'auto'}} className='btn btn-danger btn-lg' onClick={handleDeletePost}>Yes</button>
+                    <div className={`modal-content`}>
+                        <span onClick={() => setToggledConfirm(false)} className="close">&times;</span>
+                        <h1 style={{color: 'red', fontSize: '30px'}}>Are you sure you want to delete?</h1>
+                        <button style={{width: '50%', margin: 'auto'}} className='btn btn-primary btn-lg' onClick={() => setToggledConfirm(false)}>No</button>
+                        <button style={{width: '50%', margin: 'auto'}} className='btn btn-danger btn-lg' onClick={handleDeletePost}>Yes</button>
+                    </div>
                 </div>
+
+                {/* show modal of successful share */}
+                <div id="myModal" className={`modal ${successfulShare ? "yes-modal" : "" }`}>
+                    <div className={`modal-content`}>
+                        <h1 style={{color: 'green', fontSize: '30px'}}>Successfully Shared!</h1>
+                    </div>
+                </div>
+
                 </div>
             </div>
         )   
