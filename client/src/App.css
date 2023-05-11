@@ -55,7 +55,7 @@ li {
 }
 .home-feed-post-container {
   text-align: center;
-  border-bottom: 1px solid rgba(128, 128, 128, 0.875);
+  border-top: 0.5px solid rgba(128, 128, 128, 0.875);
   width: 400px;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -197,7 +197,7 @@ li {
   padding: 0px;
 }
 .single-comment {
-  background-color: #f7f7f7;
+  background-color: #ffffffcc;
   border-bottom: 1px solid rgba(128, 128, 128, 0.578);
   font-size: .7em;
 }

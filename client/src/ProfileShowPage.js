@@ -63,7 +63,7 @@ function ProfileShowPage () {
       if (viewingProfilePostsState) {
         const dispalyedPosts = viewingProfilePostsState.map((post) => {
             return (
-              <div key={post._id}>
+              <div key={post._id} className='single-post-container'>
                 <img 
                   onClick={() => navigateToPostShowPage(post._id)}
                   className='single-post-thumbnail post-pic-link' src={post.picUrl}

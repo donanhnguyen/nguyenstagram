@@ -48,7 +48,6 @@ function PostShowPage () {
     useEffect(() => {
         Axios.get(`http://localhost:8800/api/posts/${params.postId}/`)
           .then((response) => {
-            console.log('getting post info...')
             setPostInfoState(response.data);
           })
           .catch((error) => {
@@ -198,9 +197,9 @@ function PostShowPage () {
 
     function showCommentsOrNot () {
         if (showComments) {
-            const commentsDisplayed = postInfoState.comments.map((comment) => {
+            const commentsDisplayed = postInfoState.comments.map((comment, i) => {
                 return (
-                    <li key={comment._id}>
+                    <li key={comment._id + i}>
                         {comment.user}: {comment.text}
                         
                         {comment.user === currentUserState.username ?
@@ -211,7 +210,7 @@ function PostShowPage () {
                     </li>
                 )
             });
-            return commentsDisplayed;
+            return commentsDisplayed.reverse();
         }
     }
 

@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import './App.css';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
-import TimeAgo from 'javascript-time-ago'
-import en from 'javascript-time-ago/locale/en'
 
 function PostInsideHomeFeed (props) {
 
@@ -12,7 +10,6 @@ function PostInsideHomeFeed (props) {
     const navigate = useNavigate();
 
     const [postInsideFeedState, setPostInsideFeedState] = useState();
-    const [showCommentInput, toggleShowCommentInput] = useState(false);
     const [showComments, toggleShowComments] = useState(false);
     const [commentInputState, setCommentInputState] = useState('');
 
@@ -50,13 +47,7 @@ function PostInsideHomeFeed (props) {
             message: `${currentUserState.username} has liked your post ${postId}.`,
             user: username
         }
-        Axios.post(`http://localhost:8800/api/notifications/${username}`, notificationBody)
-            .then((response) => {
-                // console.log(response.data);
-            })
-            .catch((error) => {
-                // console.log(error.response);
-            })
+        Axios.post(`http://localhost:8800/api/notifications/${username}`, notificationBody);
     }
 
     function handleLike () {
@@ -74,13 +65,13 @@ function PostInsideHomeFeed (props) {
                     setLiked(true);
                 })
                 .catch((error) => {
-                    console.log(error.reponse)
                 })
 
-            // send notification to THAT user about the like
-
-            sendNotificationForLike(post.user, post._id);
-
+            // send notification to THAT user about the like ONLY if ur not liking your own post
+            if (currentUserState.username !== postInsideFeedState.user) {
+                sendNotificationForLike(post.user, post._id);
+            }
+            
         // unliking it
         } else {
             let newData = post.usersWhoveLiked.filter((user) => {
@@ -92,7 +83,7 @@ function PostInsideHomeFeed (props) {
                     setLiked(false);
                 })
                 .catch((error) => {
-                    console.log(error.reponse)
+                    
                 })
         }
         
@@ -132,32 +123,26 @@ function PostInsideHomeFeed (props) {
 
             Axios.put(`http://localhost:8800/api/posts/${postInsideFeedState._id}`, newCommentData)
                 .then((response) => {
-                    // console.log(response.data);
-                    toggleShowCommentInput(false);
                     setCommentInputState("");
                 })
                 
-            // send notification here
-            var notificationBody = {
-                message: `${currentUserState.username} has commented on your post: '${commentInputState}'.`,
-                postIdLink: postInsideFeedState._id,
-                user: post.user
-            }
+            // send notification here, but DONT send it if ur commenting on your own post.
+            if (currentUserState.username !== postInsideFeedState.user) {
+                var notificationBody = {
+                    message: `${currentUserState.username} has commented on your post: '${commentInputState}'.`,
+                    postIdLink: postInsideFeedState._id,
+                    user: post.user
+                }
 
-              Axios.post(`http://localhost:8800/api/notifications/${post.user}`, notificationBody)
-                  .then((response) => {
-                    //   console.log(response.data);
-                  })
-                  .catch((error) => {
-                      // console.log(error.response);
-                  })
+                Axios.post(`http://localhost:8800/api/notifications/${post.user}`, notificationBody)
+                   
+            }
             
         }
         
     }
 
-    function showCommentInputOrNot () {
-        if (showCommentInput) {
+    function showCommentInput () {
             return (
                 <div>
                     <input
@@ -168,25 +153,24 @@ function PostInsideHomeFeed (props) {
                         onChange={(e) => setCommentInputState(e.target.value)}
                     ></input>
                     <button 
+                        style={{width: '20%', padding: '1px'}} 
                         className='post-comment-button'
                         onClick={handlePostComment}
                     >Post</button>
                     
                 </div>
             )
-        }
     }
 
     function showCommentsOrNot () {
         if (showComments) {
-            const commentsDisplayed = postInsideFeedState.comments.map((comment) => {
-                let dateArray = comment.createdAt.split("");
-                let displayedMonth = dateArray.slice(5, 7).join("")
-                let displayedDay = dateArray.slice(8, 10).join("")
-                let displayedYear = dateArray.slice(0, 4).join("")
-                const displayedDate = `${displayedMonth} - ${displayedDay} - ${displayedYear}`;
+            const commentsDisplayed = postInsideFeedState.comments.map((comment, i) => {
+                let commentDate = new Date(comment.createdAt).toDateString();
                 return (
-                    <li className='single-comment textAlignLeft' key={comment._id}>{displayedDate} | {comment.user}: {comment.text}</li>
+                    <li key={comment._id + i} className='single-comment textAlignLeft'>
+                       <p style={{fontSize: '11px'}}>{commentDate}</p> 
+                       <p>{comment.user}: {comment.text}</p>
+                    </li>
                 )
             });
             return commentsDisplayed.reverse();
@@ -198,13 +182,19 @@ function PostInsideHomeFeed (props) {
                 className='home-feed-post-container' 
                 key={post._id}
             >
+
+                {/* username and date posted */}
                 <h1 
                     className='link-to-profile-page' 
                     onClick={(e) => navigateToProfileShowPage(e)}
                     style={{float: 'left'}}
                 >{post.user}</h1>
+                <h1 style={{float: 'right'}}
+                    className=''
+                >{displayedDate}
+                </h1>
 
-                <h1 style={{float: 'right'}}>{displayedDate}</h1>
+                {/* post image */}
                 <img 
                     onClick={navigateToPostShowPage}
                     className='single-post-image-in-home-feed post-pic-link' src={post.picUrl}
@@ -214,17 +204,11 @@ function PostInsideHomeFeed (props) {
                 {/* caption */}
                 <h1 className='home-feed-post-caption'>{post.caption}</h1>
 
-                {/* like and comment */}
-                {post.user !== currentUserState.username ? <button onClick={handleLike}>
+                {/* like button */}
+                <button onClick={handleLike}>
                     {liked ? "Unlike" : "Like"}
-                    </button>: ""}
-                    
-                {post.user !== currentUserState.username ? 
-                    <button onClick={() => toggleShowCommentInput((prevState) => !prevState)}>Comment</button>
-                    : 
-                    ""
-                }
-
+                </button>
+                                       
                 {/* # of likes */}
                 
                 <h1 className='textAlignLeft'>{postInsideFeedState ? postInsideFeedState.usersWhoveLiked.length + " likes": ""}</h1>
@@ -248,7 +232,7 @@ function PostInsideHomeFeed (props) {
         
 
                 {/* showing comment input */}
-                {showCommentInputOrNot()}
+                {showCommentInput()}
 
             </div>
         );
