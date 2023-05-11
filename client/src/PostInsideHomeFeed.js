@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import './App.css';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
 
 function PostInsideHomeFeed (props) {
 
@@ -158,13 +160,18 @@ function PostInsideHomeFeed (props) {
         if (showCommentInput) {
             return (
                 <div>
-                    <input 
+                    <input
+                        style={{width: '80%'}} 
                         type='text' 
                         placeholder='Comment...'
                         value={commentInputState}
                         onChange={(e) => setCommentInputState(e.target.value)}
                     ></input>
-                    <button onClick={handlePostComment}>Post</button>
+                    <button 
+                        className='post-comment-button'
+                        onClick={handlePostComment}
+                    >Post</button>
+                    
                 </div>
             )
         }
@@ -173,11 +180,16 @@ function PostInsideHomeFeed (props) {
     function showCommentsOrNot () {
         if (showComments) {
             const commentsDisplayed = postInsideFeedState.comments.map((comment) => {
+                let dateArray = comment.createdAt.split("");
+                let displayedMonth = dateArray.slice(5, 7).join("")
+                let displayedDay = dateArray.slice(8, 10).join("")
+                let displayedYear = dateArray.slice(0, 4).join("")
+                const displayedDate = `${displayedMonth} - ${displayedDay} - ${displayedYear}`;
                 return (
-                    <li key={comment._id}>{comment.user}: {comment.text}</li>
+                    <li className='single-comment textAlignLeft' key={comment._id}>{displayedDate} | {comment.user}: {comment.text}</li>
                 )
             });
-            return commentsDisplayed;
+            return commentsDisplayed.reverse();
         }
     }
 
@@ -186,26 +198,44 @@ function PostInsideHomeFeed (props) {
                 className='home-feed-post-container' 
                 key={post._id}
             >
-                <h1 className='link-to-profile-page' onClick={(e) => navigateToProfileShowPage(e)}>{post.user}</h1>
-                <h1>{post.caption}</h1>
-                <h1>{displayedDate}</h1>
+                <h1 
+                    className='link-to-profile-page' 
+                    onClick={(e) => navigateToProfileShowPage(e)}
+                    style={{float: 'left'}}
+                >{post.user}</h1>
+
+                <h1 style={{float: 'right'}}>{displayedDate}</h1>
                 <img 
                     onClick={navigateToPostShowPage}
                     className='single-post-image-in-home-feed post-pic-link' src={post.picUrl}
                 ></img>
                 <br></br>
 
+                {/* caption */}
+                <h1 className='home-feed-post-caption'>{post.caption}</h1>
+
+                {/* like and comment */}
+                {post.user !== currentUserState.username ? <button onClick={handleLike}>
+                    {liked ? "Unlike" : "Like"}
+                    </button>: ""}
+                    
+                {post.user !== currentUserState.username ? 
+                    <button onClick={() => toggleShowCommentInput((prevState) => !prevState)}>Comment</button>
+                    : 
+                    ""
+                }
+
                 {/* # of likes */}
                 
-                <h1>{postInsideFeedState ? postInsideFeedState.usersWhoveLiked.length + " likes": ""}</h1>
+                <h1 className='textAlignLeft'>{postInsideFeedState ? postInsideFeedState.usersWhoveLiked.length + " likes": ""}</h1>
 
 
                 {/* # of comments */}
-                <h1>{postInsideFeedState ? postInsideFeedState.comments.length + " comments": ""}</h1>
+                <h1 className='textAlignLeft'>{postInsideFeedState ? postInsideFeedState.comments.length + " comments": ""}</h1>
 
                 {/* toggling comments */}
                 <h1 
-                    className='toggleSomething'
+                    className='toggleSomething textAlignLeft'
                     onClick={() => toggleShowComments((prevState) => !prevState)}
                 >
                     {showComments? "Hide Comments" : "View Comments"}
@@ -215,18 +245,7 @@ function PostInsideHomeFeed (props) {
                 <ul className='commentsListContainer'>
                     {showCommentsOrNot()}
                 </ul>
-
-                {post.user !== currentUserState.username ? <button onClick={handleLike}>
-                    {liked ? "Unlike" : "Like"}
-                    </button>: <p>your post</p>}
-                    
-                {post.user !== currentUserState.username ? 
-                    <button onClick={() => toggleShowCommentInput((prevState) => !prevState)}>Comment</button>
-                    : 
-                    <p>your post</p>
-                }
-            
-                <br></br>
+        
 
                 {/* showing comment input */}
                 {showCommentInputOrNot()}

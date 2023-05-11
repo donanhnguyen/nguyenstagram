@@ -8,8 +8,8 @@ import './CreatePostModal.css'
 function CreatePostForm (props) {
 
     const {myPostsDispatch, setShowModal, showModal} = props
-    const [picUrlState, setPicUrlState] = useState(null);
-    const [captionState, setCaptionState] = useState(null);
+    const [picUrlState, setPicUrlState] = useState("");
+    const [captionState, setCaptionState] = useState("");
 
     const {
         currentUserState,
@@ -26,8 +26,9 @@ function CreatePostForm (props) {
         };
         Axios.post(`http://localhost:8800/api/posts/`, postData)
             .then((response) => {
-                console.log(response.data);
-                myPostsDispatch({type: 'createPost', payload: response.data})
+                myPostsDispatch({type: 'createPost', payload: response.data});
+                setPicUrlState("");
+                setCaptionState("");
             })
             .catch((error) => console.log(error.response))
         setShowModal(false);
@@ -43,12 +44,12 @@ function CreatePostForm (props) {
                 <form onSubmit={handleCreatePost}>
 
                     <label>Pic Url</label>
-                    <input type='text' onChange={(e) => setPicUrlState(e.target.value)}></input>
+                    <input type='text' onChange={(e) => setPicUrlState(e.target.value)} value={picUrlState}></input>
 
                     <br></br>
 
                     <label>Caption</label>
-                    <input type='text' onChange={(e) => setCaptionState(e.target.value)}></input>
+                    <input type='text' onChange={(e) => setCaptionState(e.target.value)} value={captionState}></input>
                     <br></br>
 
                     <br></br>

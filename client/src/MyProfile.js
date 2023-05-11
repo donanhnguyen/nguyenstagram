@@ -11,7 +11,6 @@ function MyProfile () {
 
   const {
     currentUserState,
-    setCurrentUserState
   } = useContext(GlobalContext);
 
   function myPostsReducer (state, action) {
@@ -61,7 +60,7 @@ function MyProfile () {
   function displayUserPosts () {
     const dispalyedPosts = myPostsState.map((post) => {
       return (
-        <div key={post._id}>
+        <div key={post._id} className='single-post-container'>
           <img 
             onClick={() => navigateToPostShowPage(post._id)}
             className='single-post-thumbnail post-pic-link' src={post.picUrl}

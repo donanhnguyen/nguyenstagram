@@ -43,12 +43,9 @@ function HomeFeed () {
 
     return (
         <div className='App-header'>
-            <div className='home'>
-                <h1>Home Feed Here:</h1>
-                <div>
+                <div className='home'>
                     {displayHomePagePosts()}
                 </div>
-            </div>
         </div>
     )
 }
