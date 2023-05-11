@@ -205,11 +205,12 @@ function PostInsideHomeFeed (props) {
                 <h1 className='home-feed-post-caption'>{post.caption}</h1>
 
                 {/* like button */}
-                <button onClick={handleLike}>
-                    {liked ? "Unlike" : "Like"}
-                </button>
-                                       
-                {/* # of likes */}
+                {
+                    liked ?
+                    <i onClick={handleLike} className="fa fa-heart heart-like" style={{color: 'red'}}></i>
+                    :
+                    <i onClick={handleLike} className="fa fa-heart-o heart-like"></i>
+                }
                 
                 <h1 className='textAlignLeft'>{postInsideFeedState ? postInsideFeedState.usersWhoveLiked.length + " likes": ""}</h1>
 

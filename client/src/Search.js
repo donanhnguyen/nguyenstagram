@@ -75,7 +75,7 @@ function Search (props) {
         )  
     } else {
         return (
-            <div >
+            <div className='searchContainer'>
 
                 <h1 
                     className='toggleSomething'

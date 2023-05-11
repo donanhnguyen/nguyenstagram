@@ -63,7 +63,7 @@ function Notifications (props) {
                     onClick={() => toggleShowNotifications((prevState) => !prevState)}>
                     Showing notifications
                 </h1>
-                <ul>
+                <ul className='notificationsList'>
                     {displayNotifications()}
                 </ul>
 

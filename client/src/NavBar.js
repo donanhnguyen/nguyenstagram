@@ -57,17 +57,16 @@ function NavBar () {
          return (
             <div className="nav-bar-container">
                 
-                <h1 style={{fontSize: '30px'}} className='nguyenstagram'>Nguyenstagram</h1>
+                <h2 style={{fontSize: '30px'}} className='nguyenstagram'>Nguyenstagram</h2>
 
-                <h1>Welcome, {currentUserState.username}</h1>
+                <h2>Welcome, {currentUserState.username}</h2>
 
                 <Link to='/'>
-                    Home
+                   <h1>Home</h1>
                </Link>
-               <br></br>
+
                <Link to='/myProfile'>
-                  
-                   Profile
+                    <h1>Profile</h1>
                </Link>
 
                <Search 
@@ -82,7 +81,7 @@ function NavBar () {
                     notificationsDispatch={notificationsDispatch}
                />
 
-                <button onClick={logOut}>Log Out</button>
+                <button className='logoutButton' onClick={logOut}>Log Out</button>
             </div>
         )   
     }

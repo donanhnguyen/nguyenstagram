@@ -171,21 +171,24 @@ function ProfileShowPage () {
     if (profileUserState && viewingProfilePostsState) {
       return (
           <div className='my-profile-container'>
-          <img className="profile-pic" src={`${profileUserState.profilePic}`}></img>
-          <h1>{profileUserState.username}</h1>
+            
+            <div className='profileInfoPart'>
+              <img className="profile-pic" src={`${profileUserState.profilePic}`}></img>
+              <h1>{profileUserState.username}</h1>
 
-          <h1>{viewingProfilePostsState.length} Posts</h1>
+              <h1>{viewingProfilePostsState.length} Posts</h1>
 
-          <h1>{profileUserState.followers.length} Followers</h1>
+              <h1>{profileUserState.followers.length} Followers</h1>
 
-          <h1>{profileUserState.following.length} Following</h1>
+              <h1>{profileUserState.following.length} Following</h1>
 
-          {/* {followOrUnfollowButton()} */}
+              {/* {followOrUnfollowButton()} */}
 
-          <button onClick={handleFollowOrUnfollow}>
-            {followingOrNot ? "Unfollow" : "Follow"}
-          </button>
-
+              <button onClick={handleFollowOrUnfollow}>
+                {followingOrNot ? "Unfollow" : "Follow"}
+              </button>
+            </div>
+          
           <div className='displayed-posts-container'>
             {displayTheirPosts()}
           </div>

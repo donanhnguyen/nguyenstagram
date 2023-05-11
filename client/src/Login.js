@@ -1,19 +1,22 @@
-import {useState, useContext} from 'react';
+import {useState, useContext, useEffect} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
+import './SlideShow.css';
 
 function LogIn () {
 
     const [errorMessagesState, setErrorMessagesState] = useState("");
     const [usernameState, setUsernameState] = useState("");
     const [passwordState, setPasswordState] = useState("");
+
     const {
         currentUserState,
         setCurrentUserState
     } = useContext(GlobalContext);
 
     const navigate = useNavigate();
+
 
     function handleLogIn (e) {
         e.preventDefault();
@@ -44,22 +47,23 @@ function LogIn () {
         <div className="App-header">
             <div className='login-page-container'>
 
-            
             <div>
-                <img className='login-image-pic' src={require("./images/home-image.jpg")}></img>
+                <img className='login-image-pic' src={require(`./images/home-image0.jpg`)}></img>
             </div>
            
             <div className='login-container'>
                 <form onSubmit={handleLogIn}>
                     {/* logo goes here somewhere */}
-                    <h1 style={{fontSize: '50px'}} className='nguyenstagram'>Nguyenstagram</h1>
+                    <h1 style={{fontSize: '1.5em'}} className='nguyenstagram'>Nguyenstagram</h1>
 
                     <h1 className='login-error-messages'>{errorMessagesState}</h1>
 
                     <label htmlFor='username'>Username</label>
+                    <br></br>
                     <input onChange={(e) => setUsernameState(e.target.value)} id='username' type='text'></input>
                     <br></br>
                     <label htmlFor='password'>Password</label>
+                    <br></br>
                     <input onChange={(e) => setPasswordState(e.target.value)} id='password' type='password'></input>
                     
                     <br></br>
@@ -70,7 +74,7 @@ function LogIn () {
 
                 <br></br>
 
-                <h1>Don't have an account? Click <Link to='/signup'>Here</Link> to register.</h1>
+                <h1 style={{fontSize: '1em'}}>Don't have an account? Click <Link to='/signup'>Here</Link> to register.</h1>
             </div>
 
             </div>

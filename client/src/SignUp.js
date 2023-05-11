@@ -49,27 +49,30 @@ function SignUp () {
 
                         
             <div>
-                <img className='login-image-pic' src={require("./images/home-image.jpg")}></img>
+                <img className='login-image-pic' src={require("./images/home-image0.jpg")}></img>
             </div>
 
             <div className='login-container'>
                 <form onSubmit={handleRegister}>
                     {/* logo goes here somewhere */}
-                    <h1 style={{fontSize: '50px'}} className='nguyenstagram'>Nguyenstagram</h1>
+                    <h1 style={{fontSize: '1.5em'}} className='nguyenstagram'>Nguyenstagram</h1>
 
                     <h1 className='login-error-messages'>{errorMessagesState}</h1>
 
                     <label htmlFor='username'>Username</label>
+                    <br></br>
                     <input onChange={(e) => setUsernameState(e.target.value)} id='username' type='text'></input>
                     
                     <br></br>
 
                     <label htmlFor='password'>Password</label>
+                    <br></br>
                     <input onChange={(e) => setPasswordState(e.target.value)} id='password' type='text'></input>
                     
                     <br></br>
                     
                     <label htmlFor='confirmPassword'>Confirm Password</label>
+                    <br></br>
                     <input onChange={(e) => setConfirmPasswordState(e.target.value)} id='confirmPassword' type='text'></input>
                     
                     <br></br>
@@ -80,7 +83,7 @@ function SignUp () {
 
                 <br></br>
 
-                <h1>Already have an account? Click <Link to='/login'>Here</Link> to log in.</h1>
+                <h1 style={{fontSize: '1em'}}>Already have an account? Click <Link to='/login'>Here</Link> to log in.</h1>
             </div>
 
             </div>
