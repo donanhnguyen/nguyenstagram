@@ -21,12 +21,19 @@ function SingleNotification (props) {
         } 
     }
 
+    function showPostLinkOrNot () {
+        if (notification.postIdLink) {
+            return (<Link to={`/postShowPage/${notification.postIdLink}`}>Link to Post</Link>)
+        }
+    }
+
     return (
         <li 
             className={`${readOrNot ? "read" : "unread" } single-notification`}
             onClick={() => markAsRead(notification._id, notification.read)}
         >
-            {notification.message}
+            {notification.message} {showPostLinkOrNot()}
+
         </li>
     )    
 

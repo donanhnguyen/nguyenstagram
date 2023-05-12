@@ -378,6 +378,7 @@ button {
 
 .commentsListContainer {
   padding: 0px;
+  margin: 0px;
 }
 .single-comment {
   background-color: #ffffffcc;

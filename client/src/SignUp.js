@@ -14,13 +14,12 @@ function SignUp () {
     const navigate = useNavigate();
 
     const {
-        currentUserState,
         setCurrentUserState
     } = useContext(GlobalContext);
 
     function handleRegister (e) {
         e.preventDefault();
-        if (usernameState === "" || passwordState === "" || confirmPasswordState === "") {
+        if (usernameState === "" || passwordState === "" || confirmPasswordState === "" || profilePicState === "") {
             setErrorMessagesState("Field's can't be blank!")
         } else if (passwordState !== confirmPasswordState) {
             setErrorMessagesState("Passwords don't match.");
