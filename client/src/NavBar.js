@@ -57,16 +57,16 @@ function NavBar () {
          return (
             <div className="nav-bar-container">
                 
-                <h2 style={{fontSize: '30px'}} className='nguyenstagram'>Nguyenstagram</h2>
+                <h3 style={{fontSize: '30px'}} className='nguyenstagram'>Nguyenstagram</h3>
 
-                <h2>Welcome, {currentUserState.username}</h2>
+                <h3>Welcome, {currentUserState.username}</h3>
 
                 <Link to='/'>
-                   <h1>Home</h1>
+                   <h1><i className="fa fa-home" aria-hidden="true"></i> Home</h1>
                </Link>
 
                <Link to='/myProfile'>
-                    <h1>Profile</h1>
+                    <h1><i className="fa fa-user" aria-hidden="true"></i> Profile</h1>
                </Link>
 
                <Search 

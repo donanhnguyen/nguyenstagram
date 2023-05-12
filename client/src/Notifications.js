@@ -1,17 +1,9 @@
 import './App.css';
-import {useState, useContext, useEffect} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
-import Axios from 'axios';
-import GlobalContext from './GlobalContext';
 import SingleNotification from './SingleNotification';
+import './Breathing.css';
 
 function Notifications (props) {
 
-    const {
-        currentUserState,
-        setCurrentUserState
-    } = useContext(GlobalContext);
-    
     const {
         showNotifications, 
         toggleShowNotifications,
@@ -19,8 +11,6 @@ function Notifications (props) {
         notificationsDispatch
     } = props;
     
-    const navigate = useNavigate();
-
     function displayNotifications () {
         const displayed = allNotificationsState.map((notification) => {
             return (
@@ -45,15 +35,24 @@ function Notifications (props) {
 
     if (!showNotifications) {
         return (
-            <h1 onClick={() => toggleShowNotifications((prevState) => !prevState)}
-                className='toggleSomething'
-            >
+            <h2 onClick={() => toggleShowNotifications((prevState) => !prevState)}
+                className={`
+                    toggleSomething 
+                    ${
+                        anyUnread() ?
+                        'newNotifications animate__animated'
+                        :
+                        ''
+                    }
+                `}
+            ><i className="fa fa-bell" aria-hidden="true"></i> 
+
                 {anyUnread() ?
-                "New Notifications!"
+                " New Notifications!"
                 :
-                "Notifications"
+                " Notifications"
                 }
-            </h1>
+            </h2>
         )  
     } else {
         return (
@@ -61,7 +60,7 @@ function Notifications (props) {
                 <h1 
                     className='toggleSomething'
                     onClick={() => toggleShowNotifications((prevState) => !prevState)}>
-                    Showing notifications
+                    Hide Notifications
                 </h1>
                 <ul className='notificationsList'>
                     {displayNotifications()}

@@ -8,6 +8,8 @@ function SignUp () {
     const [errorMessagesState, setErrorMessagesState] = useState("");
     const [usernameState, setUsernameState] = useState("");
     const [passwordState, setPasswordState] = useState("");
+    const [profilePicState, setProfilePicState] = useState("");
+
     const [confirmPasswordState, setConfirmPasswordState] = useState("")
     const navigate = useNavigate();
 
@@ -26,7 +28,8 @@ function SignUp () {
 
             let newUser = {
                 username: usernameState,
-                password: passwordState
+                password: passwordState,
+                profilePic: profilePicState,
             };
 
             Axios.post(`http://localhost:8800/api/auth/register/`, newUser)
@@ -54,10 +57,10 @@ function SignUp () {
 
             <div className='login-container'>
                 <form onSubmit={handleRegister}>
-                    {/* logo goes here somewhere */}
+
                     <h1 style={{fontSize: '1.5em'}} className='nguyenstagram'>Nguyenstagram</h1>
 
-                    <h1 className='login-error-messages'>{errorMessagesState}</h1>
+                    <h1 style={{fontSize: '1.0em'}} className='login-error-messages'>{errorMessagesState}</h1>
 
                     <label htmlFor='username'>Username</label>
                     <br></br>
@@ -75,6 +78,11 @@ function SignUp () {
                     <br></br>
                     <input onChange={(e) => setConfirmPasswordState(e.target.value)} id='confirmPassword' type='text'></input>
                     
+                    <br></br>
+                    <label htmlFor='profilePic'>Profile Pic URL</label>
+                    <br></br>
+                    <input onChange={(e) => setProfilePicState(e.target.value)} id='profilePic' type='text'></input>
+
                     <br></br>
 
                     <button className='btn btn-primary' type='submit'>Register</button> 

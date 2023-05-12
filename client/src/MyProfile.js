@@ -71,9 +71,6 @@ function MyProfile () {
     return dispalyedPosts.reverse();
   }
 
-  // console.log("All posts in my profile")
-  // console.log(myPostsState);
-
   if (currentUserInfoState) {
     return (
       <div className='my-profile-container'>

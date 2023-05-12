@@ -38,9 +38,6 @@ function HomeFeed () {
         }
     }
 
-    // console.log("All posts in home")
-    // console.log(allPostsState)
-
     return (
         <div className='App-header'>
                 <div className='home'>

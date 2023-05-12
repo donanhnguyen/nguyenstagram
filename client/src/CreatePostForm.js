@@ -16,8 +16,7 @@ function CreatePostForm (props) {
         currentUserState,
     } = useContext(GlobalContext);
 
-    function handleCreatePost (e) {
-        e.preventDefault();
+    function handleCreatePost () {
         const postData = {
             picUrl: picUrlState,
             caption: captionState,
@@ -41,13 +40,13 @@ function CreatePostForm (props) {
     }
 
     return (
-        <div className=''>
+        <div>
             
             <div id="myModal" className={`modal ${showModal ? "yes-modal" : "" }`}>
             <div className={`modal-content create-post-form-container`}>
                 <span onClick={() => setShowModal(false)} className="close">&times;</span>
                 
-                <form onSubmit={handleCreatePost}>
+              
 
                     <label>Pic Url</label>
                     <br></br>
@@ -70,13 +69,15 @@ function CreatePostForm (props) {
                     >
                         Cancel
                     </button>
+
                     <button
-                        type='submit' 
                         style={{width: '50%', margin: 'auto'}} 
                         className='btn btn-primary btn-lg'
-                        >Share
+                        onClick={handleCreatePost}
+                    >
+                        Share
                     </button>
-                </form>
+                
 
             </div>
             </div>

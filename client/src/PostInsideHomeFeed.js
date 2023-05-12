@@ -6,12 +6,25 @@ import GlobalContext from './GlobalContext';
 
 function PostInsideHomeFeed (props) {
 
+    // liking functionality
     const [liked, setLiked] = useState();
     const navigate = useNavigate();
 
     const [postInsideFeedState, setPostInsideFeedState] = useState();
+
+    // comments functionality
     const [showComments, toggleShowComments] = useState(false);
     const [commentInputState, setCommentInputState] = useState('');
+
+    // sharing functionality
+    const [allUsersState, setAllUsersState] = useState();
+    const [selectedSharePerson, setSelectedSharePerson] = useState();
+    const [showShareModal, toggleShareModal] = useState(false);
+    const [searchFieldState, setSearchFieldState] = useState("");
+    const [successfulShare, setSuccessfulShare] = useState(false);
+
+    // sharing error functionality 
+    const [shareErrorState, setShareErrorState] = useState();
 
     const {
         currentUserState,
@@ -177,6 +190,75 @@ function PostInsideHomeFeed (props) {
         }
     }
 
+    // sharing functionality
+    function openUpShareModal () {
+        toggleShareModal(true);
+        Axios.get(`http://localhost:8800/api/users/`)
+            .then((response) => setAllUsersState(response.data))
+    }
+
+    function displaySearchResults () {
+        // filter based on search field, if the username startsWith the search field input
+            var allUsers = [];
+
+            for (let i in allUsersState) {
+                let currentUser = allUsersState[i];
+                if (currentUser.username.startsWith(searchFieldState) && currentUserState.username !== currentUser.username) {
+                    allUsers.push(currentUser);
+                }
+            }
+
+            const displayed = allUsers.map((user) => {
+                return (
+                    <li 
+                        onClick={() => setSelectedSharePerson(user.username)}
+                        className='search-entry' 
+                        key={user._id}
+                    >
+                        <img 
+                            className='profile-pic-inside-search-bar'
+                            src={user.profilePic}
+                        >
+                        </img>
+                        {user.username}
+                    </li>
+                )
+            })
+
+            return displayed;    
+  
+    }
+
+    function handleSharePost () {
+
+        // sending notificaiton
+        var notificationBody = {
+            message: `${currentUserState.username} has shared a post with you: ${postInsideFeedState._id}.`,
+            postIdLink: postInsideFeedState._id,
+            user: selectedSharePerson
+        }
+        // POST call to notifications
+        Axios.post(`http://localhost:8800/api/notifications/${selectedSharePerson}`, notificationBody)
+            .then((response) => {
+                // clear and reset all inputs
+                toggleShareModal(false);
+                setSelectedSharePerson(null);
+                setSearchFieldState('');
+                // success modal
+                setSuccessfulShare(true);
+                setTimeout(() => {
+                    setSuccessfulShare(false);
+                }, 2000)
+            })
+            .catch((error) => {
+                setShareErrorState(`You have already shared this post with ${selectedSharePerson}.`);
+                setTimeout(() => {
+                    setShareErrorState(null);
+                    setSelectedSharePerson(null);
+                }, 2000)
+            })
+    }
+
     return (
             <div 
                 className='home-feed-post-container' 
@@ -211,11 +293,12 @@ function PostInsideHomeFeed (props) {
                     :
                     <i onClick={handleLike} className="fa fa-heart-o heart-like"></i>
                 }
+
+                {/* share button */}
+                <i onClick={openUpShareModal} className="anyIcon fa fa-share-square" aria-hidden="true"></i>
                 
+                {/* # of likes and comments */}
                 <h1 className='textAlignLeft'>{postInsideFeedState ? postInsideFeedState.usersWhoveLiked.length + " likes": ""}</h1>
-
-
-                {/* # of comments */}
                 <h1 className='textAlignLeft'>{postInsideFeedState ? postInsideFeedState.comments.length + " comments": ""}</h1>
 
                 {/* toggling comments */}
@@ -230,11 +313,61 @@ function PostInsideHomeFeed (props) {
                 <ul className='commentsListContainer'>
                     {showCommentsOrNot()}
                 </ul>
-        
 
                 {/* showing comment input */}
                 {showCommentInput()}
 
+                {/* show sharing modal or not */}
+                <div id="myModal" className={`modal ${showShareModal ? "yes-modal" : "" }`}>
+                    <div className={`modal-content`}>
+                        <span onClick={() => toggleShareModal(false)} className="close">&times;</span>
+                        
+                        <h1>Share</h1>
+                        <input 
+                            onChange={(e) => setSearchFieldState(e.target.value)} 
+                            value={searchFieldState}
+                            placeholder='Search User...'
+                            type='text'>
+                        </input>
+                        <ul>
+                            {displaySearchResults()}
+                        </ul>
+
+                        {selectedSharePerson ?
+                        <div>
+                                <h1>Sharing post to {selectedSharePerson}</h1>
+
+                                <button 
+                                    onClick={() => toggleShareModal(false)}
+                                    className='btn btn-secondary'
+                                >
+                                    Cancel
+                                </button>
+
+                                <button
+                                    className='btn btn-primary'
+                                    onClick={handleSharePost}
+                                >
+                                    Share
+                                </button>
+
+                                <h1>{shareErrorState}</h1>
+                        </div>
+                        :
+                        ""
+                        }
+
+                    </div>
+                </div>
+
+                {/* show modal of successful share */}
+                <div id="myModal" className={`modal ${successfulShare ? "yes-modal" : "" }`}>
+                    <div className={`modal-content`}>
+                        <h1 style={{color: 'green', fontSize: '30px'}}>Successfully Shared!</h1>
+                    </div>
+                </div>
+                
+                
             </div>
         );
 }

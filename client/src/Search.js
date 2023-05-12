@@ -71,7 +71,7 @@ function Search (props) {
 
     if (!showSearch) {
         return (
-            <h1 className="toggleSomething" onClick={() => toggleShowSearch((prevState) => !prevState)}>Search</h1>
+            <h1 className="toggleSomething" onClick={() => toggleShowSearch((prevState) => !prevState)}><i className="fa fa-search" aria-hidden="true"></i> Search</h1>
         )  
     } else {
         return (
@@ -79,14 +79,16 @@ function Search (props) {
 
                 <h1 
                     className='toggleSomething'
-                    onClick={() => toggleShowSearch((prevState) => !prevState)}>
-                    Search
+                    onClick={() => toggleShowSearch((prevState) => !prevState)}
+                    >
+                    <i className="fa fa-search" aria-hidden="true"></i> Search
                 </h1>
 
                 <input 
                     onChange={(e) => setSearchFieldState(e.target.value)} 
                     value={searchFieldState}
-                    type='text'>
+                    type='text'
+                    style={{marginBottom: '20px'}}>
                 </input>
                 <ul>
                     {displaySearchResults()}

@@ -88,6 +88,8 @@ button {
 }
 .home-feed-post-caption {
   background-color: rgba(228, 228, 228, 0.433);
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 .textAlignLeft {
   text-align: left;
@@ -184,7 +186,27 @@ button {
   padding-top: 10px;
   padding-bottom: 10px;
 }
+.nav-bar-container h2 {
+  text-align: left;
+  font-size: 1.5em;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.nav-bar-container h3 {
+  text-align: left;
+  font-size: 1.5em;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
 .nav-bar-container h1:hover {
+  background-color: rgb(240, 240, 240);
+  border-radius: 5px;
+}
+.nav-bar-container h2:hover {
   background-color: rgb(240, 240, 240);
   border-radius: 5px;
 }
@@ -193,7 +215,13 @@ button {
     width: 25%;
   }
   .nav-bar-container h1 {
-    font-size: 1.0em;
+    font-size: 1.2em;
+  }
+  .nav-bar-container h2 {
+    font-size: 1.2em;
+  }
+  .nav-bar-container h3 {
+    font-size: 1.2em;
   }
 }
 @media screen and (max-width: 890px) {
@@ -212,7 +240,20 @@ button {
   .nav-bar-container h1 {
     color: black;
     text-align: center;
-    font-size: 1.5em;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  .nav-bar-container h2 {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  .nav-bar-container h3 {
+    text-align: center;
     margin-top: 5px;
     margin-bottom: 5px;
     padding-top: 0px;
@@ -230,7 +271,6 @@ button {
 .read {
   background-color: rgb(230, 230, 230);
 }
-
 .unread {
   background-color: rgb(255, 214, 214);
 }
