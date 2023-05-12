@@ -11,6 +11,7 @@ function PostInsideHomeFeed (props) {
     const navigate = useNavigate();
 
     const [postInsideFeedState, setPostInsideFeedState] = useState();
+    const [profilePic, setProfilePic] = useState();
 
     // comments functionality
     const [showComments, toggleShowComments] = useState(false);
@@ -55,10 +56,22 @@ function PostInsideHomeFeed (props) {
     // dependency array, refresh the post info everytime adding a like, or adding a comment
     }, [liked])
 
+    // get the user's info so we can display their profile pic
+    useEffect(() => {
+        Axios.get(`http://localhost:8800/api/users/${post.user}/`)
+        .then((response) => {
+            setProfilePic(response.data.profilePic);
+        })
+        .catch((error) => {
+            console.log(error.response);
+        }); 
+      }, [])
+
     function sendNotificationForLike (username, postId) {
         var notificationBody = {
             message: `${currentUserState.username} has liked your post ${postId}.`,
-            user: username
+            user: username,
+            postIdLink: postId
         }
         Axios.post(`http://localhost:8800/api/notifications/${username}`, notificationBody);
     }
@@ -111,7 +124,7 @@ function PostInsideHomeFeed (props) {
         if (post.user === currentUserState.username) {
             navigate('/myProfile');
         } else {
-            navigate(`/profileShowPage/${e.target.innerText}`);
+            navigate(`/profileShowPage/${post.user}`);
         }
     }
 
@@ -270,7 +283,10 @@ function PostInsideHomeFeed (props) {
                     className='link-to-profile-page' 
                     onClick={(e) => navigateToProfileShowPage(e)}
                     style={{float: 'left'}}
-                >{post.user}</h1>
+                >
+                    {profilePic? <img className='profilePicInHomeFeed' src={`${profilePic}`}></img> : ""}
+                    {post.user}
+                </h1>
                 <h1 style={{float: 'right'}}
                     className=''
                 >{displayedDate}

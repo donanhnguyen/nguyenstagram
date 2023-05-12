@@ -8,7 +8,6 @@ import CreatePostForm from './CreatePostForm';
 function MyProfile () {
 
   const navigate = useNavigate();
-
   const {
     currentUserState,
   } = useContext(GlobalContext);
@@ -33,6 +32,8 @@ function MyProfile () {
   const [myPostsState, myPostsDispatch] = useReducer(myPostsReducer, []);
   const [currentUserInfoState, setCurrentUserInfoState] = useState();
   const [showModal, setShowModal] = useState(false);
+  const [showBioInput, toggleBioInput] = useState(false);
+  const [bioInputState, setBioInputState] = useState('');
 
   useEffect(() => {
     // get all posers from logged in user
@@ -71,12 +72,54 @@ function MyProfile () {
     return dispalyedPosts.reverse();
   }
 
+  function handleEditBio () {
+    if (bioInputState !== "") {
+
+      var newDataObject = {bio: bioInputState};
+
+      Axios.put(`http://localhost:8800/api/users/${currentUserState.username}`, newDataObject)
+          .then((response) => {
+              // set the currentUserInfoState to the new data
+              setCurrentUserInfoState(response.data);
+              setBioInputState("");
+              toggleBioInput(false);
+          })
+          .catch((error) => {
+              console.log(error.reponse)
+          })
+    }
+  }
+
+  function addBioOrNot () {
+    if (!currentUserInfoState.bio) {
+      return (
+        <div>
+          <p onClick={() => toggleBioInput((prevState) => !prevState)}><i className="anyIcon fa fa-pencil-square-o" aria-hidden="true"></i> Add Bio</p>
+          {showBioInput? <div><input type='text' onChange={(e) => setBioInputState(e.target.value)} value={bioInputState}></input><button onClick={handleEditBio}>Post</button></div> : ""}
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <p onClick={() => toggleBioInput((prevState) => !prevState)}><i className="anyIcon fa fa-pencil-square-o" aria-hidden="true"></i> Edit Bio</p>
+          {showBioInput? <div><input type='text' onChange={(e) => setBioInputState(e.target.value)} value={bioInputState}></input><button onClick={handleEditBio}>Post</button></div> : ""}
+        </div>
+      )
+    }
+  }
+
   if (currentUserInfoState) {
     return (
       <div className='my-profile-container'>
 
         <img className="profile-pic" src={`${currentUserInfoState.profilePic}`}></img>
         <h1>{currentUserState.username}</h1>
+
+        {/* display bio if it exists or not */}
+        <p>{currentUserInfoState.bio? currentUserInfoState.bio : ""}</p>
+
+        {/* add bio or not */}
+        { addBioOrNot() }
 
         <div className='profileInfoPart'>
           

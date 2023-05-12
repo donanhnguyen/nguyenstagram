@@ -175,6 +175,9 @@ function ProfileShowPage () {
             <img className="profile-pic" src={`${profileUserState.profilePic}`}></img>
             <h1>{profileUserState.username}</h1>
 
+            {/* display bio if it exists or not */}
+            <p>{profileUserState.bio? profileUserState.bio : ""}</p>
+
             <div className='profileInfoPart'>
               
 

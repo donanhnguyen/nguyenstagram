@@ -158,12 +158,8 @@ button {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  opacity: 80%;
 }
-.profile-pic:hover {
-  opacity: 100%;
-  cursor: pointer;
-}
+
 .nav-bar-container {
   border-right: 1px solid rgba(212, 212, 212, 0.702);
   height: 100%; /* Full-height: remove this if you want "auto" height */
@@ -356,11 +352,26 @@ button {
     text-align: center;
   }
 }
-.profile-pic-inside-search-bar {
-  width:30px;
-  height:30px;
+.profilePicInHomeFeed {
+  width: 28px;
+  height: 28px;
   margin-left: 5px;
   margin-right: 5px;
+  border-radius: 50%;
+}
+.profilePicInPostShowPage {
+  width: 35px;
+  height: 35px;
+  margin-left: 5px;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+.profile-pic-inside-search-bar {
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  margin-right: 5px;
+  border-radius: 50%;
 }
 .search-entry {
   background-color: rgb(255, 255, 255);

@@ -14,6 +14,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    bio: {
+        type: String,
+        required: false,
+    },
     following: [{type: String}],
     followers: [{type: String}],
     likedPosts: [{type: mongoose.Schema.Types.ObjectId}],

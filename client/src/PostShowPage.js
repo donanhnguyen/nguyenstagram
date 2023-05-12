@@ -13,6 +13,7 @@ function PostShowPage () {
     // post info and deleting post
     const [postInfoState, setPostInfoState] = useState();
     const [toggledConfirm, setToggledConfirm] = useState(false);
+    const [profilePic, setProfilePic] = useState();
 
     // comment functionality
     const [showComments, toggleShowComments] = useState(false);
@@ -56,6 +57,19 @@ function PostShowPage () {
           });
     }, [liked, showComments])
 
+    // get the user's info so we can display their profile pic
+    useEffect(() => {
+        if (postInfoState) {
+           Axios.get(`http://localhost:8800/api/users/${postInfoState.user}/`)
+            .then((response) => {
+              setProfilePic(response.data.profilePic);
+            })
+            .catch((error) => {
+              console.log(error.response);
+            }); 
+        }
+      }, [postInfoState])
+
     // on mounting, check if the post is liked by you or not 
     useEffect(() => {
         if (postInfoState) {
@@ -72,7 +86,7 @@ function PostShowPage () {
         if (postInfoState.user === currentUserState.username) {
             navigate('/myProfile');
         } else {
-            navigate(`/profileShowPage/${e.target.innerText}`);
+            navigate(`/profileShowPage/${postInfoState.user}`);
         }
     }
 
@@ -83,12 +97,6 @@ function PostShowPage () {
             user: username
         }
         Axios.post(`http://localhost:8800/api/notifications/${username}`, notificationBody)
-            .then((response) => {
-                // console.log(response.data);
-            })
-            .catch((error) => {
-                // console.log(error.response);
-            })
     }
 
     function handleLike () {
@@ -297,7 +305,10 @@ function PostShowPage () {
             <div className='App-header'>
                 <div className='postShowPageContainer'>
 
-                <h1 style={{float: 'left'}} className='link-to-profile-page' onClick={(e) => navigateToProfileShowPage(e)}>{postInfoState.user}</h1>
+                <h1 style={{float: 'left'}} className='link-to-profile-page' onClick={(e) => navigateToProfileShowPage(e)}>
+                    {profilePic? <img className='profilePicInPostShowPage' src={`${profilePic}`}></img> : ""}
+                    {postInfoState.user}
+                </h1>
                 <h1 style={{float: 'right'}}>{displayedDate}</h1>
                 
                 <br></br>
