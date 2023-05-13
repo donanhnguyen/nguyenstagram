@@ -143,6 +143,11 @@
   width: 40%;
   text-align: center;
 }
+@media screen and (max-width: 600px) {
+  .modal-content {
+    width: 90%;
+  }
+}
 .modal-content button {
   
 }

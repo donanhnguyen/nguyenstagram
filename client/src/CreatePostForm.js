@@ -7,18 +7,32 @@ import './CreatePostModal.css'
 
 function CreatePostForm (props) {
 
+    const {
+            currentUserState,
+        } = useContext(GlobalContext);
+
     const {myPostsDispatch, setShowModal, showModal} = props
-    const [picUrlState, setPicUrlState] = useState("");
     const [captionState, setCaptionState] = useState("");
     const [createPostErrorState, setCreatePostErrorState] = useState();
 
-    const {
-        currentUserState,
-    } = useContext(GlobalContext);
+    // image uploading
+    const [image, setImage] = useState();
+    const [imageUrl, setImageUrl] = useState();
+
+    useEffect(() => {
+        if (image) {
+            var picUrl = URL.createObjectURL(image[0]);
+            setImageUrl(picUrl);
+        }
+    }, [image])
+
+    function onImageChange (e) {
+        setImage(e.target.files);
+    }
 
     function handleCreatePost () {
         const postData = {
-            picUrl: picUrlState,
+            picUrl: imageUrl,
             caption: captionState,
             user: currentUserState.username,
             userId: currentUserState._id
@@ -26,7 +40,9 @@ function CreatePostForm (props) {
         Axios.post(`http://localhost:8800/api/posts/`, postData)
             .then((response) => {
                 myPostsDispatch({type: 'createPost', payload: response.data});
-                setPicUrlState("");
+                setImage(null)
+                setImageUrl(null);
+                // setPicUrlState("");
                 setCaptionState("");
                 setShowModal(false);
             })
@@ -45,12 +61,26 @@ function CreatePostForm (props) {
             <div id="myModal" className={`modal ${showModal ? "yes-modal" : "" }`}>
             <div className={`modal-content create-post-form-container`}>
                 <span onClick={() => setShowModal(false)} className="close">&times;</span>
-                
-              
 
-                    <label>Pic Url</label>
+                    {/* upload image via link */}
+                    <label>Pic Url <i className="fa fa-picture-o" aria-hidden="true"></i></label>
                     <br></br>
-                    <input type='text' onChange={(e) => setPicUrlState(e.target.value)} value={picUrlState}></input>
+                    <input type='text' onChange={(e) => setImageUrl(e.target.value)} value={imageUrl}></input>
+
+
+                    {/* upload image via file upload */}
+                    {/* <div className="file-input">
+                        <input className='file' id='file' type='file' accept='image/*' onChange={onImageChange}></input>
+                        <label htmlFor="file">Upload Profile Pic</label>
+                    </div> */}
+
+                    <br></br>
+                    
+                    {/* preview image */}
+                    {imageUrl?
+                    <img className='previewImagePost' style={{height: '150px', width: '200px'}} src={imageUrl}></img>
+                    :
+                    ""}
 
                     <br></br>
 

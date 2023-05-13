@@ -138,12 +138,37 @@ button {
 }
 .login-container {
   text-align: center;
-  font-size: .9em;
+  font-size: .75em;
   padding: 6% 0;
 }
 .login-container input {
   border-radius: 5px;
 }
+.loginImageContainer {
+  animation-name: example;
+  animation-duration: 20s;
+  animation-iteration-count: infinite;
+  background-size: 100% 100%;
+  border-radius: 10px;
+}
+@keyframes example{
+  0%{
+    background-image: url("./images/home-image0.jpg");
+  }
+  25%{
+    background-image: url("./images/home-image1.jpg");
+  }
+  50%{
+    background-image: url("./images/home-image2.jpg");
+  }
+  75%{
+    background-image: url("./images/home-image3.jpg");
+  }
+  100%{
+    background-image: url("./images/home-image0.jpg");
+  }
+}
+
 .login-image-pic {
   width: 100%;
   height: 100%;
@@ -157,6 +182,12 @@ button {
 .profile-pic {
   width: 80px;
   height: 80px;
+  border-radius: 50%;
+}
+
+.profilePicNavBar {
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
 }
 
@@ -449,4 +480,42 @@ button {
 .postShowPagePic {
   width: 450px;
   height: 350px;
+}
+/* image uploading */
+
+.file {
+  opacity: 0;
+  width: 0.1px;
+  height: 0.1px;
+  position: absolute;
+}
+.file-input label {
+  display: block;
+  position: relative;
+  width: 90%;
+  height: 50px;
+  border-radius: 5px;
+  background: linear-gradient(40deg, #ff70c8, #827ef8);
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  transition: transform .2s ease-out;
+  margin: auto;
+  opacity: 90%;
+}
+.file-input label:hover {
+  opacity: 100%;
+}
+.previewImagePost {
+  border-radius: 5px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+.previewImageSignUp {
+  border-radius: 50%;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }

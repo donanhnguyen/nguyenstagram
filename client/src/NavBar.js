@@ -61,6 +61,8 @@ function NavBar () {
 
                 <h3>Welcome, {currentUserState.username}</h3>
 
+                <img className="profilePicNavBar" src={`${currentUserState.profilePic}`}></img>
+
                 <Link to='/'>
                    <h1><i className="fa fa-home" aria-hidden="true"></i> Home</h1>
                </Link>

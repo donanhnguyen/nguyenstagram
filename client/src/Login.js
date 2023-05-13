@@ -47,8 +47,7 @@ function LogIn () {
         <div className="App-header">
             <div className='login-page-container'>
 
-            <div>
-                <img className='login-image-pic' src={require(`./images/home-image0.jpg`)}></img>
+            <div className='loginImageContainer'>
             </div>
            
             <div className='login-container'>

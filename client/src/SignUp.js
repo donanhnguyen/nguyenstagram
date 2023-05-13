@@ -1,25 +1,43 @@
-import {useState, useContext} from 'react';
+import {useState, useContext, useEffect} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
 
 function SignUp () {
 
-    const [errorMessagesState, setErrorMessagesState] = useState("");
-    const [usernameState, setUsernameState] = useState("");
-    const [passwordState, setPasswordState] = useState("");
-    const [profilePicState, setProfilePicState] = useState("");
-
-    const [confirmPasswordState, setConfirmPasswordState] = useState("")
     const navigate = useNavigate();
 
     const {
         setCurrentUserState
     } = useContext(GlobalContext);
 
+    // username and pw
+    const [errorMessagesState, setErrorMessagesState] = useState("");
+    const [usernameState, setUsernameState] = useState("");
+    const [passwordState, setPasswordState] = useState("");
+    const [confirmPasswordState, setConfirmPasswordState] = useState("")
+
+    // const [profilePicState, setProfilePicState] = useState("");
+
+    // image uploading
+
+    const [image, setImage] = useState();
+    const [imageUrl, setImageUrl] = useState();
+
+    useEffect(() => {
+        if (image) {
+            var picUrl = URL.createObjectURL(image[0]);
+            setImageUrl(picUrl);
+        }
+    }, [image])
+
+    function onImageChange (e) {
+        setImage(e.target.files);
+    }
+
     function handleRegister (e) {
         e.preventDefault();
-        if (usernameState === "" || passwordState === "" || confirmPasswordState === "" || profilePicState === "") {
+        if (usernameState === "" || passwordState === "" || confirmPasswordState === "" || imageUrl === "") {
             setErrorMessagesState("Field's can't be blank!")
         } else if (passwordState !== confirmPasswordState) {
             setErrorMessagesState("Passwords don't match.");
@@ -28,7 +46,7 @@ function SignUp () {
             let newUser = {
                 username: usernameState,
                 password: passwordState,
-                profilePic: profilePicState,
+                profilePic: imageUrl,
             };
 
             Axios.post(`http://localhost:8800/api/auth/register/`, newUser)
@@ -48,10 +66,8 @@ function SignUp () {
     return (
         <div className='App-header'>
             <div className='login-page-container'>
-
-                        
-            <div>
-                <img className='login-image-pic' src={require("./images/home-image0.jpg")}></img>
+     
+            <div className='loginImageContainer'>
             </div>
 
             <div className='login-container'>
@@ -78,12 +94,29 @@ function SignUp () {
                     <input onChange={(e) => setConfirmPasswordState(e.target.value)} id='confirmPassword' type='text'></input>
                     
                     <br></br>
-                    <label htmlFor='profilePic'>Profile Pic URL</label>
+                
+
+
+                    {/* upload image via link */}
+                    <label>Profile Pic URL <i className="fa fa-picture-o" aria-hidden="true"></i></label>
                     <br></br>
-                    <input onChange={(e) => setProfilePicState(e.target.value)} id='profilePic' type='text'></input>
+                    <input type='text' onChange={(e) => setImageUrl(e.target.value)} value={imageUrl}></input>
 
                     <br></br>
 
+                    {/* upload image via upload */}
+                    {/* <div className="file-input">
+                        <input className='file' id='file' type='file' accept='image/*' onChange={onImageChange}></input>
+                        <label htmlFor="file">Upload Profile Pic</label>
+                    </div> */}
+
+                    {/* preview image */}
+                    {imageUrl?
+                    <img className='previewImageSignUp' style={{height: '150px', width: '200px'}} src={imageUrl}></img>
+                    :
+                    ""}
+
+                    <br/>
                     <button className='btn btn-primary' type='submit'>Register</button> 
                 </form>
 

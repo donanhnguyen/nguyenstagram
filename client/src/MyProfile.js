@@ -95,14 +95,14 @@ function MyProfile () {
       return (
         <div>
           <p onClick={() => toggleBioInput((prevState) => !prevState)}><i className="anyIcon fa fa-pencil-square-o" aria-hidden="true"></i> Add Bio</p>
-          {showBioInput? <div><input type='text' onChange={(e) => setBioInputState(e.target.value)} value={bioInputState}></input><button onClick={handleEditBio}>Post</button></div> : ""}
+          {showBioInput? <div><input type='text' style={{marginBottom: '10px'}} onChange={(e) => setBioInputState(e.target.value)} value={bioInputState}></input><button onClick={handleEditBio}>Post</button></div> : ""}
         </div>
       )
     } else {
       return (
         <div>
           <p onClick={() => toggleBioInput((prevState) => !prevState)}><i className="anyIcon fa fa-pencil-square-o" aria-hidden="true"></i> Edit Bio</p>
-          {showBioInput? <div><input type='text' onChange={(e) => setBioInputState(e.target.value)} value={bioInputState}></input><button onClick={handleEditBio}>Post</button></div> : ""}
+          {showBioInput? <div><input type='text' style={{marginBottom: '10px'}} onChange={(e) => setBioInputState(e.target.value)} value={bioInputState}></input><button onClick={handleEditBio}>Post</button></div> : ""}
         </div>
       )
     }
