@@ -1,5 +1,5 @@
 import './App.css';
-import {useState, useContext, useEffect, useReducer} from 'react';
+import {useState, useContext, useEffect} from 'react';
 import {useNavigate, useLocation, useParams} from 'react-router-dom';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
