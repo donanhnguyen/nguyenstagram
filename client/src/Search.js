@@ -29,7 +29,7 @@ function Search (props) {
         if (currentUserState.username === username) {
             navigate('/myProfile')
         } else {
-            navigate(`/profileShowPage/${username}/`)
+            navigate(`/profileShowPage/${username}/`, {state: {username: username} })
         }
     }
 

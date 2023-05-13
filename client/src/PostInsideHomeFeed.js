@@ -194,7 +194,7 @@ function PostInsideHomeFeed (props) {
                 let commentDate = new Date(comment.createdAt).toDateString();
                 return (
                     <li key={comment._id + i} className='single-comment textAlignLeft'>
-                       <p style={{fontSize: '11px'}}>{commentDate}</p> 
+                       <p style={{fontSize: '11px'}}>{commentDate !== "Invalid Date" ? commentDate: "Just Now"}</p> 
                        <p>{comment.user}: {comment.text}</p>
                     </li>
                 )

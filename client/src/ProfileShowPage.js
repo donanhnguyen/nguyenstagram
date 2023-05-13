@@ -1,6 +1,6 @@
 import './App.css';
 import {useState, useContext, useEffect, useReducer} from 'react';
-import {Link, useNavigate, useLocation, useParams} from 'react-router-dom';
+import {useNavigate, useLocation, useParams} from 'react-router-dom';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
 
@@ -11,7 +11,7 @@ function ProfileShowPage () {
     const [followingOrNot, setFollowingOrNot] = useState();
 
     const navigate = useNavigate();
-
+    const location = useLocation();
     const params = useParams();
 
     const {
@@ -41,7 +41,7 @@ function ProfileShowPage () {
             console.log(error.response);
           });
 
-    }, []);
+    }, [profileUserState, params.username]);
 
     useEffect(() => {
       // get the user's info so we can display their followers info, etc.
@@ -53,7 +53,7 @@ function ProfileShowPage () {
             console.log(error.response);
           });
       // run this everytime the followingornot state toggles
-    }, [followingOrNot])
+    }, [followingOrNot, params.username])
 
     function navigateToPostShowPage (postId) {
       navigate(`/postShowPage/${postId}`);
