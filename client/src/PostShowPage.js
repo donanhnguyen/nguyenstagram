@@ -55,7 +55,7 @@ function PostShowPage () {
           .catch((error) => {
             console.log(error.response);
           });
-    }, [liked, showComments])
+    }, [liked, showComments, params.postId])
 
     // get the user's info so we can display their profile pic
     useEffect(() => {

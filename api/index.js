@@ -32,7 +32,11 @@ var corsOptions = {
     origin: "http://localhost:3000"
 }
 
-app.use(express.json());
+// app.use(express.json());
+
+// increasing the size limit of URL queries so you can upload images
+app.use(express.json({limit: '25mb'}));
+app.use(express.urlencoded({limit: '25mb'}));
 app.use(cors(corsOptions));
 
 app.use('/api/auth/', authRoute);

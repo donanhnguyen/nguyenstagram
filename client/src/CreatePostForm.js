@@ -16,21 +16,30 @@ function CreatePostForm (props) {
     const [createPostErrorState, setCreatePostErrorState] = useState();
 
     // image uploading
-    const [image, setImage] = useState();
     const [imageUrl, setImageUrl] = useState();
 
-    useEffect(() => {
-        if (image) {
-            var picUrl = URL.createObjectURL(image[0]);
-            setImageUrl(picUrl);
-        }
-    }, [image])
-
-    function onImageChange (e) {
-        setImage(e.target.files);
+    function convertToBase64 (file) {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            };
+            fileReader.onerror = (error) => {
+                reject(error);
+            }
+        })
     }
 
-    function handleCreatePost () {
+    const handleFileUpload = async (e) => {
+        const file = e.target.files[0];
+        const base64 = await convertToBase64(file);
+        setImageUrl(base64);
+    }
+    // end of image uploading
+
+    function handleCreatePost (e) {
+        e.preventDefault();
         const postData = {
             picUrl: imageUrl,
             caption: captionState,
@@ -40,9 +49,7 @@ function CreatePostForm (props) {
         Axios.post(`http://localhost:8800/api/posts/`, postData)
             .then((response) => {
                 myPostsDispatch({type: 'createPost', payload: response.data});
-                setImage(null)
                 setImageUrl(null);
-                // setPicUrlState("");
                 setCaptionState("");
                 setShowModal(false);
             })
@@ -63,16 +70,16 @@ function CreatePostForm (props) {
                 <span onClick={() => setShowModal(false)} className="close">&times;</span>
 
                     {/* upload image via link */}
-                    <label>Pic Url <i className="fa fa-picture-o" aria-hidden="true"></i></label>
+                    {/* <label>Pic Url <i className="fa fa-picture-o" aria-hidden="true"></i></label>
                     <br></br>
-                    <input type='text' onChange={(e) => setImageUrl(e.target.value)} value={imageUrl}></input>
+                    <input type='text' onChange={(e) => setImageUrl(e.target.value)}></input> */}
 
 
                     {/* upload image via file upload */}
-                    {/* <div className="file-input">
-                        <input className='file' id='file' type='file' accept='image/*' onChange={onImageChange}></input>
+                    <div className="file-input">
+                        <input className='file' id='file' type='file' accept='image/*' onChange={(e) => handleFileUpload(e)}></input>
                         <label htmlFor="file">Upload Profile Pic</label>
-                    </div> */}
+                    </div>
 
                     <br></br>
                     
@@ -103,7 +110,7 @@ function CreatePostForm (props) {
                     <button
                         style={{width: '50%', margin: 'auto'}} 
                         className='btn btn-primary btn-lg'
-                        onClick={handleCreatePost}
+                        onClick={(e) => handleCreatePost(e)}
                     >
                         Share
                     </button>

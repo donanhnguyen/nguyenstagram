@@ -17,27 +17,33 @@ function SignUp () {
     const [passwordState, setPasswordState] = useState("");
     const [confirmPasswordState, setConfirmPasswordState] = useState("")
 
-    // const [profilePicState, setProfilePicState] = useState("");
-
     // image uploading
 
-    const [image, setImage] = useState();
     const [imageUrl, setImageUrl] = useState();
 
-    useEffect(() => {
-        if (image) {
-            var picUrl = URL.createObjectURL(image[0]);
-            setImageUrl(picUrl);
-        }
-    }, [image])
-
-    function onImageChange (e) {
-        setImage(e.target.files);
+    function convertToBase64 (file) {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            };
+            fileReader.onerror = (error) => {
+                reject(error);
+            }
+        })
     }
+
+    const handleFileUpload = async (e) => {
+        const file = e.target.files[0];
+        const base64 = await convertToBase64(file);
+        setImageUrl(base64);
+    }
+    // end of image uploading
 
     function handleRegister (e) {
         e.preventDefault();
-        if (usernameState === "" || passwordState === "" || confirmPasswordState === "" || imageUrl === "") {
+        if (usernameState === "" || passwordState === "" || confirmPasswordState === "" || !imageUrl) {
             setErrorMessagesState("Field's can't be blank!")
         } else if (passwordState !== confirmPasswordState) {
             setErrorMessagesState("Passwords don't match.");
@@ -95,20 +101,18 @@ function SignUp () {
                     
                     <br></br>
                 
-
-
                     {/* upload image via link */}
-                    <label>Profile Pic URL <i className="fa fa-picture-o" aria-hidden="true"></i></label>
+                    {/* <label>Profile Pic URL <i className="fa fa-picture-o" aria-hidden="true"></i></label>
                     <br></br>
-                    <input type='text' onChange={(e) => setImageUrl(e.target.value)} value={imageUrl}></input>
+                    <input type='text' onChange={(e) => setImageUrl(e.target.value)} value={imageUrl}></input> */}
 
                     <br></br>
 
                     {/* upload image via upload */}
-                    {/* <div className="file-input">
-                        <input className='file' id='file' type='file' accept='image/*' onChange={onImageChange}></input>
+                    <div className="file-input">
+                        <input className='file' id='file' type='file' accept='image/*' onChange={(e) => handleFileUpload(e)}></input>
                         <label htmlFor="file">Upload Profile Pic</label>
-                    </div> */}
+                    </div>
 
                     {/* preview image */}
                     {imageUrl?
