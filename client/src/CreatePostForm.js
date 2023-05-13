@@ -78,7 +78,7 @@ function CreatePostForm (props) {
                     {/* upload image via file upload */}
                     <div className="file-input">
                         <input className='file' id='file' type='file' accept='image/*' onChange={(e) => handleFileUpload(e)}></input>
-                        <label htmlFor="file">Upload Profile Pic</label>
+                        <label htmlFor="file">Upload Pic</label>
                     </div>
 
                     <br></br>
