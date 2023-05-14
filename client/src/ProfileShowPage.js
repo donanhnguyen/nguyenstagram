@@ -3,6 +3,7 @@ import {useState, useContext, useEffect} from 'react';
 import {useNavigate, useLocation, useParams} from 'react-router-dom';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
+import Loader from './Loader';
 
 function ProfileShowPage () {
 
@@ -16,8 +17,17 @@ function ProfileShowPage () {
 
     const {
         currentUserState,
-        renderURL
+        renderURL,
+        isLoading,
+        toggleIsLoading
       } = useContext(GlobalContext);
+
+    useEffect(() => {
+        toggleIsLoading(true);
+        setTimeout(() => {
+            toggleIsLoading(false);
+        }, 2000);
+    }, [])
 
     useEffect(() => {
       // check initially if you are following them or not
@@ -163,39 +173,45 @@ function ProfileShowPage () {
 
     }
 
-    if (profileUserState && viewingProfilePostsState) {
-      return (
-          <div className='my-profile-container'>
+    if (isLoading) {
+      return (<Loader />)
+    } else {
+        if (profileUserState && viewingProfilePostsState) {
+        return (
+            <div className='my-profile-container'>
 
-            <img className="profile-pic" src={`${profileUserState.profilePic}`}></img>
-            <h1>{profileUserState.username}</h1>
+              <img className="profile-pic" src={`${profileUserState.profilePic}`}></img>
+              <h1>{profileUserState.username}</h1>
 
-            {/* display bio if it exists or not */}
-            <p>{profileUserState.bio? profileUserState.bio : ""}</p>
+              {/* display bio if it exists or not */}
+              <p>{profileUserState.bio? profileUserState.bio : ""}</p>
 
-            <div className='profileInfoPart'>
-              
+              <div className='profileInfoPart'>
+                
 
-              <h1>{viewingProfilePostsState.length} Posts</h1>
+                <h1>{viewingProfilePostsState.length} Posts</h1>
 
-              <h1>{profileUserState.followers.length} Followers</h1>
+                <h1>{profileUserState.followers.length} Followers</h1>
 
-              <h1>{profileUserState.following.length} Following</h1>
+                <h1>{profileUserState.following.length} Following</h1>
 
-              {/* {followOrUnfollowButton()} */}
+                {/* {followOrUnfollowButton()} */}
 
-              <button onClick={handleFollowOrUnfollow}>
-                {followingOrNot ? "Unfollow" : "Follow"}
-              </button>
+                <button onClick={handleFollowOrUnfollow}>
+                  {followingOrNot ? "Unfollow" : "Follow"}
+                </button>
+              </div>
+            
+            <div className='displayed-posts-container'>
+              {displayTheirPosts()}
             </div>
-          
-          <div className='displayed-posts-container'>
-            {displayTheirPosts()}
-          </div>
 
-          </div>
-      )
+            </div>
+        )
+      } 
     }
+
+    
     
 }
 

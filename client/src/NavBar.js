@@ -28,7 +28,9 @@ function NavBar () {
     const {
         currentUserState,
         setCurrentUserState,
-        renderURL
+        renderURL,
+        isLoading,
+        toggleIsLoading
     } = useContext(GlobalContext);
 
     const [showNotifications, toggleShowNotifications] = useState(false);

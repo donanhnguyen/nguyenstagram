@@ -5,6 +5,7 @@ import './Modals.css';
 import './ThreeDots.css';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
+import Loader from './Loader';
 
 function PostShowPage () {
 
@@ -36,7 +37,9 @@ function PostShowPage () {
 
     const {
         currentUserState,
-        renderURL
+        renderURL,
+        toggleIsLoading,
+        isLoading
     } = useContext(GlobalContext);
 
     if (postInfoState) {
@@ -46,6 +49,13 @@ function PostShowPage () {
         let displayedYear = dateArray.slice(0, 4).join("");
         var displayedDate = `${displayedMonth} - ${displayedDay} - ${displayedYear}`;
     }
+
+    useEffect(() => {
+        toggleIsLoading(true);
+        setTimeout(() => {
+            toggleIsLoading(false);
+        }, 2000);
+    }, [])
 
     // get post's info
     useEffect(() => {
@@ -430,6 +440,8 @@ function PostShowPage () {
                 </div>
             </div>
         )   
+    } else if (isLoading) {
+        return (<Loader/>)
     }
     
 }

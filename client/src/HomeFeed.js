@@ -4,12 +4,15 @@ import './App.css';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
 import PostInsideHomeFeed from './PostInsideHomeFeed';
+import Loader from './Loader';
 
 function HomeFeed () {
 
     const {
         currentUserState,
-        renderURL
+        renderURL,
+        toggleIsLoading,
+        isLoading
     } = useContext(GlobalContext);
 
     const [allPostsState, setAllPostsState] = useState();
@@ -30,6 +33,13 @@ function HomeFeed () {
         }
     }, []) 
 
+    useEffect(() => {
+        toggleIsLoading(true);
+        setTimeout(() => {
+            toggleIsLoading(false);
+        }, 2500);
+    }, [])
+
     function displayHomePagePosts () {
         if (allPostsState) {
             const dispalyedPosts = allPostsState.map((post) => {
@@ -39,13 +49,18 @@ function HomeFeed () {
         }
     }
 
-    return (
-        <div className='App-header'>
+    if (isLoading) {
+        return (<Loader/>)
+    } else {
+        return (
+            <div className='App-header'>
                 <div className='home'>
                     {displayHomePagePosts()}
                 </div>
-        </div>
-    )
+            </div>
+        )    
+    }
+    
 }
 
 export default HomeFeed;

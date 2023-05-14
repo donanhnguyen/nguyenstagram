@@ -4,13 +4,16 @@ import {Link, useNavigate} from 'react-router-dom';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
 import CreatePostForm from './CreatePostForm';
+import Loader from './Loader';
 
 function MyProfile () {
 
   const navigate = useNavigate();
   const {
     currentUserState,
-    renderURL
+    renderURL,
+    isLoading,
+    toggleIsLoading
   } = useContext(GlobalContext);
 
   function myPostsReducer (state, action) {
@@ -35,6 +38,13 @@ function MyProfile () {
   const [showModal, setShowModal] = useState(false);
   const [showBioInput, toggleBioInput] = useState(false);
   const [bioInputState, setBioInputState] = useState('');
+
+  useEffect(() => {
+    toggleIsLoading(true);
+    setTimeout(() => {
+        toggleIsLoading(false);
+    }, 1000);
+  }, [])
 
   useEffect(() => {
     // get all posers from logged in user
@@ -145,6 +155,8 @@ function MyProfile () {
 
       </div>
     );  
+  } else if (isLoading) {
+    return (<Loader/>)
   }
 
 }

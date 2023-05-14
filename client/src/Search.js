@@ -8,7 +8,8 @@ function Search (props) {
 
     const {
         currentUserState,
-        renderURL
+        renderURL,
+        toggleIsLoading
     } = useContext(GlobalContext);
     
     const {
@@ -30,6 +31,10 @@ function Search (props) {
         if (currentUserState.username === username) {
             navigate('/myProfile')
         } else {
+            toggleIsLoading(true);
+            setTimeout(() => {
+                toggleIsLoading(false);
+            }, 1000);
             navigate(`/profileShowPage/${username}/`, {state: {username: username} })
         }
     }

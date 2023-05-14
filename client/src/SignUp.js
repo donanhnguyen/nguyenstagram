@@ -44,17 +44,27 @@ function SignUp () {
 
     function handleRegister (e) {
         e.preventDefault();
-        if (usernameState === "" || passwordState === "" || confirmPasswordState === "" || !imageUrl) {
+        if (usernameState === "" || passwordState === "" || confirmPasswordState === "") {
             setErrorMessagesState("Field's can't be blank!")
         } else if (passwordState !== confirmPasswordState) {
             setErrorMessagesState("Passwords don't match.");
         } else {
 
-            let newUser = {
-                username: usernameState,
-                password: passwordState,
-                profilePic: imageUrl,
-            };
+            let newUser;
+            
+            if (!imageUrl) {
+                newUser = {
+                    username: usernameState,
+                    password: passwordState,
+                    profilePic: 'https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg',
+                };
+            } else {
+                newUser = {
+                    username: usernameState,
+                    password: passwordState,
+                    profilePic: imageUrl,
+                };
+            }
 
             Axios.post(`${renderURL}/api/auth/register/`, newUser)
                 .then((response) => {
@@ -92,13 +102,13 @@ function SignUp () {
 
                     <label htmlFor='password'>Password</label>
                     <br></br>
-                    <input onChange={(e) => setPasswordState(e.target.value)} id='password' type='text'></input>
+                    <input onChange={(e) => setPasswordState(e.target.value)} id='password' type='password'></input>
                     
                     <br></br>
                     
                     <label htmlFor='confirmPassword'>Confirm Password</label>
                     <br></br>
-                    <input onChange={(e) => setConfirmPasswordState(e.target.value)} id='confirmPassword' type='text'></input>
+                    <input onChange={(e) => setConfirmPasswordState(e.target.value)} id='confirmPassword' type='password'></input>
                     
                     <br></br>
                 
