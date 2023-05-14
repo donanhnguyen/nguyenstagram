@@ -10,6 +10,7 @@ function MyProfile () {
   const navigate = useNavigate();
   const {
     currentUserState,
+    renderURL
   } = useContext(GlobalContext);
 
   function myPostsReducer (state, action) {
@@ -37,7 +38,7 @@ function MyProfile () {
 
   useEffect(() => {
     // get all posers from logged in user
-    Axios.get(`http://localhost:8800/api/posts/${currentUserState.username}/posts/`)
+    Axios.get(`${renderURL}/api/posts/${currentUserState.username}/posts/`)
       .then((response) => {
         myPostsDispatch({type: 'getUserPosts', payload: response.data});
       })
@@ -45,7 +46,7 @@ function MyProfile () {
         console.log(error.response);
       })
     // fetch updated info for current user
-    Axios.get(`http://localhost:8800/api/users/${currentUserState.username}/`)
+    Axios.get(`${renderURL}/api/users/${currentUserState.username}/`)
       .then((response) => {
         setCurrentUserInfoState(response.data);
       })
@@ -77,7 +78,7 @@ function MyProfile () {
 
       var newDataObject = {bio: bioInputState};
 
-      Axios.put(`http://localhost:8800/api/users/${currentUserState.username}`, newDataObject)
+      Axios.put(`${renderURL}/api/users/${currentUserState.username}`, newDataObject)
           .then((response) => {
               // set the currentUserInfoState to the new data
               setCurrentUserInfoState(response.data);

@@ -36,6 +36,7 @@ function PostShowPage () {
 
     const {
         currentUserState,
+        renderURL
     } = useContext(GlobalContext);
 
     if (postInfoState) {
@@ -48,7 +49,7 @@ function PostShowPage () {
 
     // get post's info
     useEffect(() => {
-        Axios.get(`http://localhost:8800/api/posts/${params.postId}/`)
+        Axios.get(`${renderURL}/api/posts/${params.postId}/`)
           .then((response) => {
             setPostInfoState(response.data);
           })
@@ -60,7 +61,7 @@ function PostShowPage () {
     // get the user's info so we can display their profile pic
     useEffect(() => {
         if (postInfoState) {
-           Axios.get(`http://localhost:8800/api/users/${postInfoState.user}/`)
+           Axios.get(`${renderURL}/api/users/${postInfoState.user}/`)
             .then((response) => {
               setProfilePic(response.data.profilePic);
             })
@@ -96,7 +97,7 @@ function PostShowPage () {
             postIdLink: postId,
             user: username
         }
-        Axios.post(`http://localhost:8800/api/notifications/${username}`, notificationBody)
+        Axios.post(`${renderURL}/api/notifications/${username}`, notificationBody)
     }
 
     function handleLike () {
@@ -108,7 +109,7 @@ function PostShowPage () {
                newData.push(currentUserState.username); 
             }
             let newDataObject = {usersWhoveLiked: newData};
-            Axios.put(`http://localhost:8800/api/posts/${postInfoState._id}`, newDataObject)
+            Axios.put(`${renderURL}/api/posts/${postInfoState._id}`, newDataObject)
                 .then((response) => {
                     setLiked(true);
                 })
@@ -127,7 +128,7 @@ function PostShowPage () {
                 return user !== currentUserState.username;
             })
             let newDataObject = {usersWhoveLiked: newData};
-            Axios.put(`http://localhost:8800/api/posts/${postInfoState._id}`, newDataObject)
+            Axios.put(`${renderURL}/api/posts/${postInfoState._id}`, newDataObject)
                 .then((response) => {
                     setLiked(false);
                 })
@@ -138,7 +139,7 @@ function PostShowPage () {
     }
 
     function handleDeletePost () {
-        Axios.delete(`http://localhost:8800/api/posts/${postInfoState._id}`);
+        Axios.delete(`${renderURL}/api/posts/${postInfoState._id}`);
         navigate('/myProfile');
     }
 
@@ -160,7 +161,7 @@ function PostShowPage () {
 
             // PUT call to update post.comments
 
-            Axios.put(`http://localhost:8800/api/posts/${postInfoState._id}`, newCommentData)
+            Axios.put(`${renderURL}/api/posts/${postInfoState._id}`, newCommentData)
                 .then((response) => {
                     setCommentInputState("");
                 })
@@ -172,7 +173,7 @@ function PostShowPage () {
                     postIdLink: postInfoState._id,
                     user: postInfoState.user
                 }
-                Axios.post(`http://localhost:8800/api/notifications/${postInfoState.user}`, notificationBody)
+                Axios.post(`${renderURL}/api/notifications/${postInfoState.user}`, notificationBody)
             }
             
         }
@@ -197,7 +198,7 @@ function PostShowPage () {
             var postComments = postInfoState.comments.filter((comment) => comment._id !== commentId);
             var newCommentData = {comments: postComments};
             // PUT call to update post.comments
-            Axios.put(`http://localhost:8800/api/posts/${postInfoState._id}`, newCommentData)
+            Axios.put(`${renderURL}/api/posts/${postInfoState._id}`, newCommentData)
                 .then((response) => {
                     toggleShowComments(false);
                 })
@@ -234,7 +235,7 @@ function PostShowPage () {
 
     function openUpShareModal () {
         toggleShareModal(true);
-        Axios.get(`http://localhost:8800/api/users/`)
+        Axios.get(`${renderURL}/api/users/`)
             .then((response) => setAllUsersState(response.data))
     }
 
@@ -279,7 +280,7 @@ function PostShowPage () {
             user: selectedSharePerson
         }
         // POST call to notifications
-        Axios.post(`http://localhost:8800/api/notifications/${selectedSharePerson}`, notificationBody)
+        Axios.post(`${renderURL}/api/notifications/${selectedSharePerson}`, notificationBody)
             .then((response) => {
                 // clear and reset all inputs
                 toggleShareModal(false);

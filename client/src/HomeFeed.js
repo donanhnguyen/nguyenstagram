@@ -8,7 +8,8 @@ import PostInsideHomeFeed from './PostInsideHomeFeed';
 function HomeFeed () {
 
     const {
-        currentUserState
+        currentUserState,
+        renderURL
     } = useContext(GlobalContext);
 
     const [allPostsState, setAllPostsState] = useState();
@@ -19,7 +20,7 @@ function HomeFeed () {
         if (!currentUserState) {
             navigate("/login");
         } else {
-            Axios.get(`http://localhost:8800/api/posts/`)
+            Axios.get(`${renderURL}/api/posts/`)
                 .then((response) => {
                     setAllPostsState(response.data);
                 })

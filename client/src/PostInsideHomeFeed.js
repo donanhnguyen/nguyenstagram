@@ -29,6 +29,7 @@ function PostInsideHomeFeed (props) {
 
     const {
         currentUserState,
+        renderURL
     } = useContext(GlobalContext);
 
     const {post} = props;
@@ -49,7 +50,7 @@ function PostInsideHomeFeed (props) {
 
     useEffect(() => {
 
-        Axios.get(`http://localhost:8800/api/posts/${post._id}`)
+        Axios.get(`${renderURL}/api/posts/${post._id}`)
             .then((response) => {
                 setPostInsideFeedState(response.data);
             })
@@ -58,7 +59,7 @@ function PostInsideHomeFeed (props) {
 
     // get the user's info so we can display their profile pic
     useEffect(() => {
-        Axios.get(`http://localhost:8800/api/users/${post.user}/`)
+        Axios.get(`${renderURL}/api/users/${post.user}/`)
         .then((response) => {
             setProfilePic(response.data.profilePic);
         })
@@ -73,7 +74,7 @@ function PostInsideHomeFeed (props) {
             user: username,
             postIdLink: postId
         }
-        Axios.post(`http://localhost:8800/api/notifications/${username}`, notificationBody);
+        Axios.post(`${renderURL}/api/notifications/${username}`, notificationBody);
     }
 
     function handleLike () {
@@ -86,7 +87,7 @@ function PostInsideHomeFeed (props) {
                newData.push(currentUserState.username); 
             }
             let newDataObject = {usersWhoveLiked: newData};
-            Axios.put(`http://localhost:8800/api/posts/${post._id}`, newDataObject)
+            Axios.put(`${renderURL}/api/posts/${post._id}`, newDataObject)
                 .then((response) => {
                     setLiked(true);
                 })
@@ -104,7 +105,7 @@ function PostInsideHomeFeed (props) {
                 return user !== currentUserState.username;
             })
             let newDataObject = {usersWhoveLiked: newData};
-            Axios.put(`http://localhost:8800/api/posts/${post._id}`, newDataObject)
+            Axios.put(`${renderURL}/api/posts/${post._id}`, newDataObject)
                 .then((response) => {
                     setLiked(false);
                 })
@@ -147,7 +148,7 @@ function PostInsideHomeFeed (props) {
 
             // PUT call to update post.comments
 
-            Axios.put(`http://localhost:8800/api/posts/${postInsideFeedState._id}`, newCommentData)
+            Axios.put(`${renderURL}/api/posts/${postInsideFeedState._id}`, newCommentData)
                 .then((response) => {
                     setCommentInputState("");
                 })
@@ -160,7 +161,7 @@ function PostInsideHomeFeed (props) {
                     user: post.user
                 }
 
-                Axios.post(`http://localhost:8800/api/notifications/${post.user}`, notificationBody)
+                Axios.post(`${renderURL}/api/notifications/${post.user}`, notificationBody)
                    
             }
             
@@ -206,7 +207,7 @@ function PostInsideHomeFeed (props) {
     // sharing functionality
     function openUpShareModal () {
         toggleShareModal(true);
-        Axios.get(`http://localhost:8800/api/users/`)
+        Axios.get(`${renderURL}/api/users/`)
             .then((response) => setAllUsersState(response.data))
     }
 
@@ -251,7 +252,7 @@ function PostInsideHomeFeed (props) {
             user: selectedSharePerson
         }
         // POST call to notifications
-        Axios.post(`http://localhost:8800/api/notifications/${selectedSharePerson}`, notificationBody)
+        Axios.post(`${renderURL}/api/notifications/${selectedSharePerson}`, notificationBody)
             .then((response) => {
                 // clear and reset all inputs
                 toggleShareModal(false);

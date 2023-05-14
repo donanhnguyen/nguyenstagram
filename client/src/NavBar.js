@@ -27,7 +27,8 @@ function NavBar () {
 
     const {
         currentUserState,
-        setCurrentUserState
+        setCurrentUserState,
+        renderURL
     } = useContext(GlobalContext);
 
     const [showNotifications, toggleShowNotifications] = useState(false);
@@ -39,7 +40,7 @@ function NavBar () {
     // get notifications
     useEffect(() => {
         if (currentUserState) {
-            Axios.get(`http://localhost:8800/api/notifications/${currentUserState.username}/`)
+            Axios.get(`${renderURL}/api/notifications/${currentUserState.username}/`)
                 .then((response) => {
                     notificationsDispatch({type: 'getAllNotifications', payload: response.data})
                 })    

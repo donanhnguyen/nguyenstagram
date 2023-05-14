@@ -9,6 +9,7 @@ function CreatePostForm (props) {
 
     const {
             currentUserState,
+            renderURL
         } = useContext(GlobalContext);
 
     const {myPostsDispatch, setShowModal, showModal} = props
@@ -46,7 +47,7 @@ function CreatePostForm (props) {
             user: currentUserState.username,
             userId: currentUserState._id
         };
-        Axios.post(`http://localhost:8800/api/posts/`, postData)
+        Axios.post(`${renderURL}/api/posts/`, postData)
             .then((response) => {
                 myPostsDispatch({type: 'createPost', payload: response.data});
                 setImageUrl(null);

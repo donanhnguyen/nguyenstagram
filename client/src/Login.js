@@ -12,7 +12,8 @@ function LogIn () {
 
     const {
         currentUserState,
-        setCurrentUserState
+        setCurrentUserState,
+        renderURL
     } = useContext(GlobalContext);
 
     const navigate = useNavigate();
@@ -29,7 +30,7 @@ function LogIn () {
                 password: passwordState
             };
 
-            Axios.post(`http://localhost:8800/api/auth/login/`, loggedInUser)
+            Axios.post(`${renderURL}/api/auth/login/`, loggedInUser)
                 .then((response) => {
                     setTimeout(() => {
                         setCurrentUserState(response.data)

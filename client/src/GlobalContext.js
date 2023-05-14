@@ -4,12 +4,12 @@ const GlobalContext = createContext();
 
 export function GlobalProvider( {children} ) {
 
-    // var renderURL = "";
-    // if (process.env.NODE_ENV === "development") {
-    //     renderURL = "http://localhost:8800";
-    // } else if (process.env.NODE_ENV === 'production') {
-    //     renderURL = "https://galaxystays-backend.onrender.com";
-    // };
+    var renderURL = "";
+    if (process.env.NODE_ENV === "development") {
+        renderURL = "http://localhost:8800";
+    } else if (process.env.NODE_ENV === 'production') {
+        renderURL = "https://nguyenstagram-backend.onrender.com";
+    };
 
     const [currentUserState, setCurrentUserState] = useState(null);
     const [currentlyViewingProfile, setCurrentlyViewingProfile] = useState(null);
@@ -19,7 +19,8 @@ export function GlobalProvider( {children} ) {
             currentUserState,
             setCurrentUserState,
             currentlyViewingProfile,
-            setCurrentlyViewingProfile
+            setCurrentlyViewingProfile,
+            renderURL
         } }>
             {children}
         </GlobalContext.Provider>

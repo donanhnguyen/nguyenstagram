@@ -8,7 +8,8 @@ function SignUp () {
     const navigate = useNavigate();
 
     const {
-        setCurrentUserState
+        setCurrentUserState,
+        renderURL
     } = useContext(GlobalContext);
 
     // username and pw
@@ -55,7 +56,7 @@ function SignUp () {
                 profilePic: imageUrl,
             };
 
-            Axios.post(`http://localhost:8800/api/auth/register/`, newUser)
+            Axios.post(`${renderURL}/api/auth/register/`, newUser)
                 .then((response) => {
                     setTimeout(() => {
                         setCurrentUserState(response.data)

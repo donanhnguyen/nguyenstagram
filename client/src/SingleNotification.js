@@ -7,12 +7,15 @@ import GlobalContext from './GlobalContext';
 function SingleNotification (props) {
 
     var {notification, notificationsDispatch} = props;
+    const {
+        renderURL
+    } = useContext(GlobalContext);
     const [readOrNot, setToRead] = useState(notification.read);
 
     function markAsRead (notificationId, readStatus) {
         if (!readStatus) {
             var newData = {read: true};
-            Axios.put(`http://localhost:8800/api/notifications/${notificationId}/`, newData)
+            Axios.put(`${renderURL}/api/notifications/${notificationId}/`, newData)
                 .then((response) => {
                     notificationsDispatch({type: 'updateNotification', payload: response.data});
                     setToRead(true);

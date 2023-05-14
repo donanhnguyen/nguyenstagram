@@ -16,6 +16,7 @@ function ProfileShowPage () {
 
     const {
         currentUserState,
+        renderURL
       } = useContext(GlobalContext);
 
     useEffect(() => {
@@ -33,7 +34,7 @@ function ProfileShowPage () {
     useEffect(() => {
 
         // get posts belonging to the current viewed user using the params on react router
-        Axios.get(`http://localhost:8800/api/posts/${params.username}/posts/`)
+        Axios.get(`${renderURL}/api/posts/${params.username}/posts/`)
           .then((response) => {
             setViewingProfilePostsState(response.data);
           })
@@ -45,7 +46,7 @@ function ProfileShowPage () {
 
     useEffect(() => {
       // get the user's info so we can display their followers info, etc.
-        Axios.get(`http://localhost:8800/api/users/${params.username}/`)
+        Axios.get(`${renderURL}/api/users/${params.username}/`)
           .then((response) => {
             setProfileUserState(response.data);
           })
@@ -80,7 +81,7 @@ function ProfileShowPage () {
         message: `${currentUserState.username} has starting following you.`,
         user: username
       }
-      Axios.post(`http://localhost:8800/api/notifications/${username}`, notificationBody)
+      Axios.post(`${renderURL}/api/notifications/${username}`, notificationBody)
           .then((response) => {
               // console.log(response.data);
           })
@@ -105,7 +106,7 @@ function ProfileShowPage () {
 
           // then send it through a PUT request to update THAT user's followers
 
-          Axios.put(`http://localhost:8800/api/users/${params.username}`, newDataObject)
+          Axios.put(`${renderURL}/api/users/${params.username}`, newDataObject)
               .then((response) => {
                   setFollowingOrNot(true);
               })
@@ -119,7 +120,7 @@ function ProfileShowPage () {
             currentLoggedInUsersFollowingArray.push(params.username);
           }
           var newFollowingArrayData = {following: currentLoggedInUsersFollowingArray};
-          Axios.put(`http://localhost:8800/api/users/${currentUserState.username}`, newFollowingArrayData)
+          Axios.put(`${renderURL}/api/users/${currentUserState.username}`, newFollowingArrayData)
               .then((response) => {
               })
               .catch((error) => {
@@ -143,7 +144,7 @@ function ProfileShowPage () {
           // send the new data
 
           let newDataObject = {followers: newData};
-          Axios.put(`http://localhost:8800/api/users/${params.username}`, newDataObject)
+          Axios.put(`${renderURL}/api/users/${params.username}`, newDataObject)
               .then((response) => {
                   setFollowingOrNot(false);
               })
@@ -158,7 +159,7 @@ function ProfileShowPage () {
           });
           let newFollowingArrayObject = {following: newFollowingArray}
 
-          Axios.put(`http://localhost:8800/api/users/${currentUserState.username}`, newFollowingArrayObject)
+          Axios.put(`${renderURL}/api/users/${currentUserState.username}`, newFollowingArrayObject)
               .then((response) => {
               })
               .catch((error) => {

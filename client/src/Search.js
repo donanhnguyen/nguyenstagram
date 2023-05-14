@@ -8,6 +8,7 @@ function Search (props) {
 
     const {
         currentUserState,
+        renderURL
     } = useContext(GlobalContext);
     
     const {
@@ -21,7 +22,7 @@ function Search (props) {
     const [searchFieldState, setSearchFieldState] = useState("");
 
     useEffect(() => {
-        Axios.get(`http://localhost:8800/api/users/`)
+        Axios.get(`${renderURL}/api/users/`)
             .then((response) => setAllUsersState(response.data))    
     }, [])
 
