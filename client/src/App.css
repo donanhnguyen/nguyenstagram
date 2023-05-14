@@ -329,6 +329,19 @@ button {
   margin-top: 70px;
   margin-bottom: 70px;
 }
+/* profile pic edit */
+.myProfilePic {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  opacity: 95%;
+}
+
+.myProfilePic:hover {
+  cursor: pointer;
+  opacity: 100%;
+}
+/* end of profile pic edit */
 @media screen and (max-width: 890px) {
   .my-profile-container {
     width: 95%;

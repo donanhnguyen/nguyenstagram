@@ -17,6 +17,7 @@ function SignUp () {
     const [usernameState, setUsernameState] = useState("");
     const [passwordState, setPasswordState] = useState("");
     const [confirmPasswordState, setConfirmPasswordState] = useState("")
+    const [successfulLogin, setSuccessfulLogin] = useState(false);
 
     // image uploading
 
@@ -68,8 +69,10 @@ function SignUp () {
 
             Axios.post(`${renderURL}/api/auth/register/`, newUser)
                 .then((response) => {
+                    setSuccessfulLogin(true);
                     setTimeout(() => {
-                        setCurrentUserState(response.data)
+                        setSuccessfulLogin(false);
+                        setCurrentUserState(response.data);
                         navigate('/');
                     }, 1000)
                 })
@@ -142,7 +145,12 @@ function SignUp () {
             </div>
 
             </div>
-            
+            {/* modal */}
+            <div id="myModal" className={`modal ${successfulLogin ? "yes-modal" : "" }`}>
+                    <div className={`modal-content`}>
+                        <h1 style={{color: 'green', fontSize: '30px'}}>Registered!</h1>
+                    </div>
+            </div>
         </div>
     )
 

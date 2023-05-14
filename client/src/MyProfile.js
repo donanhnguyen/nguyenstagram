@@ -39,6 +39,41 @@ function MyProfile () {
   const [showBioInput, toggleBioInput] = useState(false);
   const [bioInputState, setBioInputState] = useState('');
 
+  // uploading pic
+  const [showUploadPic, toggleShowUploadPic] = useState(false);
+  const [profilePicUrl, setProfilePicUrl] = useState();
+
+  function convertToBase64 (file) {
+    return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+            resolve(fileReader.result);
+        };
+        fileReader.onerror = (error) => {
+            reject(error);
+        }
+    })
+  }
+
+  const handleFileUpload = async (e) => {
+      const file = e.target.files[0];
+      const base64 = await convertToBase64(file);
+      setProfilePicUrl(base64);
+  }
+
+  function handleEditProfilePic () {
+    if (profilePicUrl) {
+      var newData = {profilePic: profilePicUrl};
+      Axios.put(`${renderURL}/api/users/${currentUserState.username}/`, newData)
+        .then((response) => {
+          setCurrentUserInfoState(response.data);
+        })
+    }
+  }
+
+  // end of uploading pic
+
   useEffect(() => {
     toggleIsLoading(true);
     setTimeout(() => {
@@ -119,11 +154,13 @@ function MyProfile () {
     }
   }
 
+  console.log(profilePicUrl);
+
   if (currentUserInfoState) {
     return (
       <div className='my-profile-container'>
 
-        <img className="profile-pic" src={`${currentUserInfoState.profilePic}`}></img>
+        <img className="myProfilePic" src={`${currentUserInfoState.profilePic}`}></img>
         <h1>{currentUserState.username}</h1>
 
         {/* display bio if it exists or not */}
@@ -152,6 +189,47 @@ function MyProfile () {
               showModal={showModal}
               setShowModal={setShowModal}
             />
+
+      {/* uploading pic modal */}
+      <div id="myModal" className={`modal ${showUploadPic ? "yes-modal" : "" }`}>
+            <div className={`modal-content create-post-form-container`}>
+                <span onClick={() => toggleShowUploadPic(false)} className="close">&times;</span>
+
+
+                    {/* upload image via file upload */}
+                    <div className="file-input">
+                        <h2>Edit Profile Pic</h2>
+                        <input className='file' id='file' type='file' accept='image/*' onChange={(e)=>handleFileUpload(e)}></input>
+                        <label style={{width: '50%'}} htmlFor="file">Upload</label>
+                    </div>
+
+                    <br></br>
+                    
+                    {/* preview image */}
+                    {profilePicUrl?
+                    <img className='previewImagePost' style={{height: '150px', width: '150px', borderRadius: '50%'}} src={profilePicUrl}></img>
+                    :
+                    ""}
+
+                    <button 
+                        style={{width: '50%', margin: 'auto'}} 
+                        className='btn btn-danger btn-lg' 
+                        onClick={() => toggleShowUploadPic(false)}
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        style={{width: '50%', margin: 'auto'}} 
+                        className='btn btn-primary btn-lg'
+                        onClick={handleEditProfilePic}
+                    >
+                        Confirm
+                    </button>
+
+            </div>
+        </div>
+
 
       </div>
     );  

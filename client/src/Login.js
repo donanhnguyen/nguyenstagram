@@ -9,9 +9,9 @@ function LogIn () {
     const [errorMessagesState, setErrorMessagesState] = useState("");
     const [usernameState, setUsernameState] = useState("");
     const [passwordState, setPasswordState] = useState("");
+    const [successfulLogin, setSuccessfulLogin] = useState(false);
 
     const {
-        currentUserState,
         setCurrentUserState,
         renderURL
     } = useContext(GlobalContext);
@@ -32,7 +32,9 @@ function LogIn () {
 
             Axios.post(`${renderURL}/api/auth/login/`, loggedInUser)
                 .then((response) => {
+                    setSuccessfulLogin(true);
                     setTimeout(() => {
+                        setSuccessfulLogin(false);
                         setCurrentUserState(response.data)
                         navigate('/');
                     }, 1000)
@@ -77,6 +79,12 @@ function LogIn () {
                 <h1 style={{fontSize: '1em'}}>Don't have an account? Click <Link to='/signup'>Here</Link> to register.</h1>
             </div>
 
+            </div>
+            {/* modal */}
+            <div id="myModal" className={`modal ${successfulLogin ? "yes-modal" : "" }`}>
+                    <div className={`modal-content`}>
+                        <h1 style={{color: 'green', fontSize: '30px'}}>Logged In!</h1>
+                    </div>
             </div>
         </div>
     )

@@ -51,6 +51,10 @@ function ProfileShowPage () {
           .catch((error) => {
             console.log(error.response);
           });
+        
+        return () => {
+          setViewingProfilePostsState(null);
+        }
 
     }, [profileUserState, params.username]);
 

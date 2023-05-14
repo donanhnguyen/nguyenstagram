@@ -49,13 +49,9 @@ function PostInsideHomeFeed (props) {
     }, [])
 
     useEffect(() => {
-
-        Axios.get(`${renderURL}/api/posts/${post._id}`)
-            .then((response) => {
-                setPostInsideFeedState(response.data);
-            })
-    // dependency array, refresh the post info everytime adding a like, or adding a comment
-    }, [liked])
+        // initially setting the post state info from the post received from props
+        setPostInsideFeedState(post);
+    }, [])
 
     // get the user's info so we can display their profile pic
     useEffect(() => {
@@ -86,11 +82,10 @@ function PostInsideHomeFeed (props) {
             let newDataObject = {usersWhoveLiked: newData};
             Axios.put(`${renderURL}/api/posts/${post._id}`, newDataObject)
                 .then((response) => {
+                    setPostInsideFeedState(response.data);
                     setLiked(true);
                 })
-                .catch((error) => {
-                })
-
+            
             // send notification to THAT user about the like ONLY if ur not liking your own post
             if (currentUserState.username !== postInsideFeedState.user) {
                 sendNotificationForLike(post.user, post._id);
@@ -104,11 +99,10 @@ function PostInsideHomeFeed (props) {
             let newDataObject = {usersWhoveLiked: newData};
             Axios.put(`${renderURL}/api/posts/${post._id}`, newDataObject)
                 .then((response) => {
+                    setPostInsideFeedState(response.data);
                     setLiked(false);
                 })
-                .catch((error) => {
-                    
-                })
+               
         }
         
     }
