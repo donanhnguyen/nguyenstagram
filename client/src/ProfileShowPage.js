@@ -82,12 +82,6 @@ function ProfileShowPage () {
         user: username
       }
       Axios.post(`${renderURL}/api/notifications/${username}`, notificationBody)
-          .then((response) => {
-              // console.log(response.data);
-          })
-          .catch((error) => {
-              // console.log(error.response);
-          })
     }
 
     function handleFollowOrUnfollow () {

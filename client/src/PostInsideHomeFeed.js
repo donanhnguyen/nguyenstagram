@@ -63,9 +63,6 @@ function PostInsideHomeFeed (props) {
         .then((response) => {
             setProfilePic(response.data.profilePic);
         })
-        .catch((error) => {
-            console.log(error.response);
-        }); 
       }, [])
 
     function sendNotificationForLike (username, postId) {
@@ -131,11 +128,7 @@ function PostInsideHomeFeed (props) {
 
     function handlePostComment () {
         
-        
-        if (commentInputState.split("").length === 0 || commentInputState === '') {
-            console.log("cant be blank!");
-        } else {
-
+        if (commentInputState.split("").length !== 0 && commentInputState !== '') {
             // create comment object
 
             var postComments = postInsideFeedState.comments;
@@ -164,7 +157,6 @@ function PostInsideHomeFeed (props) {
                 Axios.post(`${renderURL}/api/notifications/${post.user}`, notificationBody)
                    
             }
-            
         }
         
     }
