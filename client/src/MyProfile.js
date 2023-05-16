@@ -11,6 +11,7 @@ function MyProfile () {
   const navigate = useNavigate();
   const {
     currentUserState,
+    setCurrentUserState,
     renderURL,
     isLoading,
     toggleIsLoading
@@ -43,7 +44,7 @@ function MyProfile () {
   const [showUploadPic, toggleShowUploadPic] = useState(false);
   const [profilePicUrl, setProfilePicUrl] = useState();
 
-  function convertToBase64 (file) {
+  function convertProfilePic (file) {
     return new Promise((resolve, reject) => {
         const fileReader = new FileReader();
         fileReader.readAsDataURL(file);
@@ -56,9 +57,10 @@ function MyProfile () {
     })
   }
 
-  const handleFileUpload = async (e) => {
+  const handleUploadProfilePic = async (e) => {
+      e.preventDefault();
       const file = e.target.files[0];
-      const base64 = await convertToBase64(file);
+      const base64 = await convertProfilePic(file);
       setProfilePicUrl(base64);
   }
 
@@ -68,6 +70,9 @@ function MyProfile () {
       Axios.put(`${renderURL}/api/users/${currentUserState.username}/`, newData)
         .then((response) => {
           setCurrentUserInfoState(response.data);
+          setCurrentUserState(response.data);
+          setProfilePicUrl(null);
+          toggleShowUploadPic(false);
         })
     }
   }
@@ -154,13 +159,11 @@ function MyProfile () {
     }
   }
 
-  console.log(profilePicUrl);
-
   if (currentUserInfoState) {
     return (
       <div className='my-profile-container'>
 
-        <img className="myProfilePic" src={`${currentUserInfoState.profilePic}`}></img>
+        <img onClick={() => toggleShowUploadPic((prevState) => !prevState)} className="myProfilePic" src={`${currentUserInfoState.profilePic}`}></img>
         <h1>{currentUserState.username}</h1>
 
         {/* display bio if it exists or not */}
@@ -199,8 +202,8 @@ function MyProfile () {
                     {/* upload image via file upload */}
                     <div className="file-input">
                         <h2>Edit Profile Pic</h2>
-                        <input className='file' id='file' type='file' accept='image/*' onChange={(e)=>handleFileUpload(e)}></input>
-                        <label style={{width: '50%'}} htmlFor="file">Upload</label>
+                        <input className='file' id='profilePic' type='file' accept='image/*' onChange={(e) => handleUploadProfilePic(e)}></input>
+                        <label style={{width: '50%'}} htmlFor="profilePic">Upload</label>
                     </div>
 
                     <br></br>
@@ -210,6 +213,8 @@ function MyProfile () {
                     <img className='previewImagePost' style={{height: '150px', width: '150px', borderRadius: '50%'}} src={profilePicUrl}></img>
                     :
                     ""}
+
+                      <br></br>
 
                     <button 
                         style={{width: '50%', margin: 'auto'}} 

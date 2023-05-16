@@ -33,6 +33,7 @@ function CreatePostForm (props) {
     }
 
     const handleFileUpload = async (e) => {
+        e.preventDefault();
         const file = e.target.files[0];
         const base64 = await convertToBase64(file);
         setImageUrl(base64);
