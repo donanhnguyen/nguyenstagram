@@ -6,10 +6,14 @@ import GlobalContext from './GlobalContext';
 
 function SingleNotification (props) {
 
-    var {notification, notificationsDispatch} = props;
+    var {notification, notificationsDispatch, toggleShowNotifications} = props;
+
+    const navigate = useNavigate();
+
     const {
         renderURL
     } = useContext(GlobalContext);
+
     const [readOrNot, setToRead] = useState(notification.read);
 
     function markAsRead (notificationId, readStatus) {
@@ -23,10 +27,15 @@ function SingleNotification (props) {
                 .catch((err) => console.log(err))   
         } 
     }
+    
+    function navigateToPostPage () {
+        navigate(`/postShowPage/${notification.postIdLink}`)
+        toggleShowNotifications(false);
+    }
 
     function showPostLinkOrNot () {
         if (notification.postIdLink) {
-            return (<Link to={`/postShowPage/${notification.postIdLink}`}>Link to Post</Link>)
+            return (<p onClick={navigateToPostPage} className='any-link'>Link to Post</p>)
         }
     }
 

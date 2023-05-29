@@ -1,5 +1,5 @@
 import './App.css';
-import {useState, useContext, useEffect, useReducer} from 'react';
+import {useState, useContext, useEffect, useReducer, } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
@@ -29,8 +29,6 @@ function NavBar () {
         currentUserState,
         setCurrentUserState,
         renderURL,
-        isLoading,
-        toggleIsLoading
     } = useContext(GlobalContext);
 
     const [showNotifications, toggleShowNotifications] = useState(false);
@@ -60,32 +58,35 @@ function NavBar () {
          return (
             <div className="nav-bar-container">
                 
-                <h3 style={{fontSize: '30px'}} className='nguyenstagram'>Nguyenstagram</h3>
+                <h3 className='nguyenstagram'>Nguyenstagram</h3>
 
                 <h3>Welcome, {currentUserState.username}</h3>
 
                 <img className="profilePicNavBar" src={`${currentUserState.profilePic}`}></img>
 
-                <Link to='/'>
+                <div className='nav-links'>
+                    <Link to='/'>
                    <h1><i className="fa fa-home" aria-hidden="true"></i> Home</h1>
-               </Link>
+                    </Link>
 
-               <Link to='/myProfile'>
-                    <h1><i className="fa fa-user" aria-hidden="true"></i> Profile</h1>
-               </Link>
+                    <Link to='/myProfile'>
+                            <h1><i className="fa fa-user" aria-hidden="true"></i> Profile</h1>
+                    </Link>
 
-               <Search 
-                    showSearch={showSearch}
-                    toggleShowSearch={toggleShowSearch}
-               />
+                    <Search 
+                            showSearch={showSearch}
+                            toggleShowSearch={toggleShowSearch}
+                    />
+                    <Notifications 
+                        showNotifications={showNotifications}
+                        toggleShowNotifications={toggleShowNotifications}
+                        allNotificationsState={allNotificationsState}
+                        notificationsDispatch={notificationsDispatch}
+                    />
+                </div>
+                
 
-               <Notifications 
-                    showNotifications={showNotifications}
-                    toggleShowNotifications={toggleShowNotifications}
-                    allNotificationsState={allNotificationsState}
-                    notificationsDispatch={notificationsDispatch}
-               />
-
+            
                 <button className='logoutButton btn btn-outline-danger' onClick={logOut}>Log Out</button>
             </div>
         )   

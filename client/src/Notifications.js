@@ -18,6 +18,7 @@ function Notifications (props) {
                     key={notification._id}
                     notification={notification}
                     notificationsDispatch={notificationsDispatch}
+                    toggleShowNotifications={toggleShowNotifications}
                 />
             )
         })
@@ -56,16 +57,20 @@ function Notifications (props) {
         )  
     } else {
         return (
-            <div >
-                <h1 
-                    className='toggleSomething'
-                    onClick={() => toggleShowNotifications((prevState) => !prevState)}>
-                    Hide Notifications
-                </h1>
-                <ul className='notificationsList'>
-                    {displayNotifications()}
-                </ul>
+            <div id="myModal" className={`modal ${showNotifications ? "yes-modal" : "" }`}>
+                <div className={`modal-content`}>
 
+                    <h1 
+                        style={{textAlign: 'center', fontSize: '1.5rem'}}
+                        className='toggleSomething'
+                        onClick={() => toggleShowNotifications((prevState) => !prevState)}>
+                        Hide Notifications
+                    </h1>
+                    <ul className='notificationsList'>
+                        {displayNotifications()}
+                    </ul>
+
+                </div>
             </div>
         )
     }

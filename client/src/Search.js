@@ -32,6 +32,8 @@ function Search (props) {
             navigate('/myProfile')
         } else {
             toggleIsLoading(true);
+            toggleShowSearch(false);
+            setSearchFieldState("");
             setTimeout(() => {
                 toggleIsLoading(false);
             }, 1000);
@@ -81,26 +83,35 @@ function Search (props) {
         )  
     } else {
         return (
-            <div className='searchContainer'>
 
-                <h1 
-                    className='toggleSomething'
-                    onClick={() => toggleShowSearch((prevState) => !prevState)}
-                    >
-                    <i className="fa fa-search" aria-hidden="true"></i> Search
-                </h1>
+            <div id="myModal" className={`modal ${showSearch ? "yes-modal" : "" }`}>
+                    <div className={`modal-content`}>
+                        
+                            <div className='searchContainer'>
 
-                <input 
-                    onChange={(e) => setSearchFieldState(e.target.value)} 
-                    value={searchFieldState}
-                    type='text'
-                    style={{marginBottom: '20px'}}>
-                </input>
-                <ul>
-                    {displaySearchResults()}
-                </ul>
+                                <h1 
+                                    style={{textAlign: 'center', fontSize: '2rem'}}
+                                    className='toggleSomething'
+                                    onClick={() => toggleShowSearch((prevState) => !prevState)}
+                                    >
+                                   X
+                                </h1>
 
-            </div>
+                                <input 
+                                    onChange={(e) => setSearchFieldState(e.target.value)} 
+                                    value={searchFieldState}
+                                    type='text'
+                                    style={{marginBottom: '20px'}}>
+                                </input>
+                                <ul>
+                                    {displaySearchResults()}
+                                </ul>
+
+                            </div>
+
+                    </div>
+                </div>
+            
         )
     }
     

@@ -46,6 +46,14 @@ button {
 .App-link {
   color: #61dafb;
 }
+.any-link {
+  color: #00aede;
+
+}
+.any-link:hover {
+  color:#619efb;
+
+}
 
 @keyframes App-logo-spin {
   from {
@@ -262,6 +270,11 @@ button {
     height: auto;
     border-bottom: 1px solid gray;
   }
+  .nav-links{
+    display: flex;
+    justify-content: space-evenly;
+  }
+
   .home {
     margin-top: 300px;
   }
@@ -313,7 +326,6 @@ button {
 .notificationsList {
   padding: 0px;
   word-wrap: break-word;
-  max-width: 300px;
 }
 .notificationsList li {
   word-wrap: break-word;
@@ -390,7 +402,7 @@ button {
 .searchContainer ul {
   padding: 0px;
   margin: 0px;
-  text-align: left;
+  text-align: center;
 }
 @media screen and (max-width: 890px) {
   .searchContainer ul {
