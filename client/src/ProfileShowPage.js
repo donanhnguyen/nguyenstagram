@@ -26,7 +26,7 @@ function ProfileShowPage () {
         toggleIsLoading(true);
         setTimeout(() => {
             toggleIsLoading(false);
-        }, 2000);
+        }, 1000);
     }, [])
 
     useEffect(() => {

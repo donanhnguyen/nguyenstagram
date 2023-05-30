@@ -1,5 +1,5 @@
 import './App.css';
-import {useState, useContext, useEffect} from 'react';
+import {useState, useContext, useEffect, useRef} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
@@ -16,7 +16,7 @@ function Search (props) {
       showSearch,
       toggleShowSearch
     } = props;
-    
+
     const navigate = useNavigate();
 
     const [allUsersState, setAllUsersState] = useState();
@@ -84,8 +84,8 @@ function Search (props) {
     } else {
         return (
 
-            <div id="myModal" className={`modal ${showSearch ? "yes-modal" : "" }`}>
-                    <div className={`modal-content`}>
+            <div id="myModal" className={`modal ${showSearch ? "yes-modal" : "" }`} onClick={() => toggleShowSearch(false)}>
+                    <div className={`modal-content`} onClick={e => {e.stopPropagation();}}>
                         
                             <div className='searchContainer'>
 
@@ -101,7 +101,8 @@ function Search (props) {
                                     onChange={(e) => setSearchFieldState(e.target.value)} 
                                     value={searchFieldState}
                                     type='text'
-                                    style={{marginBottom: '20px'}}>
+                                    placeholder='Search user...'
+                                    style={{marginBottom: '20px', width: "100%"}}>
                                 </input>
                                 <ul>
                                     {displaySearchResults()}

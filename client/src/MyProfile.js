@@ -5,6 +5,7 @@ import Axios from 'axios';
 import GlobalContext from './GlobalContext';
 import CreatePostForm from './CreatePostForm';
 import Loader from './Loader';
+import Image from 'react-bootstrap/Image'
 
 function MyProfile () {
 
@@ -83,7 +84,7 @@ function MyProfile () {
     toggleIsLoading(true);
     setTimeout(() => {
         toggleIsLoading(false);
-    }, 1000);
+    }, 500);
   }, [])
 
   useEffect(() => {
@@ -113,10 +114,11 @@ function MyProfile () {
     const dispalyedPosts = myPostsState.map((post) => {
       return (
         <div key={post._id} className='single-post-container'>
-          <img 
+          <Image thumbnail={true} src={post.picUrl}  className='single-post-thumbnail post-pic-link' onClick={() => navigateToPostShowPage(post._id)}></Image>
+          {/* <img 
             onClick={() => navigateToPostShowPage(post._id)}
             className='single-post-thumbnail post-pic-link' src={post.picUrl}
-          ></img>
+          ></img> */}
         </div>
       )
     })

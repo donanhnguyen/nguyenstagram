@@ -57,11 +57,11 @@ function Notifications (props) {
         )  
     } else {
         return (
-            <div id="myModal" className={`modal ${showNotifications ? "yes-modal" : "" }`}>
-                <div className={`modal-content`}>
+            <div id="myModal" className={`modal ${showNotifications ? "yes-modal" : "" }`} onClick={() => toggleShowNotifications(false)}>
+                <div className={`modal-content`} onClick={e => {e.stopPropagation();}}>
 
                     <h1 
-                        style={{textAlign: 'center', fontSize: '1.5rem'}}
+                        style={{textAlign: 'center', fontSize: '1.5rem', padding: '0px', margin: '3px'}}
                         className='toggleSomething'
                         onClick={() => toggleShowNotifications((prevState) => !prevState)}>
                         Hide Notifications

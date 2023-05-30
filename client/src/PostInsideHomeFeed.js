@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './App.css';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
+import { Button } from 'react-bootstrap';
 
 function PostInsideHomeFeed (props) {
 
@@ -165,6 +166,7 @@ function PostInsideHomeFeed (props) {
                         value={commentInputState}
                         onChange={(e) => setCommentInputState(e.target.value)}
                     ></input>
+                    
                     <button 
                         style={{width: '20%', padding: '1px'}} 
                         className='post-comment-button'
