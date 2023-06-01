@@ -44,7 +44,7 @@ button {
 }
 
 .App-link {
-  color: #61dafb;
+  color: #29a6c8;
 }
 .any-link {
   color: #00aede;
@@ -52,7 +52,7 @@ button {
 }
 .any-link:hover {
   color:#619efb;
-
+  cursor: pointer;
 }
 
 @keyframes App-logo-spin {

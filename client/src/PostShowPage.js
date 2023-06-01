@@ -101,6 +101,15 @@ function PostShowPage () {
         }
     }
 
+    function navigateToProfileShowPageFromComment (e, user) {
+        e.preventDefault();
+        if (user === currentUserState.username) {
+            navigate('/myProfile');
+        } else {
+            navigate(`/profileShowPage/${user}`);
+        }
+    }
+
     function sendNotificationForLike (username, postId) {
         var notificationBody = {
             message: `${currentUserState.username} has liked your post ${postId}.`,
@@ -221,7 +230,7 @@ function PostShowPage () {
                 return (
                     <li key={comment._id + i} className='commentInsidePostShowPage'>
                         
-                        <p style={{fontSize: '.6em'}}>{commentDate}</p>
+                        <p style={{fontSize: '.6em'}}>{commentDate !== "Invalid Date" ? commentDate: "Just Now"}</p>
                         
                             {comment.user === currentUserState.username ?
                                 <h1 
@@ -233,8 +242,12 @@ function PostShowPage () {
                                 :
                                 ""
                             }
-
-                        <p>{comment.user}: {comment.text}</p>
+                        <span 
+                            onClick={(e) => navigateToProfileShowPageFromComment(e, comment.user)} 
+                            className='any-link'>{comment.user}:
+                       </span> 
+                       <span> { comment.text }</span>
+                        
  
                     </li>
                 )

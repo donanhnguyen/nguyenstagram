@@ -121,6 +121,15 @@ function PostInsideHomeFeed (props) {
         }
     }
 
+    function navigateToProfileShowPageFromComment (e, user) {
+        e.preventDefault();
+        if (user === currentUserState.username) {
+            navigate('/myProfile');
+        } else {
+            navigate(`/profileShowPage/${user}`);
+        }
+    }
+
     function handlePostComment () {
         
         if (commentInputState.split("").length !== 0 && commentInputState !== '') {
@@ -183,8 +192,12 @@ function PostInsideHomeFeed (props) {
                 let commentDate = new Date(comment.createdAt).toDateString();
                 return (
                     <li key={comment._id + i} className='single-comment textAlignLeft'>
-                       <p style={{fontSize: '11px'}}>{commentDate !== "Invalid Date" ? commentDate: "Just Now"}</p> 
-                       <p>{comment.user}: {comment.text}</p>
+                       <p style={{fontSize: '11px'}}>{commentDate}</p> 
+                       <span 
+                            onClick={(e) => navigateToProfileShowPageFromComment(e, comment.user)} 
+                            className='any-link'>{comment.user}:
+                       </span> 
+                       <span> { comment.text }</span>
                     </li>
                 )
             });
