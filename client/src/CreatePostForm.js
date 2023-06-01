@@ -91,11 +91,11 @@ function CreatePostForm (props) {
                     :
                     ""}
 
-                
+                        <br></br>
 
                     <label>Caption</label>
                     <br></br>
-                    <input type='text' style={{width: '100%'}} onChange={(e) => setCaptionState(e.target.value)} value={captionState}></input>
+                    <input type='text' style={{width: '100%', textAlign: 'center'}} onChange={(e) => setCaptionState(e.target.value)} value={captionState}></input>
                     <br></br>
 
                     <p style={{color: 'red'}}>{createPostErrorState}</p>

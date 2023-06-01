@@ -192,7 +192,7 @@ function PostInsideHomeFeed (props) {
                 let commentDate = new Date(comment.createdAt).toDateString();
                 return (
                     <li key={comment._id + i} className='single-comment textAlignLeft'>
-                       <p style={{fontSize: '11px'}}>{commentDate}</p> 
+                       <p style={{fontSize: '11px'}}>{commentDate === "Invalid Date" ? "Just Now" : commentDate}</p> 
                        <span 
                             onClick={(e) => navigateToProfileShowPageFromComment(e, comment.user)} 
                             className='any-link'>{comment.user}:
