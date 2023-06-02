@@ -173,7 +173,8 @@ function PostShowPage () {
             var postComments = postInfoState.comments;
             var commentBody = {
                 user: currentUserState.username,
-                text: commentInputState
+                text: commentInputState,
+                datePosted: new Date()
             };
             postComments.push(commentBody);
             var newCommentData = {comments: postComments};
@@ -183,6 +184,7 @@ function PostShowPage () {
             Axios.put(`${renderURL}/api/posts/${postInfoState._id}`, newCommentData)
                 .then((response) => {
                     setCommentInputState("");
+                    setPostInfoState(response.data)
                 })
                 
             // send notification here only if ur not commenting on own post
@@ -226,11 +228,17 @@ function PostShowPage () {
     function showCommentsOrNot () {
         if (showComments) {
             const commentsDisplayed = postInfoState.comments.map((comment, i) => {
-                let commentDate = new Date(comment.createdAt).toDateString();
+                
+                let commentDate;
+
+                if (comment.datePosted) {
+                    commentDate = comment.datePosted.split("").slice(0,10).join("");
+                }
+
                 return (
                     <li key={comment._id + i} className='commentInsidePostShowPage'>
                         
-                        <p style={{fontSize: '.6em'}}>{commentDate !== "Invalid Date" ? commentDate: "Just Now"}</p>
+                        <p style={{fontSize: '.6em'}}>{commentDate}</p>
                         
                             {comment.user === currentUserState.username ?
                                 <h1 

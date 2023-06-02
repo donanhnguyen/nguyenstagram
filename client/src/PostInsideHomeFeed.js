@@ -138,7 +138,8 @@ function PostInsideHomeFeed (props) {
             var postComments = postInsideFeedState.comments;
             var commentBody = {
                 user: currentUserState.username,
-                text: commentInputState
+                text: commentInputState,
+                datePosted: new Date()
             };
             postComments.push(commentBody);
             var newCommentData = {comments: postComments};
@@ -148,6 +149,7 @@ function PostInsideHomeFeed (props) {
             Axios.put(`${renderURL}/api/posts/${postInsideFeedState._id}`, newCommentData)
                 .then((response) => {
                     setCommentInputState("");
+                    setPostInsideFeedState(response.data);
                 })
                 
             // send notification here, but DONT send it if ur commenting on your own post.
@@ -189,10 +191,16 @@ function PostInsideHomeFeed (props) {
     function showCommentsOrNot () {
         if (showComments) {
             const commentsDisplayed = postInsideFeedState.comments.map((comment, i) => {
-                let commentDate = new Date(comment.createdAt).toDateString();
+
+                let commentDate;
+
+                if (comment.datePosted) {
+                    commentDate = comment.datePosted.split("").slice(0,10).join("");
+                } 
+            
                 return (
                     <li key={comment._id + i} className='single-comment textAlignLeft'>
-                       <p style={{fontSize: '11px'}}>{commentDate === "Invalid Date" ? "Just Now" : commentDate}</p> 
+                       <p style={{fontSize: '11px'}}>{commentDate}</p> 
                        <span 
                             onClick={(e) => navigateToProfileShowPageFromComment(e, comment.user)} 
                             className='any-link'>{comment.user}:

@@ -8,6 +8,10 @@ const CommentSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 4,
+    },
+    datePosted: {
+        type: String,
+        required: true,
     }
     
 }, {timestamps: true})

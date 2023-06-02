@@ -58,7 +58,7 @@ function LogIn () {
                     {/* logo goes here somewhere */}
                     <h1 style={{fontSize: '1.5em'}} className='nguyenstagram'>Nguyenstagram</h1>
 
-                    <h1 className='login-error-messages'>{errorMessagesState}</h1>
+                    <h1 style={{fontSize: '1.2rem'}}className='login-error-messages'>{errorMessagesState}</h1>
 
                     <label htmlFor='username'>Username</label>
                     <br></br>
@@ -70,11 +70,11 @@ function LogIn () {
                     
                     <br></br>
 
-                    <button className='btn btn-primary' type='submit'>Log In</button> 
+                    <button style={{marginTop: '8px'}} className='btn btn-primary' type='submit'>Log In</button> 
                 </form>
 
 
-                <br></br>
+              
 
                 <h1 style={{fontSize: '1em'}}>Don't have an account? Click <Link to='/signup'>Here</Link> to register.</h1>
             </div>
