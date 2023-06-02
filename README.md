@@ -4,7 +4,7 @@
 
 <h1>Description:</h1>
 
-Nguyenstagram is a full stack photo-sharing application. Users may create a profile, upload profile pictures, share photos to a general home-feed, share photos to other users, comments on posts, like posts, search for users, and display notifications for each activity that another user does with their profile (follow them, comment on post, share post, or like a post).
+Nguyenstagram is a full stack photo-sharing application where users may create a profile, upload profile pictures, share photos to a general home-feed, share photos to other users, comments on posts, like posts, search for users, and display notifications for each activity that another user does with their profile (follow them, comment on post, share post, or like a post).
 
 <h1>Languages and tools used:</h1>
 
@@ -25,7 +25,7 @@ Nguyenstagram is a full stack photo-sharing application. Users may create a prof
 <h2>Log In or Sign Up</h2>
 <br>
 
-Before being able to enter the application, you must create a profile (like with Instagram). The user will be greeted with an option to log in to their account if they already have one or register if they do not.
+Before being able to enter the application, the user create a profile (like with Instagram). The user will be greeted with an option to log in to their account if they already have one or register if they do not.
 
 Below, the user can register for an account and have the option to upload a profile pic. However, they do not need to do so in order to create an account. They can always edit their profile pic later. For now, they will have a default avatar.
 
