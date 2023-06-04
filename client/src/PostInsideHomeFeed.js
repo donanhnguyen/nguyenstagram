@@ -4,6 +4,7 @@ import './App.css';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
 import { Button } from 'react-bootstrap';
+import Image from 'react-bootstrap/Image'
 
 function PostInsideHomeFeed (props) {
 
@@ -303,10 +304,12 @@ function PostInsideHomeFeed (props) {
                 </h1>
 
                 {/* post image */}
-                <img 
+                <Image thumbnail={true} src={post.picUrl} className='single-post-image-in-home-feed post-pic-link' onClick={navigateToPostShowPage}></Image>
+
+                {/* <img 
                     onClick={navigateToPostShowPage}
                     className='single-post-image-in-home-feed post-pic-link' src={post.picUrl}
-                ></img>
+                ></img> */}
                 <br></br>
 
                 {/* caption */}

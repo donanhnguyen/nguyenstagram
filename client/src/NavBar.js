@@ -58,7 +58,8 @@ function NavBar () {
          return (
             <div className="nav-bar-container">
                 
-                <h3 className='nguyenstagram'>Nguyenstagram</h3>
+                <h3 className='nguyenstagram'>Nguyenstagram </h3>
+                
 
                 <h3>Welcome, {currentUserState.username}</h3>
 

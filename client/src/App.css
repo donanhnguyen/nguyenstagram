@@ -91,6 +91,7 @@ button {
   margin-top: 20px;
   margin-bottom: 20px;
   padding: 20px;
+  font-size: 1.4rem;
 }
 .home-feed-post-container h1 {
   font-size: .9em;
@@ -318,6 +319,7 @@ button {
 .single-notification {
   margin-top:1px;
   margin-bottom: 1px;
+  padding: 5px 0;
 }
 .single-notification:hover {
   cursor: pointer;
@@ -466,6 +468,7 @@ button {
   border: .5px solid rgba(128, 128, 128, 0.2);
   border-radius: 5px;
   padding: 20px;
+  font-size: 1.4rem;
 }
 .postShowPageContainer h1 {
   font-size: .9em;

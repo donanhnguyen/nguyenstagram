@@ -20,17 +20,17 @@ function HomeFeed () {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!currentUserState) {
-            navigate("/login");
-        } else {
-            Axios.get(`${renderURL}/api/posts/`)
+
+        Axios.get(`${renderURL}/api/posts/`)
                 .then((response) => {
                     setAllPostsState(response.data);
                 })
                 .catch((error) => {
                     console.log(error);
                 })
-        }
+        if (!currentUserState) {
+            navigate("/login");
+        } 
     }, []) 
 
     useEffect(() => {

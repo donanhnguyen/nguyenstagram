@@ -35,7 +35,7 @@ function SingleNotification (props) {
 
     function showPostLinkOrNot () {
         if (notification.postIdLink) {
-            return (<p onClick={navigateToPostPage} className='any-link'>Link to Post</p>)
+            return (<span onClick={navigateToPostPage} className='any-link'> Link to Post</span>)
         }
     }
 
@@ -44,7 +44,7 @@ function SingleNotification (props) {
             className={`${readOrNot ? "read" : "unread" } single-notification`}
             onClick={() => markAsRead(notification._id, notification.read)}
         >
-            {notification.message} {showPostLinkOrNot()}
+            <span>{notification.message}</span>{showPostLinkOrNot()}
 
         </li>
     )    
