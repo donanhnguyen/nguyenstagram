@@ -47,6 +47,8 @@ function SignUp () {
         e.preventDefault();
         if (usernameState === "" || passwordState === "" || confirmPasswordState === "") {
             setErrorMessagesState("Field's can't be blank!")
+        } else if (usernameState.length < 3 || passwordState.length < 3) {
+            setErrorMessagesState("Username & password must be at least 3 characters.")
         } else if (passwordState !== confirmPasswordState) {
             setErrorMessagesState("Passwords don't match.");
         } else {
