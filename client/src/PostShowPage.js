@@ -346,7 +346,7 @@ function PostShowPage () {
                 <br></br>
 
                 {/* pic */}
-                <img className='postShowPagePic' src={postInfoState.picUrl}></img>
+                <img className='postShowPagePic' src={postInfoState.picUrl} onDoubleClickCapture={handleLike}></img>
                 
                 {/* caption */}
                 <h1 className='home-feed-post-caption'>{postInfoState.caption}</h1>

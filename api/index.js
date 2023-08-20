@@ -20,7 +20,7 @@ const connect = async () => {
 }
 
 mongoose.connection.on('disconnected', () => {
-    console.log("disconnected!!!")
+    console.log("disconnected!")
 })
 
 // middlewares

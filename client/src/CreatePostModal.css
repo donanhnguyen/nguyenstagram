@@ -134,7 +134,7 @@
 }
 
 /* Modal Content */
-.modal-content {
+.create-post-modal-content {
   background-color: #ffffff;
   color: rgb(0, 0, 0);
   margin: auto;
@@ -142,8 +142,8 @@
   border: 1px solid #ffffffa1;
   width: 40%;
 }
-.modal-content button {
-  
+.create-post-modal-content button {
+  font-size: 1rem;
 }
 
 /* The Close Button */

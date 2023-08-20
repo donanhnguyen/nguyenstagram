@@ -37,7 +37,7 @@ function HomeFeed () {
         toggleIsLoading(true);
         setTimeout(() => {
             toggleIsLoading(false);
-        }, 2500);
+        }, 2000);
     }, [])
 
     function displayHomePagePosts () {

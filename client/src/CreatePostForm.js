@@ -67,62 +67,52 @@ function CreatePostForm (props) {
     return (
         <div>
             
-            <div id="myModal" className={`modal ${showModal ? "yes-modal" : "" }`}>
-            <div className={`modal-content create-post-form-container`}>
-                <span onClick={() => setShowModal(false)} className="close">&times;</span>
+            <div id="myModal" className={`modal ${showModal ? "yes-modal" : "" }`} onClick={() => setShowModal(false)}>
+                <div className={`create-post-modal-content create-post-form-container`} onClick={e => {e.stopPropagation();}}>
+                    <span onClick={() => setShowModal(false)} className="close">&times;</span>
 
-                    {/* upload image via link */}
-                    {/* <label>Pic Url <i className="fa fa-picture-o" aria-hidden="true"></i></label>
-                    <br></br>
-                    <input type='text' onChange={(e) => setImageUrl(e.target.value)}></input> */}
-
-
-                    {/* upload image via file upload */}
-                    <div className="file-input">
-                        <input className='file' id='file' type='file' accept='image/*' onChange={(e) => handleFileUpload(e)}></input>
-                        <label htmlFor="file">Upload Pic</label>
-                    </div>
-
-                    <br></br>
-                    
-                    {/* preview image */}
-                    {imageUrl?
-                    <img className='previewImagePost' style={{height: '150px', width: '200px'}} src={imageUrl}></img>
-                    :
-                    ""}
+                        {/* upload image via file upload */}
+                        <div className="file-input">
+                            <input className='file' id='file' type='file' accept='image/*' onChange={(e) => handleFileUpload(e)}></input>
+                            <label htmlFor="file">Upload Pic</label>
+                        </div>
 
                         <br></br>
+                        
+                        {/* preview image */}
+                        {imageUrl?
+                        <img className='previewImagePost' style={{height: '150px', width: '200px'}} src={imageUrl}></img>
+                        :
+                        ""}
 
-                    <label>Caption</label>
-                    <br></br>
-                    <input type='text' style={{width: '100%', textAlign: 'center'}} onChange={(e) => setCaptionState(e.target.value)} value={captionState}></input>
-                    <br></br>
+                            <br></br>
 
-                    <p style={{color: 'red'}}>{createPostErrorState}</p>
+                        <label>Caption</label>
+                        <br></br>
+                        <input type='text' style={{width: '80%', textAlign: 'center'}} onChange={(e) => setCaptionState(e.target.value)} value={captionState}></input>
+                        <br></br>
 
-                    <br></br>
-                    <button 
-                        style={{width: '50%', margin: 'auto'}} 
-                        className='btn btn-danger btn-lg' 
-                        onClick={() => setShowModal(false)}
-                    >
-                        Cancel
-                    </button>
+                        <p style={{color: 'red'}}>{createPostErrorState}</p>
 
-                    <button
-                        style={{width: '50%', margin: 'auto'}} 
-                        className='btn btn-primary btn-lg'
-                        onClick={(e) => handleCreatePost(e)}
-                    >
-                        Share
-                    </button>
-                
+                        <br></br>
+                        <button 
+                            style={{width: '50%', margin: 'auto'}} 
+                            className='btn btn-danger btn-lg' 
+                            onClick={() => setShowModal(false)}
+                        >
+                            Cancel
+                        </button>
 
+                        <button
+                            style={{width: '50%', margin: 'auto'}} 
+                            className='btn btn-primary btn-lg'
+                            onClick={(e) => handleCreatePost(e)}
+                        >
+                            Share
+                        </button>
+                </div>
             </div>
-            </div>
-
-            
-                
+ 
         </div>
     );
 }
