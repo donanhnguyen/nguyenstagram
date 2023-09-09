@@ -20,27 +20,6 @@ Nguyenstagram is a full stack photo-sharing application where users may create a
 </div>
 
 <br>
-
-<h1>Running project locally:</h1>
-
-Git clone the repo with this command:
-
-`git clone https://github.com/thedonwind69/nguyenstagram.git`
-
-Open 2 separate terminal tabs, and cd into project folder on each. For each tab, one of them cd into the nguyenstagram/api/ folder and the other into nguyenstagram/client/:
-
-`cd nguyenstagram/api`
-
-`cd nguyenstagram/client`
-
-On each terminal tab, run `npm install`
-
-Once packagaes are installed, on each tab, run `npm start`
-
-On the api/index.js file, uncomment line 37-39 to have localhost:3000 be the source of the cors options.
-
-Now, on browser, go to `http://localhost:3000`
-
 <h1>How to use:</h1>
 
 <h2>Log In or Sign Up</h2>
