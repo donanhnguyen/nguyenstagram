@@ -5,6 +5,9 @@ import Axios from 'axios';
 import GlobalContext from './GlobalContext';
 import PostInsideHomeFeed from './PostInsideHomeFeed';
 import Loader from './Loader';
+import './CreatePostModal.css'
+import CreatePostFormFromHomePage from './CreatePostFormFromHomePage';
+import Image from 'react-bootstrap/Image'
 
 function HomeFeed () {
 
@@ -16,11 +19,23 @@ function HomeFeed () {
     } = useContext(GlobalContext);
 
     const [allPostsState, setAllPostsState] = useState();
+    const [showModal, setShowModal] = useState(false);
 
     const navigate = useNavigate();
 
-    useEffect(() => {
+    function getAllPosts () {
+        toggleIsLoading(true);
+        Axios.get(`${renderURL}/api/posts/`)
+                .then((response) => {
+                    setAllPostsState(response.data);
+                    toggleIsLoading(false);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+    }
 
+    function refreshAllPosts () {
         Axios.get(`${renderURL}/api/posts/`)
                 .then((response) => {
                     setAllPostsState(response.data);
@@ -28,17 +43,14 @@ function HomeFeed () {
                 .catch((error) => {
                     console.log(error);
                 })
+    }
+
+    useEffect(() => {
+        getAllPosts()
         if (!currentUserState) {
             navigate("/login");
         } 
     }, []) 
-
-    useEffect(() => {
-        toggleIsLoading(true);
-        setTimeout(() => {
-            toggleIsLoading(false);
-        }, 2000);
-    }, [])
 
     function displayHomePagePosts () {
         if (allPostsState) {
@@ -54,8 +66,18 @@ function HomeFeed () {
     } else {
         return (
             <div className='App-header'>
+                    <CreatePostFormFromHomePage 
+                        showModal={showModal}
+                        setShowModal={setShowModal}
+                        refreshAllPosts={refreshAllPosts}
+                    />
                 <div className='home'>
                     {displayHomePagePosts()}
+                    
+                </div>
+                    
+                <div className="floating-button">
+                    <button onClick={() => setShowModal(true)} className="round-button">+</button>
                 </div>
             </div>
         )    

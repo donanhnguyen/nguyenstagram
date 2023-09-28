@@ -49,19 +49,14 @@ function PostShowPage () {
         let displayedYear = dateArray.slice(0, 4).join("");
         var displayedDate = `${displayedMonth} - ${displayedDay} - ${displayedYear}`;
     }
-
-    useEffect(() => {
-        toggleIsLoading(true);
-        setTimeout(() => {
-            toggleIsLoading(false);
-        }, 2000);
-    }, [])
-
+    
     // get post's info
     useEffect(() => {
+        toggleIsLoading(true);
         Axios.get(`${renderURL}/api/posts/${params.postId}/`)
           .then((response) => {
             setPostInfoState(response.data);
+            toggleIsLoading(false);
           })
           .catch((error) => {
             console.log(error.response);

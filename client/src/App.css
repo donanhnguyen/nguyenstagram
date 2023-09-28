@@ -548,3 +548,41 @@ button {
   margin-bottom: 5px;
   margin-top: 5px;
 }
+
+/* Style for the button container */
+.floating-button {
+  position: fixed; /* Make it fixed to the viewport */
+  bottom: 20px; /* Adjust the distance from the bottom as needed */
+  right: 20px; /* Adjust the distance from the right as needed */
+  z-index: 999; /* Set a high z-index to make it appear above other elements */
+}
+
+.round-button {
+  width: 80px;
+  height: 80px;
+  background-color: rgb(157, 0, 157);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 34px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Add a smooth transition effect */
+
+  /* Center the plus sign vertically and horizontally */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Change the text when hovering */
+.round-button:hover::before {
+  content: "Upload Photo"; /* Change the button's content on hover */
+  font-size: 18px; /* Adjust the font size */
+}
+
+/* Adjust the button hover effect if needed */
+.round-button:hover {
+  background-color: #f90bf1;
+  
+  /* Change the background color on hover */
+}

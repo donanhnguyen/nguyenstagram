@@ -1,6 +1,6 @@
 import './App.css';
 import {useState, useContext, useEffect} from 'react';
-import {useNavigate, useLocation, useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
 import Loader from './Loader';
@@ -12,7 +12,6 @@ function ProfileShowPage () {
     const [followingOrNot, setFollowingOrNot] = useState();
 
     const navigate = useNavigate();
-    const location = useLocation();
     const params = useParams();
 
     const {
@@ -21,13 +20,6 @@ function ProfileShowPage () {
         isLoading,
         toggleIsLoading
       } = useContext(GlobalContext);
-
-    useEffect(() => {
-        toggleIsLoading(true);
-        setTimeout(() => {
-            toggleIsLoading(false);
-        }, 1000);
-    }, [])
 
     useEffect(() => {
       // check initially if you are following them or not
@@ -44,8 +36,10 @@ function ProfileShowPage () {
     useEffect(() => {
 
         // get posts belonging to the current viewed user using the params on react router
+        toggleIsLoading(true);
         Axios.get(`${renderURL}/api/posts/${params.username}/posts/`)
           .then((response) => {
+            toggleIsLoading(false);
             setViewingProfilePostsState(response.data);
           })
           .catch((error) => {

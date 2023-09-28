@@ -81,17 +81,12 @@ function MyProfile () {
   // end of uploading pic
 
   useEffect(() => {
-    toggleIsLoading(true);
-    setTimeout(() => {
-        toggleIsLoading(false);
-    }, 500);
-  }, [])
-
-  useEffect(() => {
     // get all posers from logged in user
+    toggleIsLoading(true);
     Axios.get(`${renderURL}/api/posts/${currentUserState.username}/posts/`)
       .then((response) => {
         myPostsDispatch({type: 'getUserPosts', payload: response.data});
+        toggleIsLoading(false);
       })
       .catch((error) => {
         console.log(error.response);
