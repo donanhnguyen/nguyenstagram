@@ -23,9 +23,11 @@ function Search (props) {
     const [searchFieldState, setSearchFieldState] = useState("");
 
     useEffect(() => {
-        Axios.get(`${renderURL}/api/users/`)
-            .then((response) => setAllUsersState(response.data))    
-    }, [])
+        if (showSearch) {
+            Axios.get(`${renderURL}/api/users/`)
+                .then((response) => setAllUsersState(response.data))    
+        }
+    }, [showSearch])
 
     function navigateToProfile (username) {
         if (currentUserState.username === username) {

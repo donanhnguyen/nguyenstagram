@@ -13,7 +13,6 @@ function PostInsideHomeFeed (props) {
     const navigate = useNavigate();
 
     const [postInsideFeedState, setPostInsideFeedState] = useState();
-    const [profilePic, setProfilePic] = useState();
 
     // comments functionality
     const [showComments, toggleShowComments] = useState(false);
@@ -54,14 +53,6 @@ function PostInsideHomeFeed (props) {
         // initially setting the post state info from the post received from props
         setPostInsideFeedState(post);
     }, [])
-
-    // get the user's info so we can display their profile pic
-    useEffect(() => {
-        Axios.get(`${renderURL}/api/users/${post.user}/`)
-        .then((response) => {
-            setProfilePic(response.data.profilePic);
-        })
-      }, [])
 
     function sendNotificationForLike (username, postId) {
         var notificationBody = {
@@ -295,7 +286,7 @@ function PostInsideHomeFeed (props) {
                     onClick={(e) => navigateToProfileShowPage(e)}
                     style={{float: 'left'}}
                 >
-                    {profilePic? <img className='profilePicInHomeFeed' src={`${profilePic}`}></img> : ""}
+                    {post.userProfile.profilePic ? <img className='profilePicInHomeFeed' src={`${post.userProfile.profilePic}`}></img> : ""}
                     {post.user}
                 </h1>
                 <h1 style={{float: 'right'}}
@@ -328,7 +319,7 @@ function PostInsideHomeFeed (props) {
                 
                 {/* # of likes and comments */}
                 <h1 className='textAlignLeft'>{postInsideFeedState ? postInsideFeedState.usersWhoveLiked.length + " likes": ""}</h1>
-                <h1 className='textAlignLeft'>{postInsideFeedState ? postInsideFeedState.comments.length + " comments": ""}</h1>
+                <h1 className='textAlignLeft'>{postInsideFeedState && postInsideFeedState.comments ? postInsideFeedState.comments.length + " comments": ""}</h1>
 
                 {/* toggling comments */}
                 <h1 
