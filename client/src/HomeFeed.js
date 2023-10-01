@@ -36,9 +36,11 @@ function HomeFeed () {
     }
 
     function refreshAllPosts () {
+        toggleIsLoading(true);
         Axios.get(`${renderURL}/api/posts/`)
                 .then((response) => {
                     setAllPostsState(response.data);
+                    toggleIsLoading(false);
                 })
                 .catch((error) => {
                     console.log(error);

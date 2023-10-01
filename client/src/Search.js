@@ -31,14 +31,12 @@ function Search (props) {
 
     function navigateToProfile (username) {
         if (currentUserState.username === username) {
-            navigate('/myProfile')
-        } else {
-            toggleIsLoading(true);
             toggleShowSearch(false);
             setSearchFieldState("");
-            setTimeout(() => {
-                toggleIsLoading(false);
-            }, 1000);
+            navigate('/myProfile')
+        } else {
+            toggleShowSearch(false);
+            setSearchFieldState("");
             navigate(`/profileShowPage/${username}/`, {state: {username: username} })
         }
     }

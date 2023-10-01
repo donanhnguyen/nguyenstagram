@@ -19,14 +19,14 @@ function Notifications (props) {
         notificationsDispatch
     } = props;
 
-    useEffect(() => {
-        if (showNotifications) {
-            Axios.get(`${renderURL}/api/notifications/${currentUserState.username}/`)
-                .then((response) => {
-                    notificationsDispatch({type: 'getAllNotifications', payload: response.data})
-                })  
-        }
-    }, [showNotifications])
+    // useEffect(() => {
+    //     if (showNotifications) {
+    //         Axios.get(`${renderURL}/api/notifications/${currentUserState.username}/`)
+    //             .then((response) => {
+    //                 notificationsDispatch({type: 'getAllNotifications', payload: response.data})
+    //             })  
+    //     }
+    // }, [showNotifications])
     
     function displayNotifications () {
         const displayed = allNotificationsState.map((notification) => {

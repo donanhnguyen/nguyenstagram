@@ -76,11 +76,11 @@ function CreatePostFormFromHomePage (props) {
                             <label htmlFor="file">Upload Pic</label>
                         </div>
 
-                        <br></br>
+                    
                         
                         {/* preview image */}
                         {imageUrl?
-                        <img className='previewImagePost' style={{height: '150px', width: '200px', margin: 'auto'}} src={imageUrl}></img>
+                        <img className='previewImagePost' style={{height: '150px', width: '200px'}} src={imageUrl}></img>
                         :
                         ""}
 

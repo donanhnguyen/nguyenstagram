@@ -4,6 +4,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import GlobalContext from './GlobalContext';
 import Notifications from './Notifications';
 import Search from './Search';
+import Axios from 'axios';
 
 function notificationsReducer (state, action) {
     switch (action.type) {
@@ -37,14 +38,14 @@ function NavBar () {
     const navigate = useNavigate();
 
     // get notifications
-    // useEffect(() => {
-    //     if (currentUserState) {
-    //         Axios.get(`${renderURL}/api/notifications/${currentUserState.username}/`)
-    //             .then((response) => {
-    //                 notificationsDispatch({type: 'getAllNotifications', payload: response.data})
-    //             })    
-    //     }
-    // }, [currentUserState])
+    useEffect(() => {
+        if (currentUserState) {
+            Axios.get(`${renderURL}/api/notifications/${currentUserState.username}/`)
+                .then((response) => {
+                    notificationsDispatch({type: 'getAllNotifications', payload: response.data})
+                })    
+        }
+    }, [currentUserState])
 
     function logOut () {
         setCurrentUserState(null);

@@ -1,7 +1,7 @@
 # Nguyenstagram
 
 [Live Link](https://nguyenstagram.onrender.com/)
-[Video Link](https://nguyenstagram.onrender.com/)
+[Video Link](https://www.youtube.com/watch?v=YU4vtYF0-sM)
 
 <h1>Description:</h1>
 
