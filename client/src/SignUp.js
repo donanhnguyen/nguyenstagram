@@ -73,6 +73,7 @@ function SignUp () {
                 .then((response) => {
                     setSuccessfulLogin(true);
                     setCurrentUserState(response.data);
+                    localStorage.setItem('user', JSON.stringify(response.data));
                     setTimeout(() => {
                         setSuccessfulLogin(false);
                         navigate('/');

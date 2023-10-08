@@ -49,6 +49,7 @@ function NavBar () {
 
     function logOut () {
         setCurrentUserState(null);
+        localStorage.removeItem('user');
         toggleShowNotifications(false);
         toggleShowSearch(false);
         navigate('/login')

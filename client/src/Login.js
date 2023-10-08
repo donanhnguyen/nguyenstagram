@@ -33,7 +33,8 @@ function LogIn () {
             Axios.post(`${renderURL}/api/auth/login/`, loggedInUser)
                 .then((response) => {
                     setSuccessfulLogin(true);
-                    setCurrentUserState(response.data)
+                    setCurrentUserState(response.data);
+                    localStorage.setItem('user', JSON.stringify(response.data));
                     setTimeout(() => {
                         setSuccessfulLogin(false);
                         navigate('/');

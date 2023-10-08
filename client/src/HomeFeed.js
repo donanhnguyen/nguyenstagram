@@ -13,6 +13,7 @@ function HomeFeed () {
 
     const {
         currentUserState,
+        setCurrentUserState,
         renderURL,
         toggleIsLoading,
         isLoading
@@ -48,10 +49,15 @@ function HomeFeed () {
     }
 
     useEffect(() => {
-        getAllPosts()
-        if (!currentUserState) {
+        const localStorageUserInfo = localStorage.getItem("user");
+        if (localStorageUserInfo) {
+            getAllPosts();
+            setCurrentUserState(JSON.parse(localStorage.getItem("user")));
+        } else if (currentUserState) {
+            getAllPosts();
+        } else {
             navigate("/login");
-        } 
+        }
     }, []) 
 
     function displayHomePagePosts () {
