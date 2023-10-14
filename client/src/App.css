@@ -277,7 +277,7 @@ button {
   }
 
   .home {
-    margin-top: 300px;
+    margin-top: 200px;
   }
   .nav-bar-container h1 {
     color: black;
@@ -305,6 +305,13 @@ button {
     max-width: auto;
     margin: auto;
   }
+  .profilePicNavBar {
+    display: none;
+  }
+  .nav-bar-container h3 {
+    display: none;
+  }
+  
 }
 .logoutButton {
   
@@ -359,7 +366,7 @@ button {
 @media screen and (max-width: 890px) {
   .my-profile-container {
     width: 95%;
-    margin-top: 330px;
+    margin-top: 200px;
   }
 }
 .profileInfoPart {
@@ -475,7 +482,7 @@ button {
 }
 @media screen and (max-width: 880px) {
   .postShowPageContainer {
-    margin-top: 310px;
+    margin-top: 20px;
   }
 }
 
@@ -510,6 +517,15 @@ button {
   width: 450px;
   height: 350px;
 }
+@media screen and (max-width: 450px) {
+  .postShowPagePic {
+    width: 100%;
+  }
+  .postShowPageContainer {
+    width: 92%;
+  }
+}
+
 /* image uploading */
 
 .file {

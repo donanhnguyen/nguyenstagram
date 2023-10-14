@@ -1,4 +1,4 @@
-import {useState, useContext, useEffect} from 'react';
+import {useState, useContext} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
@@ -44,7 +44,26 @@ function LogIn () {
                     setErrorMessagesState(error.response.data)
                 })
         }
-        
+    }
+
+    function logInAsTest () {
+        let loggedInUser = {
+            username: 'test',
+            password: 'test'
+        };
+        Axios.post(`${renderURL}/api/auth/login/`, loggedInUser)
+            .then((response) => {
+                setSuccessfulLogin(true);
+                setCurrentUserState(response.data);
+                localStorage.setItem('user', JSON.stringify(response.data));
+                setTimeout(() => {
+                    setSuccessfulLogin(false);
+                    navigate('/');
+                }, 1000)
+            })
+            .catch((error) => {
+                setErrorMessagesState(error.response.data)
+            })
     }
 
     return (
@@ -72,10 +91,10 @@ function LogIn () {
                     <br></br>
 
                     <button style={{marginTop: '8px'}} className='btn btn-primary' type='submit'>Log In</button> 
+                    <br></br>
+                    
                 </form>
-
-
-              
+                <button onClick={logInAsTest} style={{marginTop: '8px'}} className='btn btn-secondary btn-lg'>Log In as Test user</button> 
 
                 <h1 style={{fontSize: '1em'}}>Don't have an account? Click <Link to='/signup'>Here</Link> to register.</h1>
             </div>

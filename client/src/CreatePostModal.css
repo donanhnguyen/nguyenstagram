@@ -165,3 +165,9 @@
   display: block;
   text-align: center;
 }
+
+@media screen and (max-width: 890px) {
+  .create-post-modal-content {
+    width: 85%;
+  }
+}
