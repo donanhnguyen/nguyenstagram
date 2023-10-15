@@ -277,7 +277,7 @@ button {
   }
 
   .home {
-    margin-top: 200px;
+    margin-top: 100px;
   }
   .nav-bar-container h1 {
     color: black;
@@ -302,7 +302,6 @@ button {
     padding-bottom: 0px;
   }
   .notificationsList {
-    max-width: auto;
     margin: auto;
   }
   .profilePicNavBar {
@@ -470,7 +469,6 @@ button {
 /* post show page */
 
 .postShowPageContainer {
-  margin-top: 20px;
   margin-bottom: 20px;
   border: .5px solid rgba(128, 128, 128, 0.2);
   border-radius: 5px;
@@ -517,7 +515,12 @@ button {
   width: 450px;
   height: 350px;
 }
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 590px) {
+  .postShowPageContainer {
+    margin-top: 140px;
+  }
+}
+@media screen and (max-width: 500px) {
   .postShowPagePic {
     width: 100%;
   }
@@ -525,7 +528,11 @@ button {
     width: 92%;
   }
 }
-
+@media screen and (max-width: 420px) {
+  .postShowPagePic {
+    height: 250px;
+  }
+}
 /* image uploading */
 
 .file {
@@ -601,4 +608,31 @@ button {
   background-color: #f90bf1;
   
   /* Change the background color on hover */
+}
+.logoutButtonSmall {
+  display: none;
+}
+@media screen and (max-width: 890px) {
+  .hide-text {
+    display: none;
+  }
+  .nav-links i {
+    font-size: 1.5em;
+  }
+  .logoutButton {
+    display: none;
+  }
+  .logoutButtonSmall {
+    display: inline-block;
+  }
+}
+@media screen and (max-width: 415px) {
+  .home-feed-post-container {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 395px) {
+  .single-post-image-in-home-feed {
+    height: 260px;
+  }
 }

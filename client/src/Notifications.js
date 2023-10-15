@@ -1,16 +1,8 @@
 import './App.css';
 import SingleNotification from './SingleNotification';
 import './Breathing.css';
-import {useContext, useEffect, } from 'react';
-import GlobalContext from './GlobalContext';
-import Axios from 'axios';
 
 function Notifications (props) {
-
-    const {
-        currentUserState,
-        renderURL,
-    } = useContext(GlobalContext);
 
     const {
         showNotifications, 
@@ -18,15 +10,6 @@ function Notifications (props) {
         allNotificationsState,
         notificationsDispatch
     } = props;
-
-    // useEffect(() => {
-    //     if (showNotifications) {
-    //         Axios.get(`${renderURL}/api/notifications/${currentUserState.username}/`)
-    //             .then((response) => {
-    //                 notificationsDispatch({type: 'getAllNotifications', payload: response.data})
-    //             })  
-    //     }
-    // }, [showNotifications])
     
     function displayNotifications () {
         const displayed = allNotificationsState.map((notification) => {
@@ -54,22 +37,9 @@ function Notifications (props) {
     if (!showNotifications) {
         return (
             <h2 onClick={() => toggleShowNotifications((prevState) => !prevState)}
-                className={`
-                    toggleSomething 
-                    ${
-                        anyUnread() ?
-                        'newNotifications animate__animated'
-                        :
-                        ''
-                    }
-                `}
-            ><i className="fa fa-bell" aria-hidden="true"></i> 
-
-                {anyUnread() ?
-                " New Notifications!"
-                :
-                " Notifications"
-                }
+                className={`toggleSomething ${anyUnread() ?'newNotifications animate__animated':''}`}>
+                <i className="fa fa-bell" aria-hidden="true"></i> 
+                <span className="hide-text">{anyUnread() ?" New Notifications!":" Notifications"}</span>
             </h2>
         )  
     } else {

@@ -61,18 +61,17 @@ function NavBar () {
                 
                 <h3 className='nguyenstagram'>Nguyenstagram </h3>
                 
-
                 <h3>Welcome, {currentUserState.username}</h3>
 
                 <img className="profilePicNavBar" src={`${currentUserState.profilePic}`}></img>
 
                 <div className='nav-links'>
                     <Link to='/'>
-                   <h1><i className="fa fa-home" aria-hidden="true"></i> Home</h1>
+                   <h1><i className="fa fa-home" aria-hidden="true"></i> <span className="hide-text">Home</span> </h1>
                     </Link>
 
                     <Link to='/myProfile'>
-                            <h1><i className="fa fa-user" aria-hidden="true"></i> Profile</h1>
+                            <h1><i className="fa fa-user" aria-hidden="true"></i> <span className="hide-text">Profile</span></h1>
                     </Link>
 
                     <Search 
@@ -85,11 +84,11 @@ function NavBar () {
                         allNotificationsState={allNotificationsState}
                         notificationsDispatch={notificationsDispatch}
                     />
+                    
+                    <button className='logoutButton btn btn-outline-danger' onClick={logOut}>Log Out</button>
+                    <button className='logoutButtonSmall btn btn-outline-danger' onClick={logOut}><i class="fa fa-sign-out" aria-hidden="true"></i></button>
                 </div>
-                
 
-            
-                <button className='logoutButton btn btn-outline-danger' onClick={logOut}>Log Out</button>
             </div>
         )   
     }

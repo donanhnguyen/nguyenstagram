@@ -94,7 +94,7 @@ function LogIn () {
                     <br></br>
                     
                 </form>
-                <button onClick={logInAsTest} style={{marginTop: '8px'}} className='btn btn-secondary btn-lg'>Log In as Test user</button> 
+                <button onClick={logInAsTest} style={{marginTop: '8px'}} className='btn btn-secondary'>Log In as Test user</button> 
 
                 <h1 style={{fontSize: '1em'}}>Don't have an account? Click <Link to='/signup'>Here</Link> to register.</h1>
             </div>
