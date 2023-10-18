@@ -276,7 +276,7 @@ function PostInsideHomeFeed (props) {
 
     return (
             <div 
-                className='home-feed-post-container' 
+                className='home-feed-post-container col-sm-6 col-md-12 col-lg-12' 
                 key={post._id}
             >
 

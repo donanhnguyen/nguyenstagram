@@ -79,9 +79,8 @@ function HomeFeed () {
                         setShowModal={setShowModal}
                         refreshAllPosts={refreshAllPosts}
                     />
-                <div className='home'>
+                <div className='home col-sm-12 col-md-6 col-lg-4'>
                     {displayHomePagePosts()}
-                    
                 </div>
                     
                 <div className="floating-button">

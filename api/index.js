@@ -31,9 +31,9 @@ var corsOptions = {
 
 // uncomment the below code when in development mode, comment it out in production
 
-// var corsOptions = {
-//     origin: "http://localhost:3000"
-// }
+var corsOptions = {
+    origin: "http://localhost:3000"
+}
 
 // increasing the size limit of URL queries so you can upload images
 app.use(express.json({limit: '25mb'}));

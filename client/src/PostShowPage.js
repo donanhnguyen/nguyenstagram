@@ -316,7 +316,7 @@ function PostShowPage () {
     if (postInfoState) {
         return (
             <div className='App-header'>
-                <div className='postShowPageContainer'>
+                <div className='postShowPageContainer col-sm-8 col-md-6 col-lg-4'>
 
                 <h1 style={{float: 'left'}} className='link-to-profile-page' onClick={(e) => navigateToProfileShowPage(e)}>
                     <img className='profilePicInPostShowPage' src={`${postInfoState.userId.profilePic}`}></img>
