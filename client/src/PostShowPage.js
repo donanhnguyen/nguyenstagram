@@ -32,6 +32,11 @@ function PostShowPage () {
     // liking functionality
     const [liked, setLiked] = useState();
 
+    // dropdown
+    const [showDropDown, setShowDropDown] = useState(false);
+    const [editCaptionMode, setEditCaptionMode] = useState(false);
+    const [editedCaption, setEditedCaption] = useState("");
+
     const navigate = useNavigate();
 
     const {
@@ -72,6 +77,21 @@ function PostShowPage () {
             }    
         }
     }, [postInfoState])
+
+    useEffect(() => {
+        // Close the dropdown when clicking outside of it
+        function handleClickOutside(event) {
+          if (showDropDown && !document.getElementById('dropdown').contains(event.target)) {
+            setShowDropDown(false);
+          }
+        }
+    
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+          document.removeEventListener('mousedown', handleClickOutside);
+        };
+      }, [showDropDown]);
+    
 
     function navigateToProfileShowPage (e) {
         e.preventDefault();
@@ -313,24 +333,82 @@ function PostShowPage () {
             })
     }
 
+    function openUpEditMode () {
+        setEditCaptionMode((prevState) => !prevState);
+    }
+
+    function editCaption () {
+        if (editedCaption.length) {
+            const newCaptionData = {caption: editedCaption};
+            // PUT call to update post.caption
+            Axios.put(`${renderURL}/api/posts/${postInfoState._id}`, newCaptionData)
+                .then((response) => {
+                    setPostInfoState((prevState) => ({...prevState, caption: editedCaption}));
+                    setEditCaptionMode(false);
+                })
+        }
+    }
+
     if (postInfoState) {
         return (
             <div className='App-header'>
                 <div className='postShowPageContainer col-sm-8 col-md-6 col-lg-4'>
 
-                <h1 style={{float: 'left'}} className='link-to-profile-page' onClick={(e) => navigateToProfileShowPage(e)}>
-                    <img className='profilePicInPostShowPage' src={`${postInfoState.userId.profilePic}`}></img>
-                    {postInfoState.user}
-                </h1>
-                <h1 style={{float: 'right'}}>{displayedDate}</h1>
+                <div style={{float: 'left'}}>
+                    <h1  className='link-to-profile-page' onClick={(e) => navigateToProfileShowPage(e)}>
+                        <img className='profilePicInPostShowPage' src={`${postInfoState.userId.profilePic}`}></img>
+                        {postInfoState.user}
+                    </h1>
+                </div>
                 
-                <br></br>
+                    <div style={{ float: 'right' }} className="menu">
+                        <h1 >{displayedDate}</h1>
+                        {
+                           postInfoState.user === currentUserState.username ? 
+                                <div onClick={(e) => e.stopPropagation} className="dropdown" id="dropdown">
+                                    <div onClick={() => setShowDropDown((prevState) => !prevState)} className="dots">⋮</div>
+                                    {
+                                        showDropDown &&
+                                        <>
+                                            
+                                            <div className="options">
+                                                <button 
+                                                    onClick={() => openUpEditMode()}
+                                                    className='btn btn-secondary'
+                                                >Edit Post
+                                                </button>
+                                                <button 
+                                                    onClick={() => setToggledConfirm(true)}
+                                                    className='btn btn-danger'
+                                                >Delete Post
+                                                </button>
+                                            </div>
+                                        </>
+                                    }
+                                    
+                                </div>
+                           :
+
+                           ""
+                        }
+                        
+                    </div>
 
                 {/* pic */}
                 <img className='postShowPagePic' src={postInfoState.picUrl} onDoubleClickCapture={handleLike}></img>
                 
                 {/* caption */}
-                <h1 className='home-feed-post-caption'>{postInfoState.caption}</h1>
+                { editCaptionMode ?
+                    <div className='home-feed-post-caption edit-caption-container'>
+                        <input type='text' onChange={(e) => setEditedCaption(e.target.value)} placeholder='edit caption'></input>
+                        <div className='edit-caption-buttons'>
+                            <button onClick={editCaption}>Edit</button>
+                            <button onClick={() => setEditCaptionMode(false)}>Cancel</button>
+                        </div>
+                    </div>
+                :
+                    <h1 className='home-feed-post-caption'>{postInfoState.caption}</h1>
+                }
                 
                 {/* like, comment, and share buttons */}
                 {
@@ -367,16 +445,6 @@ function PostShowPage () {
                 {/* Comment input */}
 
                 {showCommentInput()}
-
-                {/* delete post */}
-                {postInfoState.user === currentUserState.username ? 
-                    <button 
-                        onClick={() => setToggledConfirm(true)}
-                        className='btn btn-danger'
-                    >Delete Post
-                    </button>
-                : ""
-                }
 
                 {/* show sharing modal or not */}
                 <div id="myModal" className={`modal ${showShareModal ? "yes-modal" : "" }`}>
