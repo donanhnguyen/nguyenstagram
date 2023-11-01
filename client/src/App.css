@@ -156,29 +156,14 @@ button {
 .login-page-container {
   display: grid;
   grid-template-columns: 50% 50%;
-  width: 50%;
-  box-shadow: 1px 1px 1px 1px gray;
+  width: 57%;
+  box-shadow: 0px 0px 10px 0px rgba(128, 128, 128, 0.68);
   border-radius: 10px;
-}
-@media screen and (max-width: 1050px) {
-  .login-page-container {
-    width: 70%;
-  }
-}
-@media screen and (max-width: 600px) {
-  .login-page-container {
-    width: 85%;
-  }
-}
-@media screen and (max-width: 425px) {
-  .login-page-container {
-    width: 100%;
-  }
 }
 .login-container {
   text-align: center;
   font-size: .75em;
-  padding: 6% 0;
+  padding: 70px;
 }
 .login-container input {
   border-radius: 5px;
@@ -188,7 +173,39 @@ button {
   animation-duration: 20s;
   animation-iteration-count: infinite;
   background-size: 100% 100%;
-  border-radius: 10px;
+  border-radius: 10px 0px 0px 10px;
+}
+@media screen and (max-width: 1300px) {
+  .login-page-container {
+    width: 70%;
+  }
+  .login-container {
+    padding: 40px;
+  }
+}
+@media screen and (max-width: 1050px) {
+  .login-page-container {
+    width: 80%;
+  }
+  .login-container {
+    padding: 30px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .login-page-container {
+    width: 95%;
+  }
+  .login-container {
+    padding: 10px;
+  }
+}
+@media screen and (max-width: 425px) {
+  .login-page-container {
+    width: 100%;
+  }
+  .login-container {
+    padding: 0px;
+  }
 }
 @keyframes example{
   0%{
@@ -241,6 +258,7 @@ button {
   padding: 15px;
   text-align: center;
   background-color: #ffffff;
+  min-width: 12%;
 
 }
 .nav-bar-container h1 {
