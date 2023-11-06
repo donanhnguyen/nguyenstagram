@@ -34,6 +34,7 @@ function NavBar () {
     const [showNotifications, toggleShowNotifications] = useState(false);
     const [showSearch, toggleShowSearch] = useState(false);
     const [allNotificationsState, notificationsDispatch] = useReducer(notificationsReducer, []);
+    const [logoutModal, setLogoutModal] = useState(false);
 
     const navigate = useNavigate();
 
@@ -52,12 +53,24 @@ function NavBar () {
         localStorage.removeItem('user');
         toggleShowNotifications(false);
         toggleShowSearch(false);
+        setLogoutModal(false);
         navigate('/login')
     }
 
     if (currentUserState) {
          return (
+            
             <div className="nav-bar-container">
+
+                {/* confirm logout modal */}
+                <div id="myModal" className={`modal ${logoutModal ? "yes-modal" : "" }`}>
+                    <div className={`modal-content`}>
+                        <span onClick={() => setLogoutModal(false)} className="close">&times;</span>
+                        <h1 style={{color: 'red', fontSize: '30px', textAlign: 'center'}}>Are you sure you want to log out?</h1>
+                        <button style={{width: '50%', margin: 'auto'}} className='btn btn-primary btn-lg' onClick={() => setLogoutModal(false)}>No</button>
+                        <button style={{width: '50%', margin: 'auto'}} className='btn btn-danger btn-lg' onClick={logOut}>Yes</button>
+                    </div>
+                </div>
                 
                 <h3 className='nguyenstagram'>Nguyenstagram </h3>
                 
@@ -85,8 +98,8 @@ function NavBar () {
                         notificationsDispatch={notificationsDispatch}
                     />
                     
-                    <button className='logoutButton btn btn-outline-danger' onClick={logOut}>Log Out</button>
-                    <button className='logoutButtonSmall btn btn-outline-danger' onClick={logOut}><i class="fa fa-sign-out" aria-hidden="true"></i></button>
+                    <button className='logoutButton btn btn-outline-danger' onClick={() => setLogoutModal(true)}>Log Out</button>
+                    <button className='logoutButtonSmall btn btn-outline-danger' onClick={() => setLogoutModal(true)}><i class="fa fa-sign-out" aria-hidden="true"></i></button>
                 </div>
 
             </div>
