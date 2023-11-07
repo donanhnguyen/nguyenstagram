@@ -110,10 +110,6 @@ function MyProfile () {
       return (
         <div key={post._id} className='single-post-container'>
           <Image thumbnail={true} src={post.picUrl}  className='single-post-thumbnail post-pic-link' onClick={() => navigateToPostShowPage(post._id)}></Image>
-          {/* <img 
-            onClick={() => navigateToPostShowPage(post._id)}
-            className='single-post-thumbnail post-pic-link' src={post.picUrl}
-          ></img> */}
         </div>
       )
     })

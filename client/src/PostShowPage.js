@@ -6,6 +6,7 @@ import './ThreeDots.css';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
 import Loader from './Loader';
+import {Image} from 'react-bootstrap'
 
 function PostShowPage () {
 
@@ -395,7 +396,7 @@ function PostShowPage () {
                     </div>
 
                 {/* pic */}
-                <img className='postShowPagePic' src={postInfoState.picUrl} onDoubleClickCapture={handleLike}></img>
+                <Image fluid style={{width: '100%'}} src={postInfoState.picUrl} onDoubleClickCapture={handleLike}></Image>
                 
                 {/* caption */}
                 { editCaptionMode ?

@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import './App.css';
 import Axios from 'axios';
 import GlobalContext from './GlobalContext';
-import { Button } from 'react-bootstrap';
-import Image from 'react-bootstrap/Image'
+import { Button, Image } from 'react-bootstrap';
+// import Image from 'react-bootstrap/Image'
 
 function PostInsideHomeFeed (props) {
 
@@ -295,7 +295,7 @@ function PostInsideHomeFeed (props) {
                 </h1>
 
                 {/* post image */}
-                <Image thumbnail={true} src={post.picUrl} className='single-post-image-in-home-feed post-pic-link' onClick={navigateToPostShowPage}></Image>
+                <Image thumbnail={true} src={post.picUrl} style={{width: '100%', maxHeight: '600px'}} fluid onClick={navigateToPostShowPage}></Image>
 
                 {/* <img 
                     onClick={navigateToPostShowPage}

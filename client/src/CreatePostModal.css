@@ -164,6 +164,7 @@
 .create-post-form-container {
   display: block;
   text-align: center;
+  font-size: 1.3em;
 }
 
 @media screen and (max-width: 890px) {

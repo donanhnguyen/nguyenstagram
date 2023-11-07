@@ -93,7 +93,7 @@ function CreatePostFormFromHomePage (props) {
 
                         <p style={{color: 'red'}}>{createPostErrorState}</p>
 
-                        <br></br>
+                    
                         <button 
                             style={{width: '50%', margin: 'auto'}} 
                             className='btn btn-danger btn-lg' 
