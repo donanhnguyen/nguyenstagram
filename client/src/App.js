@@ -8,6 +8,7 @@ import NavBar from './NavBar';
 import MyProfile from './MyProfile';
 import PostShowPage from './PostShowPage';
 import ProfileShowPage from './ProfileShowPage';
+import Settings from './settings';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path='/login' element={ <LogIn /> }></Route>
           <Route path='/signup' element={ <SignUp /> }></Route>
           <Route path='/myProfile' element={ <MyProfile /> }></Route>
+          <Route path='/settings' element={ <Settings /> }></Route>
           <Route path='/profileShowPage/:username' element={ <ProfileShowPage /> }></Route>
           <Route path='/postShowPage/:postId' element={ <PostShowPage /> }></Route>
 

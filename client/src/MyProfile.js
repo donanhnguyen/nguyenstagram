@@ -72,6 +72,7 @@ function MyProfile () {
         .then((response) => {
           setCurrentUserInfoState(response.data);
           setCurrentUserState(response.data);
+          localStorage.setItem('user', JSON.stringify(response.data));
           setProfilePicUrl(null);
           toggleShowUploadPic(false);
         })
@@ -187,8 +188,8 @@ function MyProfile () {
             />
 
       {/* uploading pic modal */}
-      <div id="myModal" className={`modal ${showUploadPic ? "yes-modal" : "" }`}>
-            <div className={`modal-content create-post-form-container`}>
+      <div id="myModal" className={`modal ${showUploadPic ? "yes-modal" : "" }`} onClick={() => toggleShowUploadPic(false)}>
+            <div className={`modal-content create-post-form-container`} onClick={e => {e.stopPropagation();}}>
                 <span onClick={() => toggleShowUploadPic(false)} className="close">&times;</span>
 
 

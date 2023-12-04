@@ -97,7 +97,11 @@ function NavBar () {
                         allNotificationsState={allNotificationsState}
                         notificationsDispatch={notificationsDispatch}
                     />
-                    
+
+                    <Link to='/settings'>
+                            <h1><i class="fa fa-cog" aria-hidden="true"></i><span className="hide-text"> Settings</span></h1>
+                    </Link>
+
                     <button className='logoutButton btn btn-outline-danger' onClick={() => setLogoutModal(true)}>Log Out</button>
                     <button className='logoutButtonSmall btn btn-outline-danger' onClick={() => setLogoutModal(true)}><i class="fa fa-sign-out" aria-hidden="true"></i></button>
                 </div>
