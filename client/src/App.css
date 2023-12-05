@@ -10,11 +10,11 @@ a {
 }
 
 input {
-  border-radius: 5px;
+  border-radius: 3px;
 }
 
 button {
-  border-radius: 5px;
+  border-radius: 3px;
 }
 
 .App {
@@ -542,6 +542,12 @@ button {
   font-size: calc(10px + 2vmin);
   color: rgb(0, 6, 42);
   gap: 20px;
+}
+
+.myProfilePicInSettings {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
 }
 
 

@@ -190,42 +190,49 @@ function MyProfile () {
       {/* uploading pic modal */}
       <div id="myModal" className={`modal ${showUploadPic ? "yes-modal" : "" }`} onClick={() => toggleShowUploadPic(false)}>
             <div className={`modal-content create-post-form-container`} onClick={e => {e.stopPropagation();}}>
-                <span onClick={() => toggleShowUploadPic(false)} className="close">&times;</span>
 
+              {currentUserInfoState.username === 'test' ? 
+              <div>You can't change profile pic as a test user.</div>
+              :
+              <>
+                  <span onClick={() => toggleShowUploadPic(false)} className="close">&times;</span>
 
-                    {/* upload image via file upload */}
-                    <div className="file-input">
-                        <h2>Edit Profile Pic</h2>
-                        <input className='file' id='profilePic' type='file' accept='image/*' onChange={(e) => handleUploadProfilePic(e)}></input>
-                        <label style={{width: '50%'}} htmlFor="profilePic">Upload</label>
-                    </div>
+                  {/* upload image via file upload */}
+                  <div className="file-input">
+                      <h2>Edit Profile Pic</h2>
+                      <input className='file' id='profilePic' type='file' accept='image/*' onChange={(e) => handleUploadProfilePic(e)}></input>
+                      <label style={{width: '50%'}} htmlFor="profilePic">Upload</label>
+                  </div>
+
+                  <br></br>
+
+                  {/* preview image */}
+                  {profilePicUrl?
+                  <img className='previewImagePost' style={{height: '150px', width: '150px', borderRadius: '50%'}} src={profilePicUrl}></img>
+                  :
+                  ""}
 
                     <br></br>
-                    
-                    {/* preview image */}
-                    {profilePicUrl?
-                    <img className='previewImagePost' style={{height: '150px', width: '150px', borderRadius: '50%'}} src={profilePicUrl}></img>
-                    :
-                    ""}
 
-                      <br></br>
+                  <button 
+                      style={{width: '50%', margin: 'auto'}} 
+                      className='btn btn-danger btn-lg' 
+                      onClick={() => toggleShowUploadPic(false)}
+                  >
+                      Cancel
+                  </button>
 
-                    <button 
-                        style={{width: '50%', margin: 'auto'}} 
-                        className='btn btn-danger btn-lg' 
-                        onClick={() => toggleShowUploadPic(false)}
-                    >
-                        Cancel
-                    </button>
-
-                    <button
-                        style={{width: '50%', margin: 'auto'}} 
-                        className='btn btn-primary btn-lg'
-                        onClick={handleEditProfilePic}
-                    >
-                        Confirm
-                    </button>
-
+                  <button
+                      style={{width: '50%', margin: 'auto'}} 
+                      className='btn btn-primary btn-lg'
+                      onClick={handleEditProfilePic}
+                  >
+                      Confirm
+                  </button>
+              </>
+              
+              }
+                  
             </div>
         </div>
 

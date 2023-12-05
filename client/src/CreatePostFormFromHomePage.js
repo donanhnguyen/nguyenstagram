@@ -67,7 +67,7 @@ function CreatePostFormFromHomePage (props) {
         <div>
             
             <div id="myModal" className={`modal ${showModal ? "yes-modal" : "" }`} onClick={() => setShowModal(false)}>
-                <div className={`create-post-modal-content create-post-form-container`} onClick={e => {e.stopPropagation();}}>
+                <div className={`create-post-modal-content create-post-form-container`} style={{fontSize: '1em'}} onClick={e => {e.stopPropagation();}}>
                     <span onClick={() => setShowModal(false)} className="close">&times;</span>
 
                         {/* upload image via file upload */}

@@ -75,67 +75,75 @@ export default function Settings() {
         }
       }
 
-  return (
-    <>
-        <div className='settings-container'>
-            <img className="myProfilePic" src={`${currentUserState.profilePic}`}></img>
-            <button onClick={() => toggleShowUploadPic(true)} className='btn btn-secondary btn-lg'>Change Profile Pic</button>
-            <h1>{currentUserState.username}</h1>
-
-            {editPassword ? <input type='text' name='editedPassword' value={editedUserInfo.editedPassword}  onChange={(e) => handleEditUserInfo(e)}></input>: ''}
-            <button onClick={() => toggleEditPassword((prevState) => !prevState)} className={`btn ${editPassword ? 'btn-secondary': 'btn-danger'} btn-lg`}>{editPassword ? "Cancel" : "Change Password"}</button>
-            {editPassword ? <button className='btn btn-danger btn-lg' onClick={handleSubmitEditPassword}>Edit</button>: ''}
+    if (currentUserState.username === 'test') {
+        return <div className='settings-container'>
+            <h1>You cannot change settings as a test user.</h1>
         </div>
-
-    {/* modal */}
-    <div id="myModal" className={`modal ${successModal ? "yes-modal" : "" }`}>
-            <div className={`modal-content`}>
-                <h1 style={{color: 'green', fontSize: '2em'}}>Successfully changed password!</h1>
-            </div>
-    </div>
-    
-    {/* uploading pic modal */}
-        <div id="myModal" className={`modal ${showUploadPic ? "yes-modal" : "" }`} onClick={() => toggleShowUploadPic(false)}>
-            <div className={`modal-content create-post-form-container`} onClick={e => {e.stopPropagation();}}>
-                <span onClick={() => toggleShowUploadPic(false)} className="close">&times;</span>
-
-
-                    {/* upload image via file upload */}
-                    <div className="file-input">
-                        <h2>Edit Profile Pic</h2>
-                        <input className='file' id='profilePic' type='file' accept='image/*' onChange={(e) => handleUploadProfilePic(e)}></input>
-                        <label style={{width: '50%'}} htmlFor="profilePic">Upload</label>
+    } else {
+        return (
+            <>
+                <div className='settings-container'>
+                    <img className="myProfilePicInSettings" src={`${currentUserState.profilePic}`}></img>
+                    <button onClick={() => toggleShowUploadPic(true)} className='btn btn-secondary btn-lg'>Change Profile Pic</button>
+                    <h1>{currentUserState.username}</h1>
+        
+                    {editPassword ? <input type='text' name='editedPassword' value={editedUserInfo.editedPassword}  onChange={(e) => handleEditUserInfo(e)}></input>: ''}
+                    <button onClick={() => toggleEditPassword((prevState) => !prevState)} className={`btn ${editPassword ? 'btn-secondary': 'btn-danger'} btn-lg`}>{editPassword ? "Cancel" : "Change Password"}</button>
+                    {editPassword ? <button className='btn btn-danger btn-lg' onClick={handleSubmitEditPassword}>Edit</button>: ''}
+                </div>
+        
+            {/* modal */}
+            <div id="myModal" className={`modal ${successModal ? "yes-modal" : "" }`}>
+                    <div className={`modal-content`}>
+                        <h1 style={{color: 'green', fontSize: '2em'}}>Successfully changed password!</h1>
                     </div>
-
-                    <br></br>
-                    
-                    {/* preview image */}
-                    {profilePicUrl?
-                    <img className='previewImagePost' style={{height: '150px', width: '150px', borderRadius: '50%'}} src={profilePicUrl}></img>
-                    :
-                    ""}
-
-                      <br></br>
-
-                    <button 
-                        style={{width: '25%', margin: 'auto'}} 
-                        className='btn btn-danger btn-lg' 
-                        onClick={() => toggleShowUploadPic(false)}
-                    >
-                        Cancel
-                    </button>
-
-                    <button
-                        style={{width: '25%', margin: 'auto'}} 
-                        className='btn btn-primary btn-lg'
-                        onClick={handleEditProfilePic}
-                    >
-                        Confirm
-                    </button>
-
             </div>
-        </div>
-    </>
-    
-  )
+            
+            {/* uploading pic modal */}
+                <div id="myModal" className={`modal ${showUploadPic ? "yes-modal" : "" }`} onClick={() => toggleShowUploadPic(false)}>
+                    <div className={`modal-content create-post-form-container`} onClick={e => {e.stopPropagation();}}>
+                        <span onClick={() => toggleShowUploadPic(false)} className="close">&times;</span>
+        
+        
+                            {/* upload image via file upload */}
+                            <div className="file-input">
+                                <h2>Edit Profile Pic</h2>
+                                <input className='file' id='profilePic' type='file' accept='image/*' onChange={(e) => handleUploadProfilePic(e)}></input>
+                                <label style={{width: '50%'}} htmlFor="profilePic">Upload</label>
+                            </div>
+        
+                            <br></br>
+                            
+                            {/* preview image */}
+                            {profilePicUrl?
+                            <img className='previewImagePost' style={{height: '150px', width: '150px', borderRadius: '50%'}} src={profilePicUrl}></img>
+                            :
+                            ""}
+        
+                              <br></br>
+        
+                            <button 
+                                style={{width: '45%', margin: 'auto'}} 
+                                className='btn btn-danger btn-lg' 
+                                onClick={() => toggleShowUploadPic(false)}
+                            >
+                                Cancel
+                            </button>
+        
+                            <button
+                                style={{width: '45%', margin: 'auto'}} 
+                                className='btn btn-primary btn-lg'
+                                onClick={handleEditProfilePic}
+                            >
+                                Confirm
+                            </button>
+        
+                    </div>
+                </div>
+            </>
+            
+          )
+    }
+
+  
 }
