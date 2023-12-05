@@ -12,12 +12,11 @@ export default function Settings() {
 
       const [showUploadPic, toggleShowUploadPic] = useState(false);
       const [profilePicUrl, setProfilePicUrl] = useState();
-      const [editUsername, toggleEditUsername] = useState(false);
       const [editPassword, toggleEditPassword] = useState(false);
       const [editedUserInfo, setEditedUserInfo] = useState({
-        editedUsername: '',
         editedPassword: '',
       })
+      const [successModal, toggleSuccessModal] = useState(false);
 
       const convertProfilePic = (file) => {
         return new Promise((resolve, reject) => {
@@ -63,28 +62,14 @@ export default function Settings() {
             password: editedUserInfo.editedPassword
         }
         if (editedUserInfo.editedPassword.length >= 3) {
-            Axios.put(`${renderURL}/api/users/${currentUserState.username}/`, newData)
+            Axios.put(`${renderURL}/api/users/changePassword/${currentUserState.username}/`, newData)
                 .then((response) => {
-                    setCurrentUserState(response.data);
-                    localStorage.setItem('user', JSON.stringify(response.data));
                     toggleEditPassword(false);
                     setEditedUserInfo((prevState) => ({...prevState, password: ''}))
-                })
-                .catch((error) => console.log(error))
-        }
-      }
-
-      const handleSubmitEditUsername = () => {
-        var newData = {
-            username: editedUserInfo.editedUsername
-        }
-        if (editedUserInfo.editedUsername.length >= 3) {
-            Axios.put(`${renderURL}/api/users/${currentUserState.username}/`, newData)
-                .then((response) => {
-                    setCurrentUserState(response.data);
-                    localStorage.setItem('user', JSON.stringify(response.data));
-                    toggleEditUsername(false);
-                    setEditedUserInfo((prevState) => ({...prevState, username: ''}))
+                    toggleSuccessModal(true);
+                    setTimeout(() => {
+                        toggleSuccessModal(false);
+                    }, 1500)
                 })
                 .catch((error) => console.log(error))
         }
@@ -95,16 +80,19 @@ export default function Settings() {
         <div className='settings-container'>
             <img className="myProfilePic" src={`${currentUserState.profilePic}`}></img>
             <button onClick={() => toggleShowUploadPic(true)} className='btn btn-secondary btn-lg'>Change Profile Pic</button>
-            {/* <h1>{currentUserState.username}</h1> */}
+            <h1>{currentUserState.username}</h1>
 
-            {/* {editUsername ? <input type='text' name='editedUsername' value={editedUserInfo.editedUsername} onChange={(e) => handleEditUserInfo(e)}></input> : ''}
-            <button onClick={() => toggleEditUsername((prevState) => !prevState)} className={`btn ${editUsername ? 'btn-secondary': 'btn-primary'} btn-lg`}>{editUsername ? "Cancel" : "Change Username"}</button>
-            {editUsername ? <button className='btn btn-primary btn-lg' onClick={handleSubmitEditUsername}>Edit</button>: ''} */}
-
-            {/* {editPassword ? <input type='text' name='editedPassword' value={editedUserInfo.editedPassword}  onChange={(e) => handleEditUserInfo(e)}></input>: ''}
+            {editPassword ? <input type='text' name='editedPassword' value={editedUserInfo.editedPassword}  onChange={(e) => handleEditUserInfo(e)}></input>: ''}
             <button onClick={() => toggleEditPassword((prevState) => !prevState)} className={`btn ${editPassword ? 'btn-secondary': 'btn-danger'} btn-lg`}>{editPassword ? "Cancel" : "Change Password"}</button>
-            {editPassword ? <button className='btn btn-danger btn-lg' onClick={handleSubmitEditPassword}>Edit</button>: ''} */}
+            {editPassword ? <button className='btn btn-danger btn-lg' onClick={handleSubmitEditPassword}>Edit</button>: ''}
         </div>
+
+    {/* modal */}
+    <div id="myModal" className={`modal ${successModal ? "yes-modal" : "" }`}>
+            <div className={`modal-content`}>
+                <h1 style={{color: 'green', fontSize: '2em'}}>Successfully changed password!</h1>
+            </div>
+    </div>
     
     {/* uploading pic modal */}
         <div id="myModal" className={`modal ${showUploadPic ? "yes-modal" : "" }`} onClick={() => toggleShowUploadPic(false)}>

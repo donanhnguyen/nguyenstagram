@@ -23,18 +23,24 @@ export const getUser = async (req, res) => {
 export const updateUser = async (req, res) => {
 
     try {
-        // let hash;
-        // let salt;
-        // let updatedUser;
-        // if (req.body.password.length > 0) {
-        //     salt = bcrypt.genSaltSync(10);
-        //     hash = bcrypt.hashSync(req.body.password, salt);
-        //     updatedUser = await User.findOneAndUpdate({"username": req.params.username}, { $set: {...req.body, password: hash} }, {new: true});
-        // } else {
-        //     updatedUser = await User.findOneAndUpdate({"username": req.params.username}, { $set: req.body }, {new: true});
-        // }
         const updatedUser = await User.findOneAndUpdate({"username": req.params.username}, { $set: req.body }, {new: true});
 
+        res.status(200).json(updatedUser);
+
+    } catch(err) {
+        res.status(500).json(err);
+    }
+
+};
+
+export const changePassword = async (req, res) => {
+
+    try {
+    
+        let salt = bcrypt.genSaltSync(10);
+        let hash = bcrypt.hashSync(req.body.password, salt);
+        const updatedUser = await User.findOneAndUpdate({"username": req.params.username}, { $set: {...req.body, password: hash} }, {new: true});
+   
         res.status(200).json(updatedUser);
 
     } catch(err) {

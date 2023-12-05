@@ -1,5 +1,5 @@
 body, html {
-  font-family: 'Didact Gothic';
+  font-family: 'Quicksand', sans-serif;
 }
 
 li {
@@ -137,7 +137,7 @@ button {
   text-align: right;
 }
 .nguyenstagram {
-  font-family: "Dekko";
+  font-family: 'Quicksand', sans-serif;
   font-weight: bold;
 }
 .link-to-profile-page:hover {
