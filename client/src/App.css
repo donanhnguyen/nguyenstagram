@@ -122,6 +122,9 @@ button {
   font-size: 1.4rem;
   margin: auto;
 }
+.home-feed-post-container:hover {
+  cursor: pointer;
+}
 .home-feed-post-container h1 {
   font-size: .9em;
 }
