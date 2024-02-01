@@ -161,7 +161,9 @@ function PostShowPage () {
 
     function handleDeletePost () {
         Axios.delete(`${renderURL}/api/posts/${postInfoState._id}`);
-        navigate('/myProfile');
+        setTimeout(() => {
+            navigate('/myProfile');
+        }, 1000)
     }
 
     function handlePostComment () {

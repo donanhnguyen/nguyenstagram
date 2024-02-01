@@ -87,6 +87,7 @@ function MyProfile () {
     Axios.get(`${renderURL}/api/posts/${currentUserState.username}/posts/`)
       .then((response) => {
         myPostsDispatch({type: 'getUserPosts', payload: response.data});
+        console.log(response.data)
         toggleIsLoading(false);
       })
       .catch((error) => {
@@ -104,7 +105,7 @@ function MyProfile () {
 
   function navigateToPostShowPage (postId) {
     navigate(`/postShowPage/${postId}`);
-}
+  }
 
   function displayUserPosts () {
     const dispalyedPosts = myPostsState.map((post) => {
