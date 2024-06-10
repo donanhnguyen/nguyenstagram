@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import {PostSchema} from "./Post.js";
 
 const UserSchema = new mongoose.Schema({
     username: {
@@ -20,7 +21,7 @@ const UserSchema = new mongoose.Schema({
     },
     following: [{type: String}],
     followers: [{type: String}],
-    likedPosts: [{type: mongoose.Schema.Types.ObjectId}],
+    likedPosts: [PostSchema],
 
 }, {timestamps: true})
 

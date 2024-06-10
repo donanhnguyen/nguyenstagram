@@ -16,7 +16,7 @@ const CommentSchema = new mongoose.Schema({
     
 }, {timestamps: true})
 
-const PostSchema = new mongoose.Schema({
+export const PostSchema = new mongoose.Schema({
     picUrl: {
         type: String,
         required: true,

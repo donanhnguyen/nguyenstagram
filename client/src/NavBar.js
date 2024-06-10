@@ -87,6 +87,10 @@ function NavBar () {
                             <h1><i className="fa fa-user" aria-hidden="true"></i> <span className="hide-text">Profile</span></h1>
                     </Link>
 
+                    <Link to='/likedPosts'>
+                            <h1><i className="fa fa-thumbs-up" aria-hidden="true"></i> <span className="hide-text">Liked Posts</span></h1>
+                    </Link>
+
                     <Search 
                             showSearch={showSearch}
                             toggleShowSearch={toggleShowSearch}
