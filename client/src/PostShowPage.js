@@ -143,6 +143,10 @@ function PostShowPage () {
                 sendNotificationForLike(postInfoState.user, postInfoState._id);
             }
 
+             // add the post to the current user's liked posts
+             Axios.put(`${renderURL}/api/users/addToLikedPosts/${currentUserState.username}`, postInfoState)
+            
+
         // unliking it
         } else {
             let newData = postInfoState.usersWhoveLiked.filter((user) => {
@@ -156,6 +160,11 @@ function PostShowPage () {
                 .catch((error) => {
                     console.log(error.reponse)
                 })
+
+            // removing it from user's liked posts
+
+             Axios.put(`${renderURL}/api/users/removeFromLikedPosts/${currentUserState.username}`, postInfoState)
+              
         }
     }
 

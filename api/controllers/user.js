@@ -59,3 +59,41 @@ export const getAllUsers = async (req, res) => {
         res.status(500).json(err);
     }
 }
+
+// add liked post to user's liked posts array
+
+export const addToLikedPosts = async (req, res) => {
+    try {
+        const postToLike = req.body; 
+
+        // Find the user and push the new liked post into the likedPosts array
+        const updatedUser = await User.findOneAndUpdate(
+            { username: req.params.username },
+            { $push: { likedPosts: postToLike } },
+            { new: true }
+        );
+
+        res.status(200).json(updatedUser);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+}
+
+// remove that post from user's liked posts
+
+export const removeFromLikedPosts = async (req, res) => {
+    try {
+        const postIdToRemove = req.body._id;  // Assuming the post ID to remove is sent in the request body
+
+        // Find the user and remove the specified post from the likedPosts array
+        const updatedUser = await User.findOneAndUpdate(
+            { username: req.params.username },
+            { $pull: { likedPosts: { _id: postIdToRemove } } },  // Match by the post's _id field
+            { new: true }
+        );
+
+        res.status(200).json(updatedUser);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+};

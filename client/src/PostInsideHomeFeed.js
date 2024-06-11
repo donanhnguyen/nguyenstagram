@@ -83,6 +83,9 @@ function PostInsideHomeFeed (props) {
             if (currentUserState.username !== postInsideFeedState.user) {
                 sendNotificationForLike(post.user, post._id);
             }
+
+            // add the post to the current user's liked posts
+            Axios.put(`${renderURL}/api/users/addToLikedPosts/${currentUserState.username}`, post)
             
         // unliking it
         } else {
@@ -95,7 +98,11 @@ function PostInsideHomeFeed (props) {
                     setPostInsideFeedState(response.data);
                     setLiked(false);
                 })
-               
+                
+            // removing it from user's liked posts
+
+            Axios.put(`${renderURL}/api/users/removeFromLikedPosts/${currentUserState.username}`, post)
+                
         }
         
     }

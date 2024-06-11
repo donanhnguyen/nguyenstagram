@@ -43,7 +43,6 @@ export const getAllPosts = async (req, res) => {
 export const getPost = async (req, res) => {
     try {
         const foundPost = await Post.findById(req.params.postId).populate('userId');
-
     res.status(200).json(foundPost);
     } catch(err) {
         res.status(500).json(err);
@@ -55,9 +54,7 @@ export const getPost = async (req, res) => {
 // works
 export const getAllPostsFromUser = async (req, res) => {
     try {
-
         const allPostsFromUser = await Post.find({user: req.params.username});
-
         res.status(200).json(allPostsFromUser);
     } catch(err) {
         res.status(500).json(err);
@@ -67,13 +64,10 @@ export const getAllPostsFromUser = async (req, res) => {
 // POST a post
 // works
 export const createPost = async (req, res) => {
-
     const newPost = new Post(req.body);
-
     try {
         const savedPost = await newPost.save();
         res.status(200).json(savedPost);
-
     } catch(err) {
         res.status(500).json(err);
     }
@@ -94,11 +88,9 @@ export const updatePost = async (req, res) => {
 // DELETE a post
 // works
 export const deletePost = async (req, res) => {
-
     try {
         await Post.findByIdAndDelete(req.params.postId);
         res.status(200).json("Post has been deleted.");
-
     } catch(err) {
         res.status(500).json(err);
     }
