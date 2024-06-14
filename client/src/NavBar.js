@@ -72,7 +72,7 @@ function NavBar () {
                     </div>
                 </div>
                 
-                <h3 className='nguyenstagram'>Nguyenstagram </h3>
+                <h3 className='nguyenstagram'>Photogram <i className="fa fa-camera" aria-hidden="true"></i></h3>
                 
                 <h3>Welcome, {currentUserState.username}</h3>
 

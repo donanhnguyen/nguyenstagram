@@ -96,7 +96,7 @@ function SignUp () {
             <div className='login-container'>
                 <form onSubmit={handleRegister}>
 
-                    <h1 style={{fontSize: '1.5em'}} className='nguyenstagram'>Nguyenstagram <i className="fa fa-camera" aria-hidden="true"></i></h1>
+                    <h1 style={{fontSize: '1.5em'}} className='nguyenstagram'>Photogram <i className="fa fa-camera" aria-hidden="true"></i></h1>
 
                     <h1 style={{fontSize: '1.0em'}} className='login-error-messages'>{errorMessagesState}</h1>
 

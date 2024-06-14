@@ -76,7 +76,7 @@ function LogIn () {
             <div className='login-container'>
                 <form onSubmit={handleLogIn}>
                     {/* logo goes here somewhere */}
-                    <h1 style={{fontSize: '1.5em'}} className='nguyenstagram'>Nguyenstagram <i className="fa fa-camera" aria-hidden="true"></i></h1>
+                    <h1 style={{fontSize: '1.5em'}} className='nguyenstagram'>Photogram <i className="fa fa-camera" aria-hidden="true"></i></h1>
 
                     <h1 style={{fontSize: '1.2rem'}}className='login-error-messages'>{errorMessagesState}</h1>
 
