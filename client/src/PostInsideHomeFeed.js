@@ -56,7 +56,7 @@ function PostInsideHomeFeed (props) {
 
     function sendNotificationForLike (username, postId) {
         var notificationBody = {
-            message: `${currentUserState.username} has liked your post ${postId}.`,
+            message: `${currentUserState.username} has liked your post.`,
             user: username,
             postIdLink: postId
         }
@@ -168,7 +168,7 @@ function PostInsideHomeFeed (props) {
 
     function showCommentInput () {
             return (
-                <div>
+                <div className='comment-container-inside-home-feed'>
                     <input
                         style={{width: '80%'}} 
                         type='text' 
@@ -326,7 +326,7 @@ function PostInsideHomeFeed (props) {
                 
                 {/* # of likes and comments */}
                 <h1 className='textAlignLeft'>{postInsideFeedState ? postInsideFeedState.usersWhoveLiked.length + " likes": ""}</h1>
-                <h1 className='textAlignLeft'>{postInsideFeedState && postInsideFeedState.comments ? postInsideFeedState.comments.length + " comments": ""}</h1>
+                <h1 className='textAlignLeft'>{postInsideFeedState && postInsideFeedState.comments ? postInsideFeedState.comments.length + (postInsideFeedState.comments.length === 1 ? " comment" : " comments"): ""}</h1>
 
                 {/* toggling comments */}
                 <h1 

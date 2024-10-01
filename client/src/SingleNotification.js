@@ -35,7 +35,7 @@ function SingleNotification (props) {
 
     function showPostLinkOrNot () {
         if (notification.postIdLink) {
-            return (<span onClick={navigateToPostPage} className='any-link'> Link to Post</span>)
+            return (<span onClick={navigateToPostPage} className='any-link'> Link</span>)
         }
     }
 
