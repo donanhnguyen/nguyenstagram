@@ -51,3 +51,5 @@ app.listen(PORT, () => {
     connect(); 
     console.log(`connected on port ${PORT}`)
 })
+
+export default app;
