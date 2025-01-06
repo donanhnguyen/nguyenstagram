@@ -68,7 +68,6 @@ function HomeFeed () {
             return dispalyedPosts.reverse();
         }
     }
-
     if (isLoading) {
         return (<Loader/>)
     } else {
