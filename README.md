@@ -1,10 +1,11 @@
 
 [Live Link](https://nguyenstagram.onrender.com/)
+
 [Video Link](https://www.youtube.com/watch?v=YU4vtYF0-sM)
 
 <h1>Description:</h1>
 
-Full stack photo-sharing application where users may create a profile, upload profile pictures, share photos to a general home-feed, share photos to other users, comments on posts, like posts, search for users, and display notifications for each activity that another user does with their profile (follow them, comment on post, share post, or like a post).
+Photogram is a full stack photo-sharing application where users may create a profile, upload profile pictures, share photos to a general home-feed, share photos to other users, comments on posts, like posts, search for users, and display notifications for each activity that another user does with their profile (follow them, comment on post, share post, or like a post).
 
 <h1>Languages and tools used:</h1>
 
